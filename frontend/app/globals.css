@@ -1,0 +1,1905 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* ============================================
+   DEV-ONLY: Visualize scroll containers
+   ============================================
+   Remove this after identifying the scrollbar source
+   ============================================ */
+[style*="overflow"], 
+.overflow-y-auto, 
+.overflow-auto, 
+.overflow-scroll,
+[style*="overflow-y"],
+[style*="overflow-x"] {
+  outline: 2px solid red !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  overflow: hidden;
+}
+
+/* Dark Theme (Default) */
+:root,
+[data-theme="dark"] {
+  /* Zemin & Yüzeyler */
+  --bg-primary: #0D1117;
+  --bg-panel: #161B22;
+  --bg-inner: #1C2128;
+  --bg-hover: #22272E;
+  --border-color: #30363D;
+  
+  /* Yeşil Accent (Profesyonel) */
+  --accent-primary: #3FB950;
+  --accent-hover: #2EA043;
+  --accent-active: #238636;
+  --accent-soft: rgba(63, 185, 80, 0.15);
+  --accent-border: rgba(63, 185, 80, 0.3);
+  
+  /* Metin Renkleri */
+  --text-primary: #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-placeholder: #6E7681;
+  --text-disabled: #484F58;
+  
+  /* Durum Renkleri */
+  --error: #F85149;
+  --warning: #D29922;
+  --success: #3FB950;
+  --info: #58A6FF;
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  /* Zemin & Yüzeyler */
+  --bg-primary: #FFFFFF;
+  --bg-panel: #F6F8FA;
+  --bg-inner: #F0F3F6;
+  --bg-hover: #E7ECF0;
+  --border-color: #D1D9E0;
+  
+  /* Yeşil Accent (Aydınlık için) */
+  --accent-primary: #1A7F37;
+  --accent-hover: #2EA043;
+  --accent-active: #238636;
+  --accent-soft: rgba(26, 127, 55, 0.1);
+  --accent-border: rgba(26, 127, 55, 0.25);
+  
+  /* Metin Renkleri */
+  --text-primary: #1F2328;
+  --text-secondary: #656D76;
+  --text-placeholder: #8B949E;
+  --text-disabled: #B1BAC4;
+  
+  /* Durum Renkleri */
+  --error: #CF222E;
+  --warning: #9A6700;
+  --success: #1A7F37;
+  --info: #0969DA;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  background: var(--dark-bg);
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* AI Assistant Login Template Styles - 2025 Design Trends */
+.neural-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.neural-node {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--neural-blue);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: neuralPulse 4s ease-in-out infinite;
+}
+
+.neural-node:nth-child(1) {
+  top: 20%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.neural-node:nth-child(2) {
+  top: 60%;
+  left: 80%;
+  animation-delay: 1s;
+}
+
+.neural-node:nth-child(3) {
+  top: 80%;
+  left: 20%;
+  animation-delay: 2s;
+}
+
+.neural-node:nth-child(4) {
+  top: 30%;
+  left: 70%;
+  animation-delay: 3s;
+}
+
+.neural-node:nth-child(5) {
+  top: 10%;
+  left: 60%;
+  animation-delay: 4s;
+}
+
+@keyframes neuralPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.5); }
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 20px;
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.ai-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  animation: aiGlow 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes aiGlow {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.ai-logo {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-core {
+  position: relative;
+  z-index: 3;
+  color: var(--neural-blue);
+  animation: coreRotate 8s linear infinite;
+}
+
+@keyframes coreRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.logo-rings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ring {
+  position: absolute;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  animation: ringPulse 3s ease-in-out infinite;
+  z-index: 1;
+}
+
+.ring-1 {
+  width: 60px;
+  height: 60px;
+  top: 10px;
+  left: 10px;
+  animation-delay: 0s;
+}
+
+.ring-2 {
+  width: 70px;
+  height: 70px;
+  top: 5px;
+  left: 5px;
+  animation-delay: 1s;
+}
+
+.ring-3 {
+  width: 80px;
+  height: 80px;
+  top: 0;
+  left: 0;
+  animation-delay: 2s;
+}
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.login-header h1 {
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 2;
+}
+
+.login-header p {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 400;
+  position: relative;
+  z-index: 2;
+}
+
+.login-form {
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.smart-field {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.field-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--field-bg);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.smart-field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 16px 50px 16px 16px;
+  color: #f8fafc;
+  font-size: 15px;
+  font-weight: 400;
+  outline: none;
+  position: relative;
+  z-index: 2;
+  font-family: inherit;
+}
+
+.smart-field input::placeholder {
+  color: transparent;
+}
+
+.smart-field label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 400;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 3;
+  background: var(--card-bg);
+  padding: 0 4px;
+}
+
+.smart-field input:focus + label,
+.smart-field input:not(:placeholder-shown) + label,
+.smart-field input:valid + label {
+  top: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--neural-blue);
+  transform: translateY(-50%);
+}
+
+.smart-field input:focus ~ .field-background {
+  border-color: var(--neural-blue);
+  background: rgba(30, 41, 59, 0.8);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.5);
+}
+
+.ai-indicator {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  z-index: 4;
+}
+
+.ai-pulse {
+  width: 100%;
+  height: 100%;
+  background: var(--neural-blue);
+  border-radius: 50%;
+  opacity: 0;
+  animation: aiIndicator 2s ease-in-out infinite;
+}
+
+.smart-field input:focus ~ .ai-indicator .ai-pulse {
+  opacity: 1;
+}
+
+@keyframes aiIndicator {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
+
+.field-completion {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neural-blue), var(--neural-purple));
+  width: 0%;
+  transition: width 0.5s ease;
+  border-radius: 0 0 12px 12px;
+  z-index: 2;
+}
+
+.smart-field input:valid ~ .field-completion {
+  width: 100%;
+}
+
+.smart-field:has(.smart-toggle) input {
+  padding-right: 90px;
+}
+
+.smart-toggle {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.smart-toggle:hover {
+  color: var(--neural-blue);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.toggle-hide {
+  display: none;
+}
+
+.smart-toggle.toggle-active .toggle-show {
+  display: none;
+}
+
+.smart-toggle.toggle-active .toggle-hide {
+  display: block;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.smart-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.smart-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-ai {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-core {
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid rgba(59, 130, 246, 0.4);
+  border-radius: 4px;
+  background: var(--field-bg);
+  transition: all 0.3s ease;
+  position: absolute;
+}
+
+.checkbox-ai svg {
+  color: transparent;
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.smart-checkbox input[type="checkbox"]:checked + .checkbox-ai .checkbox-core {
+  background: var(--neural-blue);
+  border-color: var(--neural-blue);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+.smart-checkbox input[type="checkbox"]:checked + .checkbox-ai svg {
+  color: #ffffff;
+}
+
+.neural-link {
+  color: var(--neural-blue);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.neural-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--neural-blue);
+  transition: width 0.3s ease;
+}
+
+.neural-link:hover::after {
+  width: 100%;
+}
+
+.neural-link:hover {
+  color: #60a5fa;
+}
+
+.neural-button {
+  width: 100%;
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  position: relative;
+  margin-bottom: 28px;
+  overflow: hidden;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--neural-blue), var(--neural-purple));
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.neural-button:hover:not(:disabled) .button-bg {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  transform: scale(1.02);
+}
+
+.neural-button:active:not(:disabled) .button-bg {
+  transform: scale(0.98);
+}
+
+.neural-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button-text {
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.2s ease;
+}
+
+.button-loader {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.neural-spinner {
+  display: flex;
+  gap: 4px;
+}
+
+.spinner-segment {
+  width: 4px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 2px;
+  animation: neuralSpinner 1.2s ease-in-out infinite;
+}
+
+.spinner-segment:nth-child(2) { animation-delay: 0.1s; }
+.spinner-segment:nth-child(3) { animation-delay: 0.2s; }
+
+@keyframes neuralSpinner {
+  0%, 80%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+  40% { transform: scaleY(1); opacity: 1; }
+}
+
+.neural-button.loading .button-text {
+  opacity: 0;
+}
+
+.neural-button.loading .button-loader {
+  opacity: 1;
+}
+
+.button-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, var(--neural-blue), var(--neural-purple));
+  border-radius: 14px;
+  opacity: 0;
+  filter: blur(8px);
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.neural-button:hover:not(:disabled) .button-glow {
+  opacity: 0.6;
+}
+
+.auth-separator {
+  display: flex;
+  align-items: center;
+  margin: 28px 0;
+  gap: 16px;
+}
+
+.separator-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+}
+
+.separator-text {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Neural Social Auth - 2025 Next-Gen Providers */
+.neural-social {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.social-neural {
+  flex: 1;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  min-height: 46px;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--field-bg);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.social-neural:hover .social-bg {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.social-neural span {
+  position: relative;
+  z-index: 2;
+}
+
+.social-neural svg {
+  position: relative;
+  z-index: 2;
+}
+
+.social-glow {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 11px;
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity 0.2s ease;
+  z-index: 0;
+}
+
+.social-neural:hover .social-glow {
+  opacity: 1;
+}
+
+.signup-section {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.neural-signup {
+  color: var(--neural-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.neural-signup::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--neural-blue);
+  transition: width 0.3s ease;
+}
+
+.neural-signup:hover::after {
+  width: 100%;
+}
+
+.neural-signup:hover {
+  color: #60a5fa;
+}
+
+.error-message {
+  color: var(--error-red);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 6px;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.error-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.smart-field.error .field-background {
+  border-color: var(--error-red);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.smart-field.error label {
+  color: var(--error-red);
+}
+
+.smart-field.error .field-completion {
+  background: var(--error-red);
+}
+
+.success-neural {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+.success-neural.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.success-core {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-rings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.success-ring {
+  position: absolute;
+  border: 2px solid var(--success-green);
+  border-radius: 50%;
+  animation: successRing 1s ease-out forwards;
+}
+
+.success-ring:nth-child(1) {
+  width: 60px;
+  height: 60px;
+  top: 10px;
+  left: 10px;
+  animation-delay: 0s;
+}
+
+.success-ring:nth-child(2) {
+  width: 70px;
+  height: 70px;
+  top: 5px;
+  left: 5px;
+  animation-delay: 0.2s;
+}
+
+.success-ring:nth-child(3) {
+  width: 80px;
+  height: 80px;
+  top: 0;
+  left: 0;
+  animation-delay: 0.4s;
+}
+
+@keyframes successRing {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.7; transform: scale(1); }
+}
+
+.success-core svg {
+  color: var(--success-green);
+  position: relative;
+  z-index: 2;
+  animation: successCheck 0.6s ease-out 0.6s forwards;
+  opacity: 0;
+}
+
+@keyframes successCheck {
+  0% { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.success-neural h3 {
+  color: var(--text-primary);
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.success-neural p {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 16px;
+  }
+  
+  .login-card {
+    padding: 32px 24px;
+    border-radius: 16px;
+  }
+  
+  .login-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .ai-logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .ring-1 { width: 45px; height: 45px; top: 7.5px; left: 7.5px; }
+  .ring-2 { width: 52px; height: 52px; top: 4px; left: 4px; }
+  .ring-3 { width: 60px; height: 60px; top: 0; left: 0; }
+  
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+/* Chat streaming animations */
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.blink-cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.3;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.bounce-dot {
+  animation: bounce 1.4s infinite ease-in-out;
+}
+
+.bounce-dot-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.bounce-dot-delay-2 {
+  animation-delay: 0.4s;
+}
+
+/* Professional Chat Animations */
+@keyframes messageSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Smooth transitions for interactive elements */
+/* Note: message-container class removed - now using msgRow */
+
+/* Input focus glow effect */
+.input-glow {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-glow:focus {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Message Content Scrollbar Fix
+   ============================================
+   KaTeX SHIELD - Global CSS Override Protection
+   ============================================
+   CRITICAL: This shield MUST be at the END of globals.css
+   to override any global CSS rules that break KaTeX layout.
+   ============================================ */
+
+/* Revert problematic global CSS overrides for KaTeX elements */
+.katex, .katex * {
+  /* DO NOT use 'all: revert' - it breaks KaTeX's own styles! */
+  /* Instead, selectively override problematic properties */
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  /* Restore KaTeX essential properties */
+  font-family: 'KaTeX_Main', 'KaTeX_Math', 'KaTeX_AMS', 'Times New Roman', serif !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important; /* CRITICAL: KaTeX requires nowrap for proper layout */
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+/* KaTeX display mode (block math) */
+.katex-display {
+  display: block !important;
+  margin: 0.75em 0 !important;
+  text-align: center !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important; /* CRITICAL: NO vertical scroll */
+  white-space: normal !important; /* Container can wrap */
+  /* CRITICAL: Prevent vertical scrollbar completely */
+  max-height: none !important;
+  height: auto !important;
+}
+
+.katex-display > .katex {
+  display: inline-block !important;
+  text-align: initial !important;
+  white-space: nowrap !important; /* Inner KaTeX must use nowrap */
+}
+
+/* Ensure KaTeX internal structure is preserved */
+.katex .katex-html {
+  display: inline-block !important;
+}
+
+.katex .katex-mathml {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+}
+
+/* Prevent any parent container from breaking KaTeX */
+.katex,
+.katex-display,
+.katex * {
+  /* Remove any transforms/zooms that break layout */
+  transform: none !important;
+  zoom: 1 !important;
+  /* Prevent column layouts */
+  column-count: unset !important;
+  columns: unset !important;
+  /* Ensure proper box model */
+  box-sizing: content-box !important;
+}
+
+/* ============================================
+   Message Content Scrollbar Fix
+   ============================================
+   Hide scrollbar buttons (▲▼) inside message bubbles.
+   Only the main message list should scroll, not individual bubbles.
+   ============================================ */
+
+.messageContent {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+}
+
+/* Hide webkit scrollbar buttons inside message content - GLOBAL */
+.messageContent ::-webkit-scrollbar-button,
+.messageContent * ::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Hide scrollbar buttons in KaTeX elements specifically - ALL VARIATIONS */
+.katex-display ::-webkit-scrollbar-button,
+.katex ::-webkit-scrollbar-button,
+.messageContent .katex-display ::-webkit-scrollbar-button,
+.messageContent .katex ::-webkit-scrollbar-button,
+.katex-display::-webkit-scrollbar-button,
+.katex::-webkit-scrollbar-button,
+/* Additional selectors for button variations */
+.katex-display ::-webkit-scrollbar-button:start:decrement,
+.katex-display ::-webkit-scrollbar-button:end:increment,
+.katex-display ::-webkit-scrollbar-button:vertical:start:decrement,
+.katex-display ::-webkit-scrollbar-button:vertical:end:increment,
+.katex-display ::-webkit-scrollbar-button:horizontal:start:decrement,
+.katex-display ::-webkit-scrollbar-button:horizontal:end:increment,
+.katex ::-webkit-scrollbar-button:start:decrement,
+.katex ::-webkit-scrollbar-button:end:increment,
+.messageContent .katex-display ::-webkit-scrollbar-button:start:decrement,
+.messageContent .katex-display ::-webkit-scrollbar-button:end:increment,
+.messageContent .katex ::-webkit-scrollbar-button:start:decrement,
+.messageContent .katex ::-webkit-scrollbar-button:end:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Only .katex-display may have horizontal scroll for wide equations */
+.messageContent .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden !important; /* CRITICAL: NO vertical scroll - prevents ▲▼ buttons */
+  /* Force no vertical scrollbar */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  /* CRITICAL: Prevent any vertical scrolling */
+  max-height: none !important;
+  height: auto !important;
+}
+
+/* CRITICAL: Ensure NO vertical scrollbar in KaTeX display */
+.messageContent .katex-display::-webkit-scrollbar:vertical {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* CRITICAL: Hide ALL scrollbar buttons in messageContent KaTeX */
+.messageContent .katex-display::-webkit-scrollbar-button,
+.messageContent .katex-display::-webkit-scrollbar-button:start:decrement,
+.messageContent .katex-display::-webkit-scrollbar-button:end:increment,
+.messageContent .katex-display::-webkit-scrollbar-button:vertical:start:decrement,
+.messageContent .katex-display::-webkit-scrollbar-button:vertical:end:increment,
+.messageContent .katex-display::-webkit-scrollbar-button:horizontal:start:decrement,
+.messageContent .katex-display::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Global KaTeX display scrollbar styling - NO BUTTONS */
+.katex-display {
+  /* Firefox - thin scrollbar without buttons */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  /* CRITICAL: Prevent vertical scrollbar completely */
+  overflow-y: hidden !important; /* NO vertical scroll - prevents ▲▼ buttons */
+  max-height: none !important;
+  height: auto !important;
+}
+
+/* Webkit scrollbar for KaTeX - COMPLETELY HIDE BUTTONS */
+.katex-display::-webkit-scrollbar {
+  height: 6px; /* Thin horizontal scrollbar only */
+  width: 0; /* No vertical scrollbar */
+}
+
+.katex-display::-webkit-scrollbar:vertical {
+  display: none !important; /* Hide vertical scrollbar completely */
+  width: 0 !important;
+}
+
+/* CRITICAL: Hide ALL scrollbar buttons - multiple selectors for maximum coverage */
+.katex-display::-webkit-scrollbar-button,
+.katex-display::-webkit-scrollbar-button:start:decrement,
+.katex-display::-webkit-scrollbar-button:end:increment,
+.katex-display::-webkit-scrollbar-button:vertical:start:decrement,
+.katex-display::-webkit-scrollbar-button:vertical:end:increment,
+.katex-display::-webkit-scrollbar-button:horizontal:start:decrement,
+.katex-display::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.katex-display::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.katex-display::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.katex-display::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Additional: Hide scrollbar buttons in ALL KaTeX nested elements */
+.katex-display *::-webkit-scrollbar-button,
+.katex-display *::-webkit-scrollbar-button:start:decrement,
+.katex-display *::-webkit-scrollbar-button:end:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ============================================
+   PROFESYONEL ANİMASYONLAR
+   ============================================ */
+
+/* Fade Animasyonları */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide Animasyonları */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Scale Animasyonları */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes scaleDown {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Bounce Animasyonları */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Pulse Animasyonları */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulseScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Shake Animasyonu */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Rotate Animasyonları */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-200deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Glow Animasyonları */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(63, 185, 80, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(63, 185, 80, 0.8), 0 0 30px rgba(63, 185, 80, 0.6);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
+
+/* Typing Indicator */
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Skeleton Loading */
+@keyframes skeleton {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Ripple Effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Utility Classes */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 0.4s ease-out;
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 0.4s ease-out;
+}
+
+.animate-fadeInRight {
+  animation: fadeInRight 0.4s ease-out;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.4s ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-bounceIn {
+  animation: bounceIn 0.6s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Smooth Transitions */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-transition-fast {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-transition-slow {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(63, 185, 80, 0.4);
+}
+
+/* Fix for ChatContextMenu z-index issue */
+[data-menu] {
+  z-index: 10000 !important;
+}
+
+/* Ensure MenuList portal is above everything */
+div[role="menu"] {
+  z-index: 10000 !important;
+  position: fixed !important;
+}
+
+/* Fix for Chakra UI Menu portal */
+.chakra-menu__menu-list {
+  z-index: 10000 !important;
+  position: fixed !important;
+}
+
+/* ============================================
+   CHAT MESSAGE UI - NEW DESIGN
+   ============================================
+   ChatGPT/Gemini style clean and professional
+   ============================================ */
+
+/* Message Row - Container for avatar + body */
+.msgRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 24px;
+  animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.msgRow--assistant {
+  justify-content: flex-start;
+}
+
+.msgRow--user {
+  justify-content: flex-end;
+  margin-bottom: -10px; /* Reduced from 24px - AI cevap hemen altında olsun */
+}
+
+/* User mesajından sonra gelen assistant mesajı için minimal boşluk */
+.msgRow--user + .msgRow--assistant {
+  margin-top: 4px;
+}
+
+.msgRow--system {
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+/* Avatar Area - Fixed width, aligned to first line */
+.msgAvatarArea {
+  width: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px; /* Fine-tune alignment with first line */
+}
+
+/* Body Area - Contains bubble + meta */
+.msgBodyArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Allow shrinking */
+  max-width: 720px; /* Desktop max width */
+}
+
+@media (max-width: 768px) {
+  .msgBodyArea {
+    max-width: calc(100% - 48px); /* Mobile: full width minus avatar + gap */
+  }
+}
+
+/* Message Bubble - Card-like appearance */
+.msgBubble {
+  padding: 12px 14px;
+  border-radius: 14px;
+  line-height: 1.55;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  transition: all 0.2s ease;
+}
+
+.msgBubble--assistant {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  align-self: flex-start;
+}
+
+.msgBubble--user {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  align-self: flex-end;
+}
+
+/* Message Content - Markdown/Katex wrapper */
+.msgContent {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  overflow-y: visible;
+  overflow-x: visible;
+}
+
+.msgContent.markdown {
+  /* Typography for markdown content */
+}
+
+.msgContent.markdown p {
+  margin-bottom: 1.15em;
+  line-height: 1.6;
+  white-space: normal;
+  word-wrap: normal;
+  color: inherit;
+}
+
+.msgContent.markdown p:first-of-type {
+  margin-top: 0;
+}
+
+.msgContent.markdown p:last-child {
+  margin-bottom: 0;
+}
+
+.msgContent.markdown h1,
+.msgContent.markdown h2,
+.msgContent.markdown h3,
+.msgContent.markdown h4,
+.msgContent.markdown h5,
+.msgContent.markdown h6 {
+  margin-top: 12px;
+  margin-bottom: 6px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.msgContent.markdown h1:first-of-type,
+.msgContent.markdown h2:first-of-type,
+.msgContent.markdown h3:first-of-type,
+.msgContent.markdown h4:first-of-type,
+.msgContent.markdown h5:first-of-type,
+.msgContent.markdown h6:first-of-type {
+  margin-top: 0;
+}
+
+.msgContent.markdown ul,
+.msgContent.markdown ol {
+  padding-left: 18px;
+  margin-bottom: 0.75em;
+  margin-top: 0.5em;
+}
+
+.msgContent.markdown li {
+  margin-bottom: 0.25em;
+  line-height: 1.7;
+}
+
+.msgContent.markdown code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.msgContent.markdown pre {
+  overflow-x: auto;
+  overflow-y: visible;
+  max-height: none;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 6px;
+  background: var(--bg-inner);
+}
+
+.msgContent.markdown pre code {
+  display: block;
+  white-space: pre;
+  word-wrap: normal;
+}
+
+/* KaTeX styling within message content */
+.msgContent .katex {
+  font-size: 1em;
+  line-height: 1.2;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.msgContent .katex-display {
+  display: block;
+  margin: 8px 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden !important;
+  text-align: center;
+  padding: 0.75em 0.25em;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+.msgContent .katex-display > .katex {
+  display: inline-block;
+  text-align: initial;
+  white-space: nowrap !important;
+}
+
+/* Inline typing indicator - no layout shift */
+.msgTypingInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.55;
+  vertical-align: baseline;
+  margin-left: 8px;
+}
+
+/* Meta Bar - Actions + Time below bubble */
+.msgMetaBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding-left: 2px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.msgMetaBar--assistant {
+  justify-content: flex-start;
+}
+
+.msgMetaBar--user {
+  justify-content: flex-end;
+  padding-left: 0;
+  padding-right: 2px;
+}
+
+.msgRow:hover .msgMetaBar {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Actions - Copy + Info buttons */
+.msgActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Time or Spacer - Flexible space */
+.msgTimeOrSpacer {
+  flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .msgRow {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .msgBubble {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  .msgAvatarArea {
+    width: 32px;
+  }
+
+  .msgBodyArea {
+    max-width: calc(100% - 40px);
+  }
+}
+

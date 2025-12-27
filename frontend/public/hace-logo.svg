@@ -1,0 +1,38 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#84e985;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#19c37d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="32" fill="#1a1a1a"/>
+  
+  <!-- Circular border -->
+  <circle cx="32" cy="32" r="30" stroke="url(#greenGradient)" stroke-width="2.5" fill="none"/>
+  
+  <!-- H letter with chat bubble on right -->
+  <g>
+    <!-- Left vertical bar -->
+    <rect x="18" y="12" width="5" height="40" fill="url(#greenGradient)" rx="0.8"/>
+    
+    <!-- Horizontal bar -->
+    <rect x="18" y="26" width="20" height="5" fill="url(#greenGradient)" rx="0.8"/>
+    
+    <!-- Right vertical bar (chat bubble shape) - top part -->
+    <rect x="38" y="12" width="6" height="8" fill="url(#greenGradient)" rx="0.8"/>
+    
+    <!-- Right vertical bar - middle part -->
+    <rect x="38" y="20" width="6" height="28" fill="url(#greenGradient)" rx="0.8"/>
+    
+    <!-- Chat bubble tail (triangle pointing left) -->
+    <path d="M 38 48 L 36 50 L 38 52 Z" fill="url(#greenGradient)"/>
+    
+    <!-- Typing indicator dots (3 white dots) inside H -->
+    <circle cx="25" cy="28.5" r="1.8" fill="white"/>
+    <circle cx="28.5" cy="28.5" r="1.8" fill="white"/>
+    <circle cx="32" cy="28.5" r="1.8" fill="white"/>
+  </g>
+</svg>
+
