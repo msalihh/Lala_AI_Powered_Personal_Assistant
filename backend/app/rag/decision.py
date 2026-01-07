@@ -38,30 +38,16 @@ async def decide_context(
     
     SPECIAL HANDLING: "Son maili incele" gibi komutlar için sadece en güncel maili kullanır.
     """
-    """
-    Centralized RAG decision function.
-    Implements doc-grounded policy to prevent "doküman yok" spam.
-    
-    Args:
-        query: User query text
-        selected_doc_ids: Explicitly selected document IDs (if any)
-        user_id: User ID for logging
-        user_document_ids: All user document IDs to search
-        found_documents_for_fallback: Documents found in DB (for fallback)
-        mode: Request mode ("qa" or "summarize")
-        request_id: Request ID for logging
-        
-    Returns:
-        {
-            "context_text": str,  # Built context string (empty if no relevant chunks)
-            "sources": List[SourceInfo],  # Source citations
-            "retrieval_stats": dict,  # Stats: chunks_count, top_score, etc.
-            "should_use_documents": bool,  # Whether to include doc context in prompt
-            "retrieved_chunks": List[dict],  # Raw retrieved chunks
-            "doc_not_found": bool,  # True if doc-grounded query has no hits (should show doc-not-found message)
-        }
-    """
     effective_selected_doc_ids = selected_doc_ids.copy() if selected_doc_ids else []
+    
+    # Intent-aware RAG decision with doc-grounded detection
+    intent_result = classify_intent(query, mode=mode, document_ids=effective_selected_doc_ids)
+    intent = intent_result["intent"]
+    rag_priority = intent_result["rag_priority"]
+    rag_required = intent_result["rag_required"]
+    doc_grounded = intent_result.get("doc_grounded", False)
+    doc_grounded_reason = intent_result.get("doc_grounded_reason", "unknown")
+    
     has_specific_documents = len(effective_selected_doc_ids) > 0
     priority_doc_ids_set = set(effective_selected_doc_ids) if has_specific_documents else set()  # For source_scope determination
     retrieved_chunks = []
@@ -73,18 +59,15 @@ async def decide_context(
     priority_sufficient = False
     should_use_documents = False
     
-    used_priority_search = False
-    priority_sufficient = False
-    
     retrieval_stats = {
         "retrieved_chunks_count": 0,
         "top_score": 0.0,
         "avg_score": 0.0,
         "threshold": rag_config.score_threshold,
         "should_use_documents": False,
-        "intent": "qa",
-        "rag_priority": 0.7,
-        "rag_required": False,
+        "intent": intent,
+        "rag_priority": rag_priority,
+        "rag_required": rag_required,
         "embedding_duration_ms": 0.0,
         "query_duration_ms": 0.0
     }
@@ -121,20 +104,21 @@ async def decide_context(
             retrieval_stats["embedding_duration_ms"] = 0.0
             retrieval_stats["query_duration_ms"] = 0.0
             retrieval_stats["cache_hit"] = True
-                            # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
-                latest_keywords = ["son", "en yeni", "güncel", "latest", "recent"]
-                is_latest_query = any(kw in query.lower() for kw in latest_keywords)
-                
-                if is_latest_query and retrieved_chunks:
-                    try:
-                        # Re-sort chunks by date metadata (most recent first)
-                        # We keep chunks with missing dates at the end
-                        retrieved_chunks.sort(key=lambda x: x.get('date', ''), reverse=True)
-                        logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'latest' query")
-                    except Exception as sort_err:
-                        logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
-                
-                retrieval_stats["retrieved_chunks_count"] = len(retrieved_chunks)
+
+            # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
+            latest_keywords = ["son", "en yeni", "güncel", "latest", "recent"]
+            is_latest_query = any(kw in query.lower() for kw in latest_keywords)
+
+            if is_latest_query and retrieved_chunks:
+                try:
+                    # Re-sort chunks by date metadata (most recent first)
+                    # We keep chunks with missing dates at the end
+                    retrieved_chunks.sort(key=lambda x: x.get('date', ''), reverse=True)
+                    logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'latest' query")
+                except Exception as sort_err:
+                    logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
+
+            retrieval_stats["retrieved_chunks_count"] = len(retrieved_chunks)
             retrieval_stats["used_priority_search"] = False
             retrieval_stats["priority_sufficient"] = False
             retrieval_stats["priority_chunks_count"] = 0
@@ -169,20 +153,24 @@ async def decide_context(
             # Query vector store with intent-aware top_k
             query_start = time.time()
             
-            # Adjust top_k based on intent (summarize/extract may need more chunks)
+            # Adjust top_k based on intent and doc-groundedness
             query_top_k = rag_config.top_k
-            if mode in ["summarize", "extract"] or prompt_module == "lgs_karekok":
-                # LGS module: increase chunks for better educational context (mimicking MEB style)
-                query_top_k = min(rag_config.top_k * 2, 10 if prompt_module != "lgs_karekok" else 15)
             
-            # For very short queries (like "incele", "analiz"), lower the min_score threshold
-            # to increase chances of finding relevant chunks
+            # AGGRESSIVE: If clearly about documents/emails, or LGS/summarize mode, increase top_k
+            if doc_grounded or mode in ["summarize", "extract"] or prompt_module == "lgs_karekok":
+                # Increase chunks for better context
+                query_top_k = 15 if prompt_module == "lgs_karekok" or doc_grounded else 10
+            
+            # Set min_score threshold based on intent and context
             query_min_score = rag_config.min_score_threshold
             
-            # MODULE OPTIMIZATION: LGS module needs more inclusive retrieval for pedagogical context
-            if prompt_module == "lgs_karekok":
-                query_min_score = max(0.1, rag_config.min_score_threshold * 0.7)  # More inclusive for LGS
-                logger.info(f"[{request_id}] RAG_DECISION: LGS module optimization, set top_k={query_top_k}, min_score={query_min_score}")
+            # PERMISSIVE: If doc-grounded, be very inclusive
+            if doc_grounded:
+                query_min_score = 0.10
+                logger.info(f"[{request_id}] RAG_DECISION: Doc-grounded override, set top_k={query_top_k}, min_score={query_min_score}")
+            elif prompt_module == "lgs_karekok":
+                query_min_score = max(0.1, rag_config.min_score_threshold * 0.7)
+                logger.info(f"[{request_id}] RAG_DECISION: LGS optimization, set top_k={query_top_k}, min_score={query_min_score}")
 
             is_short_query = len(query.strip()) <= 15
             if is_short_query and has_specific_documents:
@@ -365,11 +353,10 @@ async def decide_context(
                     f"[{request_id}] RAG_HYBRID_SEARCH: Applied hybrid scoring "
                     f"(chunks={len(retrieved_chunks)}, top_score={retrieved_chunks[0].get('score', 0.0):.3f})"
                 )
-            
-                            # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
+                # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
                 latest_keywords = ["son", "en yeni", "güncel", "latest", "recent"]
                 is_latest_query = any(kw in query.lower() for kw in latest_keywords)
-                
+
                 if is_latest_query and retrieved_chunks:
                     try:
                         # Re-sort chunks by date metadata (most recent first)
@@ -378,7 +365,7 @@ async def decide_context(
                         logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'latest' query")
                     except Exception as sort_err:
                         logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
-                
+
                 retrieval_stats["retrieved_chunks_count"] = len(retrieved_chunks)
             retrieval_stats["used_priority_search"] = used_priority_search
             retrieval_stats["priority_sufficient"] = priority_sufficient
@@ -408,13 +395,7 @@ async def decide_context(
             f"chunks_with_user_id_meta={chunks_with_user_id}/{len(retrieved_chunks)}"
         )
         
-        # Intent-aware RAG decision with doc-grounded detection
-        intent_result = classify_intent(query, mode=mode, document_ids=effective_selected_doc_ids)
-        intent = intent_result["intent"]
-        rag_priority = intent_result["rag_priority"]
-        rag_required = intent_result["rag_required"]
-        doc_grounded = intent_result.get("doc_grounded", False)
-        doc_grounded_reason = intent_result.get("doc_grounded_reason", "unknown")
+        # Intent already classified at the beginning
         
         retrieval_stats["intent"] = intent
         retrieval_stats["rag_priority"] = rag_priority
@@ -469,14 +450,16 @@ async def decide_context(
                 "allow_sources_for_general_queries": rag_config.evidence_allow_sources_for_general_queries,
             }
             
-            # Special case: RAG required (summarize/extract) - allow with lower threshold
-            if rag_required:
-                # Lower evidence thresholds for required intents
-                evidence_config["evidence_high"] = max(rag_config.min_score_threshold, evidence_config["evidence_high"] * 0.8)
-                evidence_config["evidence_low"] = max(rag_config.min_score_threshold * 0.7, evidence_config["evidence_low"] * 0.8)
+            # PERMISSIVE: If doc-grounded or intent requires RAG, lower thresholds
+            if doc_grounded or rag_required:
+                # Significantly lower evidence thresholds to ensure context is included
+                evidence_config["evidence_high"] = 0.20 if doc_grounded else max(rag_config.min_score_threshold, evidence_config["evidence_high"] * 0.8)
+                evidence_config["evidence_low"] = 0.10 if doc_grounded else max(rag_config.min_score_threshold * 0.7, evidence_config["evidence_low"] * 0.8)
+                evidence_config["min_overlap"] = 0 if doc_grounded else evidence_config["min_overlap"]
+                
                 logger.info(
-                    f"[{request_id}] RAG_DECISION: RAG required for intent={intent}, "
-                    f"lowering evidence thresholds (high={evidence_config['evidence_high']:.3f}, low={evidence_config['evidence_low']:.3f})"
+                    f"[{request_id}] RAG_DECISION: {'Doc-grounded' if doc_grounded else 'RAG required'} override, "
+                    f"lowering evidence thresholds (high={evidence_config['evidence_high']:.3f}, low={evidence_config['evidence_low']:.3f}, min_overlap={evidence_config['min_overlap']})"
                 )
             
             # Call evidence gate
