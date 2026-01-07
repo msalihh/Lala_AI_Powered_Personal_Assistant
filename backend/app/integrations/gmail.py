@@ -440,15 +440,22 @@ async def disconnect_gmail(user_id: str, prompt_module: Optional[str] = None):
 
 def parse_email_date(date_str: str) -> str:
     """
-    Parse Gmail date string into ISO format for sorting.
-    Example: "Thu, 8 Jan 2026 00:40:00 +0300" -> "2026-01-08T00:40:00"
+    Parse Gmail date string into ISO format for sorting, normalized to UTC.
+    Example: "Thu, 8 Jan 2026 00:40:00 +0300" -> "2026-01-07T21:40:00"
     """
     if not date_str:
         return ""
     try:
         from email.utils import parsedate_to_datetime
+        from datetime import timezone
         dt = parsedate_to_datetime(date_str)
-        return dt.isoformat()
+        # Normalize to UTC
+        if dt.tzinfo:
+            dt = dt.astimezone(timezone.utc)
+        else:
+            dt = dt.replace(tzinfo=timezone.utc)
+        # Use a sort-friendly format without timezone suffix (since it's all UTC now)
+        return dt.strftime("%Y-%m-%dT%H:%M:%S")
     except Exception as e:
         logger.warning(f"Failed to parse email date '{date_str}': {e}")
         return date_str

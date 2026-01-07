@@ -113,8 +113,8 @@ async def decide_context(
                 try:
                     # Re-sort chunks by date metadata (most recent first)
                     # We keep chunks with missing dates at the end
-                    # date is typically an ISO string now, so string sort works perfectly
-                    retrieved_chunks.sort(key=lambda x: str(x.get('date') or ''), reverse=True)
+                    # date is normalized to UTC ISO string in gmail.py, so string sort works perfectly
+                    retrieved_chunks.sort(key=lambda x: str(x.get('date') or '0000-00-00'), reverse=True)
                     logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'recency' query (cache)")
                 except Exception as sort_err:
                     logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
@@ -361,8 +361,8 @@ async def decide_context(
                 if is_latest_query and retrieved_chunks:
                     try:
                         # Re-sort chunks by date metadata (most recent first)
-                        # We keep chunks with missing dates at the end
-                        retrieved_chunks.sort(key=lambda x: str(x.get('date') or ''), reverse=True)
+                        # Normalize to UTC string sort
+                        retrieved_chunks.sort(key=lambda x: str(x.get('date') or '0000-00-00'), reverse=True)
                         logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'recency' query")
                     except Exception as sort_err:
                         logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
