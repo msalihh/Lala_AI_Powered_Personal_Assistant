@@ -212,14 +212,13 @@ async def store_gmail_tokens(user_id: str, credentials_data: Dict[str, Any], ema
         "email": email,
         "sync_status": "connected",
         "last_sync_at": None,
-        "prompt_module": prompt_module or "none"  # Store module for isolation
+        "prompt_module": prompt_module or "none"  # Store module for reference
     }
     
-    # CRITICAL: Use compound key (user_id + provider + prompt_module) for module isolation
+    # Use existing index pattern (user_id + provider) to avoid duplicate key error
     query_filter = {
         "user_id": user_id,
-        "provider": "gmail",
-        "prompt_module": prompt_module or "none"
+        "provider": "gmail"
     }
     
     await db.user_integrations.update_one(
@@ -228,6 +227,7 @@ async def store_gmail_tokens(user_id: str, credentials_data: Dict[str, Any], ema
         upsert=True
     )
     logger.info(f"Stored Gmail tokens for user {user_id} ({email}), module={prompt_module or 'none'}")
+
 
 
 async def get_gmail_service(user_id: str, force_refresh: bool = False, prompt_module: Optional[str] = None):
