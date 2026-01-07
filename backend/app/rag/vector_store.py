@@ -207,7 +207,7 @@ def index_document_chunks(
                     f"Chunks will NOT be searchable with user_id filter."
                 )
             
-            collection.add(
+            collection.upsert(
                 ids=ids,
                 embeddings=embeddings,
                 documents=documents,

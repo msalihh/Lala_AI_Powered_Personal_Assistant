@@ -159,8 +159,8 @@ async def decide_context(
             
             # AGGRESSIVE: If clearly about documents/emails, or LGS/summarize mode, increase top_k
             if doc_grounded or mode in ["summarize", "extract"] or prompt_module == "lgs_karekok":
-                # Increase chunks for better context
-                query_top_k = 15 if prompt_module == "lgs_karekok" or doc_grounded else 10
+                # Increase chunks to 30 for better coverage when sorting by date
+                query_top_k = 30 if prompt_module == "lgs_karekok" or doc_grounded else 15
             
             # Set min_score threshold based on intent and context
             query_min_score = rag_config.min_score_threshold
