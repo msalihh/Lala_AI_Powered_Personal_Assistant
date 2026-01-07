@@ -61,14 +61,17 @@ async def decide_context(
             "doc_not_found": bool,  # True if doc-grounded query has no hits (should show doc-not-found message)
         }
     """
-    # Use selected_doc_ids as-is (no special handling for emails)
-    # Email'ler artık normal dökümanlar gibi user_document_ids listesinde ve genel RAG mantığıyla çalışıyor
     effective_selected_doc_ids = selected_doc_ids.copy() if selected_doc_ids else []
     has_specific_documents = len(effective_selected_doc_ids) > 0
     priority_doc_ids_set = set(effective_selected_doc_ids) if has_specific_documents else set()  # For source_scope determination
     retrieved_chunks = []
     sources = []
     context_text = ""
+    
+    # CRITICAL: Initialize these early to handle all return paths
+    used_priority_search = False
+    priority_sufficient = False
+    should_use_documents = False
     
     used_priority_search = False
     priority_sufficient = False
@@ -118,7 +121,20 @@ async def decide_context(
             retrieval_stats["embedding_duration_ms"] = 0.0
             retrieval_stats["query_duration_ms"] = 0.0
             retrieval_stats["cache_hit"] = True
-            retrieval_stats["retrieved_chunks_count"] = len(retrieved_chunks)
+                            # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
+                latest_keywords = ["son", "en yeni", "güncel", "latest", "recent"]
+                is_latest_query = any(kw in query.lower() for kw in latest_keywords)
+                
+                if is_latest_query and retrieved_chunks:
+                    try:
+                        # Re-sort chunks by date metadata (most recent first)
+                        # We keep chunks with missing dates at the end
+                        retrieved_chunks.sort(key=lambda x: x.get('date', ''), reverse=True)
+                        logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'latest' query")
+                    except Exception as sort_err:
+                        logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
+                
+                retrieval_stats["retrieved_chunks_count"] = len(retrieved_chunks)
             retrieval_stats["used_priority_search"] = False
             retrieval_stats["priority_sufficient"] = False
             retrieval_stats["priority_chunks_count"] = 0
@@ -195,7 +211,12 @@ async def decide_context(
                 # Add prompt_module filter for module isolation
                 metadata_filters = {}
                 if prompt_module:
-                    metadata_filters["prompt_module"] = prompt_module
+                    # Allow shared content (like emails) in all modules
+                    metadata_filters["$or"] = [
+                        {"prompt_module": prompt_module},
+                        {"prompt_module": "shared"},
+                        {"prompt_module": "none"}
+                    ]
                 
                 # Search only in priority documents
                 priority_chunks = query_chunks(
@@ -251,7 +272,12 @@ async def decide_context(
                     # Add prompt_module filter for module isolation
                     metadata_filters = {}
                     if prompt_module:
-                        metadata_filters["prompt_module"] = prompt_module
+                        # Allow shared content (like emails) in all modules
+                        metadata_filters["$or"] = [
+                            {"prompt_module": prompt_module},
+                            {"prompt_module": "shared"},
+                            {"prompt_module": "none"}
+                        ]
                     
                     global_chunks = query_chunks(
                         query_embedding=query_embedding,
@@ -300,7 +326,12 @@ async def decide_context(
                 # Add prompt_module filter for module isolation
                 metadata_filters = {}
                 if prompt_module:
-                    metadata_filters["prompt_module"] = prompt_module
+                    # Allow shared content (like emails) in all modules
+                    metadata_filters["$or"] = [
+                        {"prompt_module": prompt_module},
+                        {"prompt_module": "shared"},
+                        {"prompt_module": "none"}
+                    ]
                 
                 retrieved_chunks = query_chunks(
                     query_embedding=query_embedding,
@@ -335,7 +366,20 @@ async def decide_context(
                     f"(chunks={len(retrieved_chunks)}, top_score={retrieved_chunks[0].get('score', 0.0):.3f})"
                 )
             
-            retrieval_stats["retrieved_chunks_count"] = len(retrieved_chunks)
+                            # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
+                latest_keywords = ["son", "en yeni", "güncel", "latest", "recent"]
+                is_latest_query = any(kw in query.lower() for kw in latest_keywords)
+                
+                if is_latest_query and retrieved_chunks:
+                    try:
+                        # Re-sort chunks by date metadata (most recent first)
+                        # We keep chunks with missing dates at the end
+                        retrieved_chunks.sort(key=lambda x: x.get('date', ''), reverse=True)
+                        logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'latest' query")
+                    except Exception as sort_err:
+                        logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
+                
+                retrieval_stats["retrieved_chunks_count"] = len(retrieved_chunks)
             retrieval_stats["used_priority_search"] = used_priority_search
             retrieval_stats["priority_sufficient"] = priority_sufficient
             retrieval_stats["priority_chunks_count"] = len(priority_chunks) if has_specific_documents else 0

@@ -54,7 +54,8 @@ def build_rag_context(
                 # For emails, use subject or sender as label
                 subject = chunk.get('subject', 'E-posta')
                 sender = chunk.get('sender', 'Bilinmeyen Gönderen')
-                source_label = f"{subject} ({sender})"
+                date = chunk.get('date', '')
+                source_label = f"{subject} ({sender}) - {date}"
             else:
                 # For documents, use filename
                 source_label = chunk.get('original_filename', 'Bilinmeyen Dosya')

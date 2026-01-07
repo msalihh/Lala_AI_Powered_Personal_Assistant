@@ -662,8 +662,7 @@ async def sync_emails(user_id: str, max_emails: int = 200, prompt_module: Option
             # Check if already indexed (to avoid duplicates) - filter by module
             existing = await db.email_sources.find_one({
                 "email_id": msg_id, 
-                "user_id": user_id,
-                "prompt_module": prompt_module or "none"
+                "user_id": user_id
             })
             if existing:
                 continue
@@ -696,7 +695,7 @@ async def sync_emails(user_id: str, max_emails: int = 200, prompt_module: Option
                 body = base64.urlsafe_b64decode(body).decode('utf-8', errors='ignore')
             
             clean_body = clean_email_body(body)
-            full_text = f"Subject: {subject}\nFrom: {sender}\nBody: {clean_body}"
+            full_text = f"Subject: {subject}\nFrom: {sender}\nDate: {date_str}\nBody: {clean_body}"
             
             # Index to RAG
             chunks = chunk_text(full_text)
@@ -724,7 +723,7 @@ async def sync_emails(user_id: str, max_emails: int = 200, prompt_module: Option
                     user_id=user_id,
                     source_type="email",  # CRITICAL: Mark as email source
                     email_metadata=email_metadata,  # CRITICAL: Include email metadata
-                    prompt_module=prompt_module or "none"  # CRITICAL: Store module for isolation
+                    prompt_module="shared"  # Shared across all modules
                 )
                 
                 # Store email metadata - convert to UTC naive for MongoDB
@@ -737,7 +736,7 @@ async def sync_emails(user_id: str, max_emails: int = 200, prompt_module: Option
                     "sender": sender,
                     "date": now_naive,  # Simplified date parsing
                     "received_at": now_naive,
-                    "prompt_module": prompt_module or "none"  # Store module for isolation
+                    "prompt_module": "shared"  # Shared across all modules
                 }
                 await db.email_sources.insert_one(email_source)
                 emails_indexed += 1
@@ -748,8 +747,7 @@ async def sync_emails(user_id: str, max_emails: int = 200, prompt_module: Option
         await db.user_integrations.update_one(
             {
                 "user_id": user_id, 
-                "provider": "gmail",
-                "prompt_module": prompt_module or "none"
+                "provider": "gmail"
             },
             {"$set": {"last_sync_at": datetime.now(timezone.utc).replace(tzinfo=None), "sync_status": "connected"}}
         )

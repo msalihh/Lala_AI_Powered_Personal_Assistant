@@ -179,6 +179,7 @@ def _detect_doc_grounded(
         r'\b(belgede|dokümanda|dosyada|pdf|document)\s+(ne|hangi|nedir|var|yok)\b',
         r'\b(incele|analiz|değerlendir|karşılaştır|inceleme|analiz et|değerlendirme)\b',  # Analysis commands are doc-grounded
         r'\b(analyze|review|examine|evaluate|compare|analysis)\b',
+        r'\b(email|e-posta|mail|maillerim|mailler|mesajlar|mesajlarım|gelen\s+kutusu|inbox)\b',
     ]
     
     # Check for document references
