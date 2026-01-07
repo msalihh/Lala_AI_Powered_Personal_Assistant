@@ -1,15 +1,17 @@
 """
 Document management endpoints.
 """
-from fastapi import APIRouter, HTTPException, status, Header, UploadFile, File, Form, Depends
-from typing import Optional, List
-from bson import ObjectId
+from fastapi import APIRouter, HTTPException, status, Header, UploadFile, File, Form, Depends, Response
+from typing import Optional, List, Literal
+from bson import ObjectId, Binary
 from datetime import datetime
 import os
+import hashlib
 
 from app.database import get_database
 from app.auth import decode_access_token
 from app.documents import extract_text_from_file
+from app.vision import analyze_image
 from app.utils import sanitize_filename, validate_file_signature
 from bson import ObjectId
 from app.schemas import (
@@ -31,14 +33,19 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
-# Allowed file types - STRICT: Only PDF, DOCX, TXT
-ALLOWED_EXTENSIONS = {".pdf", ".docx", ".txt"}
+# Allowed file types - PDF, DOCX, TXT, IMAGE
+ALLOWED_EXTENSIONS = {".pdf", ".docx", ".txt", ".jpg", ".jpeg", ".png", ".webp"}
 ALLOWED_MIME_TYPES = {
     "application/pdf",  # PDF
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",  # DOCX
-    "text/plain"  # TXT
+    "text/plain",  # TXT
+    "image/jpeg",  # JPG/JPEG
+    "image/jpg",  # JPG (alternative)
+    "image/png",  # PNG
+    "image/webp"  # WEBP
 }
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB for images
 
 
 async def get_current_user_id(authorization: Optional[str] = Header(None)) -> str:
@@ -99,6 +106,7 @@ async def upload_document(
     file: UploadFile = File(...),
     chat_id: Optional[str] = Form(None),  # Optional: if uploaded from chat
     chat_title: Optional[str] = Form(None),  # Optional: chat name/title
+    prompt_module: Optional[str] = Form(None),  # Optional: module for document isolation
     user_id: str = Depends(get_current_user_id)
 ):
     """
@@ -154,29 +162,49 @@ async def upload_document(
     expected_mime_map = {
         ".pdf": "application/pdf",
         ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ".txt": "text/plain"
+        ".txt": "text/plain",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".png": "image/png",
+        ".webp": "image/webp"
     }
     
-    expected_mime = expected_mime_map.get(file_ext)
-    if expected_mime and file.content_type != expected_mime:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Dosya uzantısı ({file_ext}) ve MIME tipi ({file.content_type}) uyuşmuyor. Beklenen: {expected_mime}",
-            headers={"code": "MIME_EXTENSION_MISMATCH"}
-        )
+    # For images, allow multiple MIME types (jpeg/jpg)
+    is_image = file_ext in {".jpg", ".jpeg", ".png", ".webp"}
+    if is_image:
+        # Images: allow jpeg/jpg variations
+        if file_ext in {".jpg", ".jpeg"}:
+            allowed_mimes = {"image/jpeg", "image/jpg"}
+            if file.content_type not in allowed_mimes:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Görüntü dosyası için geçersiz MIME tipi: {file.content_type}. Beklenen: image/jpeg veya image/jpg",
+                    headers={"code": "MIME_EXTENSION_MISMATCH"}
+                )
+        else:
+            expected_mime = expected_mime_map.get(file_ext)
+            if expected_mime and file.content_type != expected_mime:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Dosya uzantısı ({file_ext}) ve MIME tipi ({file.content_type}) uyuşmuyor. Beklenen: {expected_mime}",
+                    headers={"code": "MIME_EXTENSION_MISMATCH"}
+                )
+    else:
+        # Documents: strict validation
+        expected_mime = expected_mime_map.get(file_ext)
+        if expected_mime and file.content_type != expected_mime:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Dosya uzantısı ({file_ext}) ve MIME tipi ({file.content_type}) uyuşmuyor. Beklenen: {expected_mime}",
+                headers={"code": "MIME_EXTENSION_MISMATCH"}
+            )
     
     # Read file content
     try:
         file_content = await file.read()
         file_size = len(file_content)
         
-        # Check file size
-        if file_size > MAX_FILE_SIZE:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Dosya boyutu çok büyük. Maksimum: {MAX_FILE_SIZE / 1024 / 1024}MB",
-                headers={"code": "FILE_TOO_LARGE"}
-            )
+        # Note: File size limit removed to allow large PDF uploads
         
         if file_size == 0:
             raise HTTPException(
@@ -196,6 +224,36 @@ async def upload_document(
         
         # Sanitize filename
         sanitized_filename = sanitize_filename(file.filename)
+        
+        # Determine file_type
+        file_type = None
+        if file_ext in {".pdf"}:
+            file_type = "pdf"
+        elif file_ext in {".docx"}:
+            file_type = "docx"
+        elif file_ext in {".txt"}:
+            file_type = "txt"
+        elif file_ext in {".jpg", ".jpeg", ".png", ".webp"}:
+            file_type = "image"
+        
+        # For images: run vision analysis
+        image_analysis = None
+        if file_type == "image":
+            try:
+                logger.info(f"[UPLOAD] Starting image analysis for {sanitized_filename}")
+                image_analysis = analyze_image(file_content, sanitized_filename)
+                logger.info(f"[UPLOAD] Image analysis completed: ocr_success={image_analysis.get('ocr_success')}, vision_success={image_analysis.get('vision_success')}")
+            except Exception as e:
+                logger.error(f"[UPLOAD] Image analysis error: {str(e)}", exc_info=True)
+                # Continue without image analysis (system should still work)
+                image_analysis = {
+                    "ocr_text": "",
+                    "caption": "",
+                    "tags": [],
+                    "created_at": datetime.utcnow().isoformat(),
+                    "ocr_success": False,
+                    "vision_success": False
+                }
         
         # Extract text
         was_truncated = False
@@ -253,6 +311,7 @@ async def upload_document(
         
         if chat_id:
             # Validate chat_id format and existence
+            logger.info(f"[UPLOAD] Received chat_id={chat_id}, chat_title={chat_title}, user_id={user_id}")
             try:
                 chat_object_id = ObjectId(chat_id)
                 chat_doc = await db.chats.find_one({"_id": chat_object_id, "user_id": user_id})
@@ -261,34 +320,157 @@ async def upload_document(
                     # Use provided chat_title or get from chat document
                     uploaded_from_chat_title = chat_title or chat_doc.get("title", "Untitled Chat")
                     is_chat_scoped = True
+                    logger.info(
+                        f"[UPLOAD] Chat found in DB: chat_id={chat_id}, title={uploaded_from_chat_title}, "
+                        f"will save as source=chat"
+                    )
                 else:
-                    logger.warning(f"[UPLOAD] chat_id {chat_id} not found or doesn't belong to user {user_id}")
+                    # Chat not found in DB - might be created after file upload (race condition)
+                    # Still save chat_id if it's a valid ObjectId format
+                    # This allows files uploaded before chat is fully created to be associated
+                    uploaded_from_chat_id = chat_id
+                    uploaded_from_chat_title = chat_title or "Untitled Chat"
+                    is_chat_scoped = True
+                    logger.info(
+                        f"[UPLOAD] chat_id {chat_id} not found in DB yet, but saving association anyway "
+                        f"(chat might be created after upload, user_id={user_id}). "
+                        f"Will save as source=chat with chat_id={chat_id}"
+                    )
             except Exception as e:
-                logger.warning(f"[UPLOAD] Invalid chat_id format {chat_id}: {str(e)}")
+                # Invalid ObjectId format - don't save chat_id
+                logger.warning(f"[UPLOAD] Invalid chat_id format {chat_id}: {str(e)}. Will save as independent.")
+        else:
+            logger.info(f"[UPLOAD] No chat_id provided, will save as source=independent")
         
         # Store mime_type for later use in chunking
         mime_type = file.content_type or "application/octet-stream"
+        
+        # Store original file content as binary for viewing/downloading
+        file_binary = Binary(file_content)
+        
+        # Determine source: "chat" if uploaded from chat, "upload" otherwise
+        doc_source = "chat" if uploaded_from_chat_id else "upload"
+        
+        # Generate content hash for duplicate detection
+        content_hash = hashlib.sha256(file_content).hexdigest()
+        
+        # DUPLICATE CHECK: Check if the exact same file exists (by hash and size)
+        # Also check by filename for user-friendly duplicate detection
+        existing_by_hash = await db.documents.find_one({
+            "user_id": user_id,
+            "content_hash": content_hash,
+            "size": file_size
+        })
+        
+        existing_by_name = await db.documents.find_one({
+            "user_id": user_id,
+            "filename": sanitized_filename
+        })
+        
+        if existing_by_hash:
+            # Exact same file content exists
+            if doc_source == "upload":
+                # Documents page: Block duplicate uploads
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=f"Bu dosya zaten yüklü ('{existing_by_hash['filename']}'). Aynı içeriğe sahip dosyalar tekrar yüklenemez.",
+                    headers={"code": "DUPLICATE_FILE"}
+                )
+            else:
+                # Chat: Return existing document info (don't save again)
+                logger.info(f"[UPLOAD] Exact duplicate detected by hash: {sanitized_filename}. Returning existing document.")
+                return DocumentUploadResponse(
+                    documentId=str(existing_by_hash["_id"]),
+                    filename=existing_by_hash["filename"],
+                    size=existing_by_hash.get("size", file_size),
+                    mime_type=existing_by_hash.get("mime_type", mime_type),
+                    text_preview=existing_by_hash.get("text_content", "")[:200] if existing_by_hash.get("text_content") else "",
+                    truncated=existing_by_hash.get("truncated", False),
+                    image_caption=existing_by_hash.get("image_analysis", {}).get("caption") if existing_by_hash.get("image_analysis") else None,
+                    image_ocr_text=existing_by_hash.get("image_analysis", {}).get("ocr_text") if existing_by_hash.get("image_analysis") else None
+                )
+        
+        if existing_by_name:
+            # Same filename but different content
+            if doc_source == "upload":
+                # Documents page: Block - same name not allowed
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=f"'{sanitized_filename}' isimli bir dosya zaten mevcut. Lütfen farklı bir isim kullanın veya mevcut dosyayı silin.",
+                    headers={"code": "DUPLICATE_FILENAME"}
+                )
+            else:
+                # Chat: Allow different content with same name, append timestamp to filename
+                import time
+                timestamp = int(time.time())
+                name_parts = sanitized_filename.rsplit('.', 1)
+                if len(name_parts) == 2:
+                    sanitized_filename = f"{name_parts[0]}_{timestamp}.{name_parts[1]}"
+                else:
+                    sanitized_filename = f"{sanitized_filename}_{timestamp}"
+                logger.info(f"[UPLOAD] Same filename but different content in chat. Renamed to: {sanitized_filename}")
+        
+        
+        # Get prompt_module with priority: explicit param > chat module > default "none"
+        # PRIORITY 1: Explicit prompt_module parameter (allows setting module before chat exists)
+        if prompt_module:
+            logger.info(f"[UPLOAD] Using explicit prompt_module: {prompt_module}")
+        # PRIORITY 2: Get from chat if not explicitly provided
+        elif uploaded_from_chat_id:
+            try:
+                chat = await db.chats.find_one({"_id": ObjectId(uploaded_from_chat_id), "user_id": user_id})
+                if chat and chat.get("prompt_module"):
+                    prompt_module = chat.get("prompt_module")
+                    logger.info(f"[UPLOAD] Using prompt_module from chat: {prompt_module}")
+                else:
+                    prompt_module = "none"
+            except Exception as e:
+                logger.warning(f"Failed to get prompt_module from chat {uploaded_from_chat_id}: {e}")
+                prompt_module = "none"
+        # PRIORITY 3: Default to "none" (Personal Assistant)
+        else:
+            prompt_module = "none"
+            logger.info(f"[UPLOAD] No chat_id or explicit module, defaulting to prompt_module=none")
+        
+        # MongoDB has 16MB document size limit - don't store binary for large files
+        MAX_BINARY_STORAGE_SIZE = 15 * 1024 * 1024  # 15MB (leave some room for other fields)
+        store_file_binary = file_size <= MAX_BINARY_STORAGE_SIZE
+        
+        if not store_file_binary:
+            logger.warning(f"[UPLOAD] File too large for binary storage ({file_size / (1024*1024):.1f}MB). "
+                          f"Only text content will be stored. Original file won't be available for download.")
         
         document_doc = {
             "user_id": user_id,
             "filename": sanitized_filename,
             "mime_type": mime_type,
             "size": file_size,
+            "content_hash": content_hash,  # SHA256 hash for duplicate detection
             "text_content": text_content,
+            "file_content": file_binary if store_file_binary else None,  # Only store if under 15MB
+            "file_stored": store_file_binary,  # Flag to indicate if file binary is available
             "created_at": datetime.utcnow(),
-            "source": "upload",  # Always "upload" - documents are global to user
-            "uploaded_from_chat_id": uploaded_from_chat_id,  # Chat association if provided
+            "source": doc_source,  # "chat" or "upload"
+            "chat_id": uploaded_from_chat_id if uploaded_from_chat_id else None,  # Chat ID if from chat
+            "uploaded_from_chat_id": uploaded_from_chat_id,  # Legacy: Chat association if provided
             "uploaded_from_chat_title": uploaded_from_chat_title,  # Chat title if provided
             "is_chat_scoped": is_chat_scoped,  # True if associated with a chat
+            "prompt_module": prompt_module,  # Module for document isolation
             "folder_id": None,  # Optional folder assignment
             "tags": []  # Empty tags array by default
         }
         
+        # Add file_type and image_analysis (optional fields for backward compatibility)
+        if file_type:
+            document_doc["file_type"] = file_type
+        if image_analysis:
+            document_doc["image_analysis"] = image_analysis
+        
         result = await db.documents.insert_one(document_doc)
         document_id = str(result.inserted_id)
         
-        # Set status to "processing" before indexing
-        status = "processing"
+        # Set doc_status to "processing" before indexing
+        doc_status = "processing"
         
         # RAG Indexing: Chunk, embed, and store in vector database
         # This runs synchronously after successful upload
@@ -340,18 +522,51 @@ async def upload_document(
                 logger.info(f"[INDEX_EMBED] doc_id={document_id} starting embedding for {len(chunks)} chunks")
                 embedded_chunks = await embed_chunks(chunks)
                 
+                # Add file_type and source metadata to chunks for RAG filtering
+                for chunk in embedded_chunks:
+                    if file_type:
+                        chunk["file_type"] = file_type
+                    # Add source metadata for images (image_ocr, image_caption) vs document_text
+                    if file_type == "image":
+                        # Determine source: if text comes from OCR, mark as image_ocr; if from caption, mark as image_caption
+                        # For now, mark all image chunks as "image_text" (combined OCR + caption)
+                        chunk["source"] = "image_text"
+                    else:
+                        chunk["source"] = "document_text"
+                
                 # Count successful embeddings
                 successful_embeddings = sum(1 for chunk in embedded_chunks if chunk.get("embedding") is not None)
                 failed_embeddings = len(embedded_chunks) - successful_embeddings
                 logger.info(f"[INDEX_EMBED] doc_id={document_id} successful={successful_embeddings} failed={failed_embeddings}")
                 
-                # Step 3: Index in vector store
-                logger.info(f"[INDEX_STORE] doc_id={document_id} starting vector store indexing")
+                # Step 3: Index in vector store with user_id for multi-tenant isolation
+                # CRITICAL LOG: Verify user_id is passed before indexing
+                logger.info(
+                    f"[INDEX_STORE] doc_id={document_id} user_id={user_id} "
+                    f"starting vector store indexing chunks_count={len(embedded_chunks)} "
+                    f"user_id_provided={user_id is not None and user_id != ''}"
+                )
+                
+                if not user_id or user_id == "":
+                    logger.error(
+                        f"[INDEX_STORE] CRITICAL: user_id is empty for doc_id={document_id}! "
+                        f"Indexing will proceed but chunks may not be searchable with user_id filter."
+                    )
+                
                 indexing_stats = index_document_chunks(
                     document_id=document_id,
                     chunks=embedded_chunks,
                     original_filename=sanitized_filename,
-                    was_truncated=was_truncated
+                    was_truncated=was_truncated,
+                    user_id=user_id  # CRITICAL: Add user_id for multi-tenant isolation
+                )
+                
+                # CRITICAL LOG: Verify indexing results
+                logger.info(
+                    f"[INDEX_STORE_RESULT] doc_id={document_id} user_id={user_id} "
+                    f"indexed_chunks={indexing_stats.get('indexed_chunks', 0)} "
+                    f"total_chunks={indexing_stats.get('total_chunks', 0)} "
+                    f"failed_chunks={indexing_stats.get('failed_chunks', 0)}"
                 )
                 
                 indexing_chunks = indexing_stats.get('indexed_chunks', 0)
@@ -360,13 +575,13 @@ async def upload_document(
                 
                 indexing_duration_ms = (time.time() - indexing_start_time) * 1000
                 
-                # Set status to "ready" after indexing completes
-                status = "ready"
+                # Set doc_status to "ready" after indexing completes
+                doc_status = "ready"
                 
                 logger.info(
                     f"[INDEX_DONE] doc_id={document_id} chunks={len(chunks)} indexed={indexing_chunks} failed={indexing_failed_chunks} "
                     f"duration_ms={indexing_duration_ms:.2f} success={indexing_success} "
-                    f"status={status} chat_id={chat_id or 'N/A'} chat_title={chat_title or 'N/A'}"
+                    f"doc_status={doc_status} chat_id={chat_id or 'N/A'} chat_title={chat_title or 'N/A'}"
                 )
             else:
                 logger.warning(f"[INDEX_WARN] doc_id={document_id} no chunks created (empty text?)")
@@ -375,20 +590,20 @@ async def upload_document(
         except Exception as e:
             # Log error but don't fail the upload
             indexing_duration_ms = (time.time() - indexing_start_time) * 1000
-            status = "ready"  # Set to ready even if indexing failed
+            doc_status = "ready"  # Set to ready even if indexing failed
             logger.error(
-                f"[INDEX_ERROR] doc_id={document_id} error={str(e)} duration_ms={indexing_duration_ms:.2f} status={status}",
+                f"[INDEX_ERROR] doc_id={document_id} error={str(e)} duration_ms={indexing_duration_ms:.2f} doc_status={doc_status}",
                 exc_info=True
             )
         
         # Final status check: if indexing didn't run, set to ready
-        if status == "processing" and not indexing_success and indexing_chunks == 0:
-            status = "ready"
+        if doc_status == "processing" and not indexing_success and indexing_chunks == 0:
+            doc_status = "ready"
         
         logger.info(
             f"[UPLOAD_RESPONSE] doc_id={document_id} "
             f"text_length={text_length} text_has_content={text_has_content} "
-            f"status={status} indexing_chunks={indexing_chunks}"
+            f"doc_status={doc_status} indexing_chunks={indexing_chunks}"
         )
         
         return DocumentUploadResponse(
@@ -397,7 +612,7 @@ async def upload_document(
             size=file_size,
             text_length=text_length,
             text_has_content=text_has_content,
-            status=status,
+            status=doc_status,
             truncated=was_truncated,
             indexing_success=indexing_success,
             indexing_chunks=indexing_chunks,
@@ -408,9 +623,7 @@ async def upload_document(
     except HTTPException:
         raise
     except Exception as e:
-        import traceback
-        print(f"Document upload error: {e}")
-        print(traceback.format_exc())
+        logger.error(f"Document upload error: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Dosya yükleme hatası: {str(e)}",
@@ -420,10 +633,12 @@ async def upload_document(
 
 @router.get("", response_model=List[DocumentListItem])
 async def list_documents(
+    prompt_module: Optional[Literal["none", "lgs_karekok"]] = None,
     user_id: str = Depends(get_current_user_id)
 ):
     """
     List all documents for the current user.
+    Optionally filter by prompt_module.
     """
     db = get_database()
     if db is None:
@@ -434,7 +649,20 @@ async def list_documents(
         )
     
     try:
-        cursor = db.documents.find({"user_id": user_id}).sort("created_at", -1)
+        query_filter = {"user_id": user_id}
+        
+        # Filter by prompt_module if provided
+        if prompt_module is not None:
+            query_filter["prompt_module"] = prompt_module
+        else:
+            # If not specified, default to "none" for backward compatibility
+            query_filter["$or"] = [
+                {"prompt_module": {"$exists": False}},
+                {"prompt_module": None},
+                {"prompt_module": "none"}
+            ]
+        
+        cursor = db.documents.find(query_filter).sort("created_at", -1)
         documents = []
         async for doc in cursor:
             created_at = doc.get("created_at")
@@ -442,6 +670,14 @@ async def list_documents(
                 created_at_str = created_at.isoformat()
             else:
                 created_at_str = str(created_at)
+            
+            # Normalize image_analysis: convert datetime to string if present
+            image_analysis = doc.get("image_analysis")
+            if image_analysis and isinstance(image_analysis, dict):
+                normalized_analysis = image_analysis.copy()
+                if "created_at" in normalized_analysis and isinstance(normalized_analysis["created_at"], datetime):
+                    normalized_analysis["created_at"] = normalized_analysis["created_at"].isoformat()
+                image_analysis = normalized_analysis
             
             documents.append(DocumentListItem(
                 id=str(doc["_id"]),
@@ -454,14 +690,15 @@ async def list_documents(
                 uploaded_from_chat_id=doc.get("uploaded_from_chat_id"),
                 uploaded_from_chat_title=doc.get("uploaded_from_chat_title"),
                 folder_id=doc.get("folder_id"),
-                tags=doc.get("tags", [])
+                tags=doc.get("tags", []),
+                is_main=doc.get("is_main", False),
+                file_type=doc.get("file_type"),  # Optional: pdf, docx, txt, image
+                image_analysis=image_analysis  # Optional: for images (normalized)
             ))
         
         return documents
     except Exception as e:
-        import traceback
-        print(f"List documents error: {e}")
-        print(traceback.format_exc())
+        logger.error(f"List documents error: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Doküman listesi alınamadı: {str(e)}",
@@ -509,6 +746,14 @@ async def get_document(
         else:
             created_at_str = str(created_at)
         
+        # Normalize image_analysis: convert datetime to string if present
+        image_analysis = doc.get("image_analysis")
+        if image_analysis and isinstance(image_analysis, dict):
+            normalized_analysis = image_analysis.copy()
+            if "created_at" in normalized_analysis and isinstance(normalized_analysis["created_at"], datetime):
+                normalized_analysis["created_at"] = normalized_analysis["created_at"].isoformat()
+            image_analysis = normalized_analysis
+        
         return DocumentDetail(
             id=str(doc["_id"]),
             filename=doc.get("filename", "unknown"),
@@ -521,18 +766,171 @@ async def get_document(
             uploaded_from_chat_id=doc.get("uploaded_from_chat_id"),
             uploaded_from_chat_title=doc.get("uploaded_from_chat_title"),
             folder_id=doc.get("folder_id"),
-            tags=doc.get("tags", [])
+            tags=doc.get("tags", []),
+            is_main=doc.get("is_main", False),
+            file_type=doc.get("file_type"),  # Optional: pdf, docx, txt, image
+            image_analysis=image_analysis  # Optional: for images (normalized)
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Get document error: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Doküman detayı alınamadı: {str(e)}",
+            headers={"code": "GET_ERROR"}
+        )
+
+
+@router.patch("/{document_id}/toggle-main", response_model=DocumentListItem)
+async def toggle_main_document(
+    document_id: str,
+    user_id: str = Depends(get_current_user_id)
+):
+    """
+    Toggle the is_main status of a document (Mark as Ana Doküman).
+    """
+    db = get_database()
+    if db is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database bağlantısı yok",
+            headers={"code": "DATABASE_ERROR"}
+        )
+    
+    try:
+        if not ObjectId.is_valid(document_id):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Geçersiz doküman ID",
+                headers={"code": "INVALID_ID"}
+            )
+        
+        doc = await db.documents.find_one({"_id": ObjectId(document_id), "user_id": user_id})
+        
+        if not doc:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Doküman bulunamadı veya erişim izniniz yok",
+                headers={"code": "NOT_FOUND"}
+            )
+        
+        current_status = doc.get("is_main", False)
+        new_status = not current_status
+        
+        await db.documents.update_one(
+            {"_id": ObjectId(document_id)},
+            {"$set": {"is_main": new_status}}
+        )
+        
+        # Get updated document for response
+        updated_doc = await db.documents.find_one({"_id": ObjectId(document_id)})
+        
+        # Normalize result for response_model
+        created_at = updated_doc.get("created_at")
+        if isinstance(created_at, datetime):
+            created_at_str = created_at.isoformat()
+        else:
+            created_at_str = str(created_at)
+            
+        return DocumentListItem(
+            id=str(updated_doc["_id"]),
+            filename=updated_doc.get("filename", "unknown"),
+            mime_type=updated_doc.get("mime_type", ""),
+            size=updated_doc.get("size", 0),
+            created_at=created_at_str,
+            source=updated_doc.get("source", "upload"),
+            is_chat_scoped=updated_doc.get("is_chat_scoped", False),
+            uploaded_from_chat_id=updated_doc.get("uploaded_from_chat_id"),
+            uploaded_from_chat_title=updated_doc.get("uploaded_from_chat_title"),
+            folder_id=updated_doc.get("folder_id"),
+            tags=updated_doc.get("tags", []),
+            is_main=updated_doc.get("is_main", False),
+            file_type=updated_doc.get("file_type")
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Toggle main error: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Ana doküman durumu güncellenemedi: {str(e)}",
+            headers={"code": "UPDATE_ERROR"}
+        )
+
+
+@router.get("/{document_id}/file")
+async def download_document_file(
+    document_id: str,
+    user_id: str = Depends(get_current_user_id)
+):
+    """
+    Download the original file content for viewing.
+    Only owner can access.
+    """
+    db = get_database()
+    if db is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database bağlantısı yok",
+            headers={"code": "DATABASE_ERROR"}
+        )
+    
+    try:
+        if not ObjectId.is_valid(document_id):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Geçersiz doküman ID",
+                headers={"code": "INVALID_ID"}
+            )
+        
+        # Get document with file_content field
+        doc = await db.documents.find_one(
+            {"_id": ObjectId(document_id), "user_id": user_id},
+            {"file_content": 1, "filename": 1, "mime_type": 1}
+        )
+        
+        if not doc:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Doküman bulunamadı veya erişim izniniz yok",
+                headers={"code": "NOT_FOUND"}
+            )
+        
+        file_content = doc.get("file_content")
+        if not file_content:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Dosya içeriği bulunamadı (eski dosyalar için desteklenmiyor)",
+                headers={"code": "FILE_CONTENT_NOT_FOUND"}
+            )
+        
+        # Extract binary data
+        if isinstance(file_content, Binary):
+            file_bytes = bytes(file_content)
+        else:
+            file_bytes = bytes(file_content)
+        
+        filename = doc.get("filename", "document")
+        mime_type = doc.get("mime_type", "application/octet-stream")
+        
+        return Response(
+            content=file_bytes,
+            media_type=mime_type,
+            headers={
+                "Content-Disposition": f'inline; filename="{filename}"',
+                "Content-Type": mime_type,
+            }
         )
     except HTTPException:
         raise
     except Exception as e:
         import traceback
-        print(f"Get document error: {e}")
-        print(traceback.format_exc())
+        logger.error(f"Download document file error: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Doküman alınamadı: {str(e)}",
-            headers={"code": "GET_ERROR"}
+            detail=f"Dosya indirilemedi: {str(e)}",
+            headers={"code": "DOWNLOAD_ERROR"}
         )
 
 
@@ -652,9 +1050,7 @@ async def delete_document(
     except HTTPException:
         raise
     except Exception as e:
-        import traceback
-        print(f"Delete document error: {e}")
-        print(traceback.format_exc())
+        logger.error(f"Delete document error: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Doküman silinemedi: {str(e)}",
@@ -1089,7 +1485,10 @@ async def search_documents(
                 uploaded_from_chat_id=doc.get("uploaded_from_chat_id"),
                 uploaded_from_chat_title=doc.get("uploaded_from_chat_title"),
                 folder_id=doc.get("folder_id"),
-                tags=doc.get("tags", [])
+                tags=doc.get("tags", []),
+                is_main=doc.get("is_main", False),
+                file_type=doc.get("file_type"),  # Optional: pdf, docx, txt, image
+                image_analysis=doc.get("image_analysis")  # Optional: for images
             ))
         
         return DocumentSearchResponse(

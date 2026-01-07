@@ -70,3 +70,41 @@ class User(BaseModel):
                 "is_active": True
             }
         }
+
+
+class UserIntegration(BaseModel):
+    """
+    User integration details (e.g., Gmail).
+    """
+    id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
+    user_id: str
+    provider: str  # e.g., "gmail"
+    access_token: str  # Encrypted
+    refresh_token: Optional[str] = None  # Encrypted
+    expires_at: datetime
+    connected_at: datetime = Field(default_factory=datetime.utcnow)
+    email: Optional[str] = None  # The connected email address
+    sync_status: str = "connected"  # "connected", "syncing", "error"
+    last_sync_at: Optional[datetime] = None
+    
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+
+
+class EmailSource(BaseModel):
+    """
+    Metadata for an email imported into RAG.
+    """
+    email_id: str
+    thread_id: str
+    subject: str
+    sender: str  # "From" field
+    date: datetime
+    received_at: datetime = Field(default_factory=datetime.utcnow)
+    user_id: str
+    
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+

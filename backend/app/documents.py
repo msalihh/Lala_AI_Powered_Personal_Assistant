@@ -1,5 +1,5 @@
 """
-Document management utilities - Text extraction from PDF/DOCX/TXT.
+Document management utilities - Text extraction from PDF/DOCX/TXT/IMAGE.
 """
 import re
 import logging
@@ -156,17 +156,82 @@ def extract_text_from_txt(file_content: bytes) -> Tuple[str, bool]:
     return text, was_truncated
 
 
+def extract_text_from_image(file_content: bytes, filename: str) -> Tuple[str, bool]:
+    """
+    Extract text from image using OCR and vision analysis.
+    Returns: (combined_text, was_truncated)
+    Combined text includes OCR text + caption for RAG indexing.
+    """
+    try:
+        from app.vision import analyze_image
+        
+        logger.info(f"[IMAGE_EXTRACT] Starting image analysis: filename={filename}, size={len(file_content)} bytes")
+        
+        # Run image analysis (OCR + Vision)
+        analysis = analyze_image(file_content, filename)
+        
+        # Combine OCR text and caption for RAG indexing
+        text_parts = []
+        if analysis.get("ocr_text"):
+            text_parts.append(analysis["ocr_text"])
+        if analysis.get("caption"):
+            text_parts.append(f"Fotoğraf açıklaması: {analysis['caption']}")
+        
+        combined_text = "\n\n".join(text_parts) if text_parts else ""
+        
+        # Limit text length
+        was_truncated = False
+        if len(combined_text) > MAX_TEXT_LENGTH:
+            combined_text = combined_text[:MAX_TEXT_LENGTH]
+            was_truncated = True
+        
+        logger.info(
+            f"[IMAGE_EXTRACT] Extraction complete: "
+            f"ocr_text_length={len(analysis.get('ocr_text', ''))}, "
+            f"caption_length={len(analysis.get('caption', ''))}, "
+            f"combined_length={len(combined_text)}, "
+            f"was_truncated={was_truncated}"
+        )
+        
+        return combined_text, was_truncated
+        
+    except Exception as e:
+        logger.error(f"[IMAGE_EXTRACT] Error extracting image: {str(e)}", exc_info=True)
+        # Return empty text if analysis fails (system should still work)
+        return "", False
+
+
 def extract_text_from_file(file_content: bytes, mime_type: str, filename: str) -> Tuple[str, bool]:
     """
     Extract text from file based on MIME type.
     Returns: (normalized_text, was_truncated)
-    STRICT: Only PDF, DOCX, TXT are supported.
+    Supports: PDF, DOCX, TXT, IMAGE (jpg/png/webp)
     """
     was_truncated = False
     
     logger.info(f"[TEXT_EXTRACT] Starting extraction: filename={filename}, mime_type={mime_type}, size={len(file_content)} bytes")
     
-    # STRICT validation: Only allow specific MIME types
+    # Check for image types first (before strict validation)
+    image_mime_types = {
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp"
+    }
+    
+    if mime_type in image_mime_types:
+        # Image files: use OCR + vision
+        image_extensions = {".jpg", ".jpeg", ".png", ".webp"}
+        file_ext = filename.lower()
+        if any(file_ext.endswith(ext) for ext in image_extensions):
+            raw_text, truncated = extract_text_from_image(file_content, filename)
+            was_truncated = was_truncated or truncated
+            # Images don't need normalization (already clean from OCR/vision)
+            return raw_text, was_truncated
+        else:
+            raise ValueError(f"Görüntü dosyası geçerli bir uzantıya sahip olmalıdır: {', '.join(image_extensions)}")
+    
+    # STRICT validation: Only allow specific MIME types for documents
     if mime_type == "application/pdf":
         if not filename.lower().endswith(".pdf"):
             raise ValueError("PDF dosyası .pdf uzantısına sahip olmalıdır")
@@ -183,7 +248,7 @@ def extract_text_from_file(file_content: bytes, mime_type: str, filename: str) -
         raw_text, truncated = extract_text_from_txt(file_content)
         was_truncated = was_truncated or truncated
     else:
-        raise ValueError(f"Desteklenmeyen dosya tipi: {mime_type}. İzin verilen: application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain")
+        raise ValueError(f"Desteklenmeyen dosya tipi: {mime_type}. İzin verilen: application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain, image/jpeg, image/png, image/webp")
     
     logger.info(f"[TEXT_EXTRACT] Raw text extracted: length={len(raw_text)}, has_content={bool(raw_text.strip())}")
     

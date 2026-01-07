@@ -32,7 +32,9 @@ async def save_message(
     role: str,
     content: str,
     sources: Optional[List[SourceInfo]] = None,
-    client_message_id: Optional[str] = None
+    client_message_id: Optional[str] = None,
+    document_ids: Optional[List[str]] = None,
+    used_documents: Optional[bool] = None
 ) -> bool:
     """
     Save a message to chat history with idempotency support.
@@ -92,6 +94,14 @@ async def save_message(
             "client_message_id": client_message_id,
             "created_at": datetime.utcnow()
         }
+        
+        # Add document_ids for user messages
+        if document_ids is not None:
+            message_doc["document_ids"] = document_ids
+        
+        # Add used_documents flag for assistant messages
+        if used_documents is not None:
+            message_doc["used_documents"] = used_documents
         
         await db.chat_messages.insert_one(message_doc)
         logger.debug(f"Memory: Saved {role} message for chat {chat_id[:8]}...")

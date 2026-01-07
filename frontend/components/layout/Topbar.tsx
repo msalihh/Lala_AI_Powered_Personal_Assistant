@@ -1,16 +1,20 @@
 "use client";
 
-import { Box, HStack, Text, Avatar, Menu, MenuButton, MenuList, MenuItem, IconButton, VStack, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
+import { Box, HStack, Text, Avatar, Menu, MenuButton, MenuList, MenuItem, IconButton, Divider, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { apiFetch } from "@/lib/api";
 import { useSidebar } from "@/contexts/SidebarContext";
+import LalaAILogo from "@/components/icons/LalaAILogo";
 
 interface UserResponse {
   id: string;
   username: string;
   email: string | null;
+  avatar_url?: string | null;
 }
 
 export default function Topbar() {
@@ -18,12 +22,15 @@ export default function Topbar() {
   const { isOpen, toggle } = useSidebar();
   const { colorMode, toggleColorMode } = useColorMode();
   const [user, setUser] = useState<UserResponse | null>(null);
-  
-  // Tema-aware renkler
-  const bgColor = useColorModeValue("#FFFFFF", "#0D1117");
+  const [selectedModule, setSelectedModule] = useState<"none" | "lgs_karekok">("none");
+
+  // Tema-aware renkler - Premium UI
+  const bgColor = useColorModeValue("rgba(255, 255, 255, 0.8)", "rgba(13, 17, 23, 0.8)");
   const borderColor = useColorModeValue("#D1D9E0", "#30363D");
   const textColor = useColorModeValue("#1F2328", "#E6EDF3");
-  const hoverBg = useColorModeValue("#E7ECF0", "#22272E");
+  const accentPrimary = "#10B981";
+  const accentSoft = "rgba(16, 185, 129, 0.1)";
+  const glassBg = useColorModeValue("rgba(246, 248, FA, 0.5)", "rgba(22, 27, 34, 0.5)");
 
   useEffect(() => {
     async function fetchUser() {
@@ -35,12 +42,53 @@ export default function Topbar() {
       }
     }
     fetchUser();
+
+    if (typeof window !== 'undefined') {
+      const savedModule = localStorage.getItem('selectedModule');
+      setSelectedModule(savedModule === 'lgs_karekok' ? 'lgs_karekok' : 'none');
+    }
+
+    const handleModuleChange = () => {
+      if (typeof window !== 'undefined') {
+        const savedModule = localStorage.getItem('selectedModule');
+        setSelectedModule(savedModule === 'lgs_karekok' ? 'lgs_karekok' : 'none');
+      }
+    };
+
+    window.addEventListener('moduleChanged', handleModuleChange);
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'selectedModule') {
+        handleModuleChange();
+      }
+    });
+
+    return () => {
+      window.removeEventListener('moduleChanged', handleModuleChange);
+    };
   }, []);
+
+  const handleModuleSwitch = async (module: "none" | "lgs_karekok") => {
+    if (typeof window === 'undefined' || selectedModule === module) return;
+
+    localStorage.setItem('selectedModule', module);
+
+    try {
+      const { createChat } = await import("@/lib/api");
+      const newChat = await createChat(undefined, module);
+      router.push(`/chat/${newChat.id}`);
+      window.dispatchEvent(new CustomEvent("newChat", { detail: { chatId: newChat.id } }));
+      window.dispatchEvent(new CustomEvent('moduleChanged'));
+    } catch (error) {
+      console.error("Failed to switch module:", error);
+      window.location.reload();
+    }
+  };
 
   return (
     <Box
-      h="60px"
+      h="64px"
       bg={bgColor}
+      backdropFilter="blur(12px)"
       borderBottom="1px"
       borderColor={borderColor}
       display="flex"
@@ -53,103 +101,143 @@ export default function Topbar() {
       right={0}
       zIndex={1000}
       transition="left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease"
-      sx={{
-        animation: "fadeInDown 0.4s ease-out",
-      }}
-      boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+      boxShadow="sm"
     >
-      <HStack spacing={3}>
-        <Box
-          position="relative"
-          w="32px"
-          h="32px"
-          sx={
-            !isOpen
-              ? {
-                  "&:hover .hace-logo": {
-                    opacity: "0 !important",
-                  },
-                  "&:hover .sidebar-toggle": {
-                    opacity: "1 !important",
-                  }
-                }
-              : {}
-          }
-        >
+      <HStack spacing={4} align="center">
+        {!isOpen && (
           <Box
-            className="hace-logo"
-            as="img"
-            src="/hace-logo.svg"
-            alt="HACE Logo"
-            w="32px"
-            h="32px"
-            position="absolute"
-            top={0}
-            left={0}
-            transition="opacity 0.2s ease"
-            opacity={1}
-          />
-          {/* Sidebar Toggle Button (hidden by default, shows on hover when sidebar is closed) */}
-          {!isOpen && (
-            <IconButton
-              className="sidebar-toggle"
-              icon={
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <line x1="9" y1="3" x2="9" y2="21" />
-                </svg>
-              }
-              aria-label="Kenar çubuğunu aç"
-              onClick={toggle}
-              size="sm"
-              variant="ghost"
-          color={useColorModeValue("#656D76", "#8B949E")}
-          bg="transparent"
-          position="absolute"
-          top={0}
-          left={0}
-          w="32px"
-          h="32px"
-          opacity={0}
-          _hover={{ 
-            bg: hoverBg, 
-            color: textColor,
-          }}
-              transition="all 0.2s ease"
-              borderRadius="md"
-              pointerEvents="auto"
-            />
-          )}
-        </Box>
-        <Text 
-          fontSize="xl" 
-          fontWeight="600"
-          color={textColor}
-          letterSpacing="tight"
+            w="36px"
+            h="36px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            borderRadius="xl"
+            bg={accentSoft}
+            cursor="pointer"
+            onClick={toggle}
+            _hover={{ bg: "rgba(16, 185, 129, 0.2)" }}
+            transition="all 0.2s"
+          >
+            <LalaAILogo size={24} />
+          </Box>
+        )}
+
+        {/* Premium Module Selector */}
+        <Box
+          display="flex"
+          alignItems="center"
+          bg={glassBg}
+          borderRadius="xl"
+          p="4px"
+          border="1px"
+          borderColor={borderColor}
+          position="relative"
+          overflow="hidden"
+          boxShadow="inner"
         >
-          HACE
-        </Text>
+          <HStack spacing={1} position="relative">
+            {/* Sliding Indicator */}
+            <AnimatePresence>
+              <motion.div
+                key={selectedModule}
+                layoutId="module-active-bg"
+                initial={false}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: selectedModule === "none" ? 0 : "165px",
+                  width: selectedModule === "none" ? "165px" : "210px",
+                  backgroundColor: accentPrimary,
+                  borderRadius: "8px",
+                  zIndex: 0,
+                }}
+                transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+              />
+            </AnimatePresence>
+
+            <Box
+              as="button"
+              onClick={() => handleModuleSwitch("none")}
+              px={4}
+              py={2}
+              borderRadius="lg"
+              fontSize="sm"
+              fontWeight="600"
+              transition="color 0.2s"
+              position="relative"
+              zIndex={1}
+              color={selectedModule === "none" ? "white" : textColor}
+              _hover={{ color: selectedModule === "none" ? "white" : accentPrimary }}
+              display="flex"
+              alignItems="center"
+              gap={2}
+              minW="165px"
+              justifyContent="center"
+            >
+              <Image src="/chat.png" alt="Chat" width={20} height={20} style={{ objectFit: 'contain' }} />
+              <Text>Kişisel Asistan</Text>
+            </Box>
+
+            <Box
+              as="button"
+              onClick={() => handleModuleSwitch("lgs_karekok")}
+              px={4}
+              py={2}
+              borderRadius="lg"
+              fontSize="sm"
+              fontWeight="600"
+              transition="color 0.2s"
+              position="relative"
+              zIndex={1}
+              color={selectedModule === "lgs_karekok" ? "white" : textColor}
+              _hover={{ color: selectedModule === "lgs_karekok" ? "white" : accentPrimary }}
+              display="flex"
+              alignItems="center"
+              gap={2}
+              minW="210px"
+              justifyContent="center"
+            >
+              <Image src="/square-root.png" alt="Square Root" width={20} height={20} style={{ objectFit: 'contain' }} />
+              <Text>LGS Karekök Asistanı</Text>
+            </Box>
+          </HStack>
+        </Box>
       </HStack>
 
-      {/* Tema Toggle Butonu - Sağ üst köşe */}
-      <HStack spacing={2}>
+      <HStack spacing={4}>
         <IconButton
-          aria-label={colorMode === "dark" ? "Aydınlık temaya geç" : "Karanlık temaya geç"}
+          aria-label="Tema değiştir"
           icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
           onClick={toggleColorMode}
           size="md"
           variant="ghost"
-          color={useColorModeValue("#656D76", "#8B949E")}
-          bg="transparent"
-          _hover={{ 
-            bg: hoverBg, 
-            color: textColor,
-          }}
-          transition="all 0.2s ease"
-          borderRadius="md"
+          color={accentPrimary}
+          _hover={{ bg: accentSoft }}
+          borderRadius="full"
         />
+        {user && (
+          <Menu>
+            <MenuButton>
+              <Avatar
+                size="sm"
+                name={user.username}
+                src={user.avatar_url || undefined}
+                border={`2px solid ${accentPrimary}`}
+              />
+            </MenuButton>
+            <MenuList bg={useColorModeValue("white", "#161B22")} borderColor={borderColor}>
+              <MenuItem onClick={() => router.push("/app")}>Profil</MenuItem>
+              <Divider />
+              <MenuItem color="red.500" onClick={() => {
+                const { removeToken } = require("@/lib/auth");
+                removeToken();
+                router.push("/login");
+              }}>Çıkış Yap</MenuItem>
+            </MenuList>
+          </Menu>
+        )}
       </HStack>
     </Box>
   );
 }
-

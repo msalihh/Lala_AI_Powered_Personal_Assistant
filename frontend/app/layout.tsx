@@ -2,15 +2,17 @@ import type { Metadata } from "next";
 import { ColorModeScript } from "@chakra-ui/react";
 import ChakraProviders from "@/providers/ChakraProvider";
 import { SidebarProvider } from "@/contexts/SidebarContext";
+import { ChatStoreProvider } from "@/contexts/ChatStoreContext";
 import "./globals.css";
 import "katex/dist/katex.min.css"; // KaTeX CSS - Global import for all pages
+import KaTeXWarningSuppressor from "@/components/KaTeXWarningSuppressor";
 
 export const metadata: Metadata = {
-  title: "HACE",
-  description: "HACE - AI-powered chat application",
+  title: "Lala",
+  description: "Lala - AI-powered chat application",
   icons: {
-    icon: "/hace-logo.svg",
-    apple: "/hace-logo.svg",
+    icon: "/lala-icon.png",
+    apple: "/lala-icon.png",
   },
 };
 
@@ -25,8 +27,11 @@ export default function RootLayout({
         <ColorModeScript initialColorMode="dark" />
       </head>
       <body suppressHydrationWarning>
+        <KaTeXWarningSuppressor />
         <ChakraProviders>
-          <SidebarProvider>{children}</SidebarProvider>
+          <ChatStoreProvider>
+            <SidebarProvider>{children}</SidebarProvider>
+          </ChatStoreProvider>
         </ChakraProviders>
       </body>
     </html>

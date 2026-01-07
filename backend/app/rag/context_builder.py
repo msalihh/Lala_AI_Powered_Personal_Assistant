@@ -40,15 +40,28 @@ def build_rag_context(
     # Use config default if not provided
     budget_max_tokens = max_tokens or context_config.max_tokens
     
-    # Group chunks by document for better organization
+    # Group chunks by document/email for better organization
+    # Separate documents and emails for clearer context building
     doc_chunks = {}
     for chunk in retrieved_chunks:
         doc_id = chunk.get('document_id', '')
         if not doc_id:
             continue
+        source_type = chunk.get('source_type', 'document')  # 'document' or 'email'
         if doc_id not in doc_chunks:
+            # Determine source label based on type
+            if source_type == 'email':
+                # For emails, use subject or sender as label
+                subject = chunk.get('subject', 'E-posta')
+                sender = chunk.get('sender', 'Bilinmeyen Gönderen')
+                source_label = f"{subject} ({sender})"
+            else:
+                # For documents, use filename
+                source_label = chunk.get('original_filename', 'Bilinmeyen Dosya')
+            
             doc_chunks[doc_id] = {
-                'filename': chunk.get('original_filename', 'Bilinmeyen Dosya'),
+                'filename': source_label,
+                'source_type': source_type,
                 'chunks': []
             }
         doc_chunks[doc_id]['chunks'].append(chunk)
@@ -60,8 +73,10 @@ def build_rag_context(
     chunks_excluded = 0
     
     # Process chunks in order (highest score first)
+    # Separate documents and emails for better organization
     for doc_id, doc_info in doc_chunks.items():
         filename = doc_info.get('filename', 'Bilinmeyen Dosya')
+        source_type = doc_info.get('source_type', 'document')
         chunks_text = []
         
         for chunk in doc_info['chunks']:
@@ -69,8 +84,16 @@ def build_rag_context(
             chunk_index = chunk.get('chunk_index', 0)
             chunk_tokens = chunk.get('token_count', estimate_tokens(chunk_text))
             
+            # Determine source label based on type
+            if source_type == 'email':
+                # For emails, use email-specific label
+                source_label = f"[E-posta: {filename}]"
+            else:
+                # For documents, use document-specific label
+                source_label = f"[Döküman: {filename}, Bölüm {chunk_index}]"
+            
             # Check if adding this chunk would exceed budget
-            chunk_with_label = f"[Kaynak: {filename}, Bölüm {chunk_index}]\n{chunk_text}" if include_sources else chunk_text
+            chunk_with_label = f"{source_label}\n{chunk_text}" if include_sources else chunk_text
             chunk_tokens_with_label = estimate_tokens(chunk_with_label)
             
             if used_tokens + chunk_tokens_with_label > budget_max_tokens:
@@ -84,7 +107,7 @@ def build_rag_context(
             
             # Add chunk
             if include_sources:
-                chunks_text.append(f"[Kaynak: {filename}, Bölüm {chunk_index}]\n{chunk_text}")
+                chunks_text.append(f"{source_label}\n{chunk_text}")
             else:
                 chunks_text.append(chunk_text)
             

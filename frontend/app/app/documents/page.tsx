@@ -50,6 +50,7 @@ export default function DocumentsPage() {
   const [documents, setDocuments] = useState<DocumentListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadingFiles, setUploadingFiles] = useState<string[]>([]); // Track uploading file names
   const [deleteDialog, setDeleteDialog] = useState<{ isOpen: boolean; id: string | null; filename: string }>({
     isOpen: false,
     id: null,
@@ -77,14 +78,14 @@ export default function DocumentsPage() {
   const pdfIconBg = accentSoft;
   const docxIconBg = accentSoft;
   const txtIconBg = useColorModeValue("#F0F3F6", "rgba(255, 255, 255, 0.05)");
-  
+
   const getFileIconBg = (mimeType: string) => {
     const type = formatMimeType(mimeType);
     if (type === "PDF") return pdfIconBg;
     if (type === "DOCX") return docxIconBg;
     return txtIconBg;
   };
-  
+
   const getFileIconColor = (mimeType: string) => {
     const type = formatMimeType(mimeType);
     return "green.500";
@@ -92,20 +93,40 @@ export default function DocumentsPage() {
 
   useEffect(() => {
     loadDocuments();
-    
+
     // Listen for chat deletion events to refresh document list
     const handleChatDeleted = () => {
       loadDocuments(); // Refresh when a chat is deleted
     };
-    
+
+    // Listen for module changes to reload documents
+    const handleModuleChange = () => {
+      loadDocuments(); // Refresh when module changes
+    };
+
     window.addEventListener("chatDeleted", handleChatDeleted);
-    return () => window.removeEventListener("chatDeleted", handleChatDeleted);
+    window.addEventListener("moduleChanged", handleModuleChange);
+    window.addEventListener("storage", (e) => {
+      if (e.key === 'selectedModule') {
+        loadDocuments();
+      }
+    });
+
+    return () => {
+      window.removeEventListener("chatDeleted", handleChatDeleted);
+      window.removeEventListener("moduleChanged", handleModuleChange);
+    };
   }, []);
 
   const loadDocuments = async () => {
     try {
       setIsLoading(true);
-      const docs = await listDocuments();
+      // Get current module from localStorage for filtering
+      const currentModule = typeof window !== 'undefined'
+        ? (localStorage.getItem('selectedModule') === 'lgs_karekok' ? 'lgs_karekok' as const : 'none' as const)
+        : 'none' as const;
+
+      const docs = await listDocuments(currentModule);
       setDocuments(docs);
     } catch (error: any) {
       toast({
@@ -123,92 +144,103 @@ export default function DocumentsPage() {
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
-    const file = files[0];
-    
-    // STRICT validation: Only PDF, DOCX, TXT
     const allowedExtensions = [".pdf", ".docx", ".txt"];
-    const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf("."));
-    if (!allowedExtensions.includes(fileExtension)) {
-      toast({
-        title: "Hata",
-        description: `Desteklenmeyen dosya tipi. İzin verilen: ${allowedExtensions.join(", ")}`,
-        status: "error",
-        duration: 3000,
-      });
-      return;
-    }
-    
-    // STRICT MIME type validation
     const allowedMimeTypes = [
       "application/pdf",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "text/plain"
     ];
-    
-    if (file.type && !allowedMimeTypes.includes(file.type)) {
+
+    const validFilesToUpload: File[] = [];
+    const invalidFiles: string[] = [];
+
+    Array.from(files).forEach((file) => {
+      const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf("."));
+      const isValidExtension = allowedExtensions.includes(fileExtension);
+      const isValidMime = !file.type || allowedMimeTypes.includes(file.type);
+
+      if (isValidExtension && isValidMime) {
+        validFilesToUpload.push(file);
+      } else {
+        invalidFiles.push(file.name);
+      }
+    });
+
+    if (invalidFiles.length > 0) {
       toast({
-        title: "Hata",
-        description: `Desteklenmeyen MIME tipi: ${file.type}. İzin verilen: ${allowedMimeTypes.join(", ")}`,
-        status: "error",
-        duration: 3000,
+        title: "Bazı dosyalar yüklenemedi",
+        description: `Şu dosyalar kriterlere uymuyor: ${invalidFiles.join(", ")}`,
+        status: "warning",
+        duration: 5000,
       });
-      return;
     }
 
-    // Validate file size (10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      toast({
-        title: "Hata",
-        description: "Dosya boyutu çok büyük. Maksimum: 10MB",
-        status: "error",
-        duration: 3000,
-      });
-      return;
-    }
+    if (validFilesToUpload.length === 0) return;
 
     try {
       setIsUploading(true);
-      const response = await uploadDocument(file);
-      
-      // Show success message
-      let description = `${file.name} başarıyla yüklendi`;
-      if (response.truncated) {
-        description += ". Metin çok büyük, kısaltılarak kaydedildi.";
-      }
-      
-      toast({
-        title: "Başarılı",
-        description: description,
-        status: "success",
-        duration: 5000,
+      setUploadingFiles(validFilesToUpload.map(f => f.name));
+
+      const uploadPromises = validFilesToUpload.map(async (file) => {
+        try {
+          const response = await uploadDocument(file);
+          setUploadingFiles(prev => prev.filter(name => name !== file.name));
+          return { success: true, name: file.name, response };
+        } catch (error: any) {
+          setUploadingFiles(prev => prev.filter(name => name !== file.name));
+          return { success: false, name: file.name, error: error.detail || "Yükleme hatası" };
+        }
       });
-      await loadDocuments(); // Reload list
-    } catch (error: any) {
-      // Show specific error messages
-      let errorMessage = error.detail || "Dosya yüklenemedi";
-      
-      if (error.code === "INVALID_FILE_SIGNATURE") {
-        errorMessage = "Dosya imza kontrolü başarısız: Dosya gerçek bir " + 
-          (file.name.toLowerCase().endsWith(".pdf") ? "PDF" : 
-           file.name.toLowerCase().endsWith(".docx") ? "DOCX" : "TXT") + 
-          " dosyası değil";
-      } else if (error.code === "FILE_TOO_LARGE") {
-        errorMessage = "Dosya boyutu çok büyük. Maksimum: 10MB";
-      } else if (error.code === "INVALID_FILE_TYPE") {
-        errorMessage = "Desteklenmeyen dosya tipi. İzin verilen: PDF, DOCX, TXT";
+
+      const results = await Promise.all(uploadPromises);
+      const successful = results.filter(r => r.success);
+      const failed = results.filter(r => !r.success);
+
+      if (successful.length > 0) {
+        toast({
+          title: "Yükleme Tamamlandı",
+          description: `${successful.length} dosya başarıyla yüklendi.`,
+          status: "success",
+          duration: 3000,
+        });
       }
-      
+
+      if (failed.length > 0) {
+        // Check if any failures are duplicates
+        const duplicates = failed.filter((f: any) => f.error?.includes("zaten mevcut") || f.error?.includes("DUPLICATE_FILE"));
+        const otherErrors = failed.filter((f: any) => !f.error?.includes("zaten mevcut") && !f.error?.includes("DUPLICATE_FILE"));
+
+        if (duplicates.length > 0) {
+          toast({
+            title: "Tekrarlanan Dosya",
+            description: `${duplicates.map((f: any) => f.name).join(", ")} zaten yüklü. Önce silmeniz gerekiyor.`,
+            status: "warning",
+            duration: 5000,
+          });
+        }
+
+        if (otherErrors.length > 0) {
+          toast({
+            title: "Bazı hatalar oluştu",
+            description: `${otherErrors.length} dosya yüklenemedi: ${otherErrors.map((f: any) => f.name).join(", ")}`,
+            status: "error",
+            duration: 5000,
+          });
+        }
+      }
+
+      await loadDocuments();
+    } catch (error: any) {
       toast({
         title: "Hata",
-        description: errorMessage,
+        description: error.detail || "Dosya yükleme işlemi başarısız oldu",
         status: "error",
         duration: 5000,
       });
     } finally {
       setIsUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      setUploadingFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -264,7 +296,7 @@ export default function DocumentsPage() {
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "DOCX",
       "text/plain": "TXT",
     };
-    
+
     return mimeMap[mimeType.toLowerCase()] || mimeType.split("/").pop()?.toUpperCase() || mimeType;
   };
 
@@ -285,8 +317,8 @@ export default function DocumentsPage() {
       <Box display="flex" h="100vh" bg={bgColor} position="relative">
         {/* Sidebar Toggle Button (when sidebar is closed) */}
         {!isOpen && (
-          <Tooltip 
-            label="Kenar çubuğunu aç" 
+          <Tooltip
+            label="Kenar çubuğunu aç"
             placement="right"
             hasArrow
           >
@@ -304,8 +336,8 @@ export default function DocumentsPage() {
               bg={useColorModeValue("white", "gray.800")}
               border="1px"
               borderColor={useColorModeValue("gray.200", "gray.700")}
-              _hover={{ 
-                bg: useColorModeValue("gray.50", "gray.700"), 
+              _hover={{
+                bg: useColorModeValue("gray.50", "gray.700"),
                 color: useColorModeValue("gray.900", "white"),
                 borderColor: useColorModeValue("gray.300", "gray.600")
               }}
@@ -319,18 +351,18 @@ export default function DocumentsPage() {
           </Tooltip>
         )}
         <Sidebar />
-        <Box 
-          flex={1} 
-          ml={isOpen ? "260px" : "0"} 
-          display="flex" 
+        <Box
+          flex={1}
+          ml={isOpen ? "260px" : "0"}
+          display="flex"
           flexDirection="column"
           transition="margin-left 0.3s ease"
         >
           <Topbar />
-          <Box 
-            flex={1} 
-            mt="60px" 
-            overflowY="auto" 
+          <Box
+            flex={1}
+            mt="60px"
+            overflowY="auto"
             p={6}
             position="relative"
             _before={{
@@ -348,8 +380,8 @@ export default function DocumentsPage() {
             <VStack spacing={6} align="stretch" maxW="7xl" mx="auto" position="relative" zIndex={1}>
               <Flex justify="space-between" align="center" flexWrap="wrap" gap={4}>
                 <VStack align="start" spacing={1}>
-                  <Heading 
-                    size="xl" 
+                  <Heading
+                    size="xl"
                     bgGradient={headingGradient}
                     bgClip="text"
                     fontWeight="bold"
@@ -364,6 +396,7 @@ export default function DocumentsPage() {
                   <input
                     ref={fileInputRef}
                     type="file"
+                    multiple
                     onChange={handleFileSelect}
                     style={{ display: "none" }}
                     accept=".pdf,.docx,.txt"
@@ -394,10 +427,35 @@ export default function DocumentsPage() {
                 </HStack>
               </Flex>
 
+              {/* Upload Progress Indicator */}
+              {uploadingFiles.length > 0 && (
+                <Card
+                  bg={cardBg}
+                  backdropFilter="blur(20px)"
+                  border="1px solid"
+                  borderColor="green.400"
+                  borderRadius="xl"
+                  boxShadow="0 8px 32px rgba(16, 185, 129, 0.2)"
+                  p={4}
+                >
+                  <HStack spacing={3}>
+                    <Spinner size="md" color="green.500" thickness="3px" />
+                    <VStack align="start" spacing={1}>
+                      <Text fontWeight="semibold" color={textPrimary} fontSize="sm">
+                        Dosyalar yükleniyor... ({uploadingFiles.length} kaldı)
+                      </Text>
+                      <Text fontSize="xs" color={textSecondary} noOfLines={2}>
+                        {uploadingFiles.join(", ")}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Card>
+              )}
+
               {isLoading ? (
                 <Box textAlign="center" py={16}>
-                  <Spinner 
-                    size="xl" 
+                  <Spinner
+                    size="xl"
                     thickness="4px"
                     speed="0.65s"
                     color="green.500"
@@ -408,7 +466,7 @@ export default function DocumentsPage() {
                   </Text>
                 </Box>
               ) : documents.length === 0 ? (
-                <Card 
+                <Card
                   bg={cardBg}
                   backdropFilter="blur(20px)"
                   border="1px solid"
@@ -466,9 +524,9 @@ export default function DocumentsPage() {
               ) : (
                 <Tabs index={activeTab} onChange={setActiveTab} colorScheme="green" variant="enclosed">
                   <TabList mb={4} borderBottom="2px solid" borderColor={borderColor}>
-                    <Tab 
-                      _selected={{ 
-                        color: "green.500", 
+                    <Tab
+                      _selected={{
+                        color: "green.500",
                         borderBottom: "2px solid",
                         borderColor: "green.500"
                       }}
@@ -476,9 +534,9 @@ export default function DocumentsPage() {
                     >
                       Tümü ({documents.length})
                     </Tab>
-                    <Tab 
-                      _selected={{ 
-                        color: "green.500", 
+                    <Tab
+                      _selected={{
+                        color: "green.500",
                         borderBottom: "2px solid",
                         borderColor: "green.500"
                       }}
@@ -486,9 +544,9 @@ export default function DocumentsPage() {
                     >
                       Bağımsız ({independentDocuments.length})
                     </Tab>
-                    <Tab 
-                      _selected={{ 
-                        color: "green.500", 
+                    <Tab
+                      _selected={{
+                        color: "green.500",
                         borderBottom: "2px solid",
                         borderColor: "green.500"
                       }}
@@ -503,173 +561,173 @@ export default function DocumentsPage() {
                     <TabPanel px={0}>
                       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
                         {documents.map((doc) => (
-                    <Card
-                      key={doc.id}
-                      bg={cardBg}
-                      backdropFilter="blur(20px)"
-                      border="1px solid"
-                      borderColor={borderColor}
-                      borderRadius="xl"
-                      boxShadow="0 4px 20px rgba(0, 0, 0, 0.1)"
-                      overflow="hidden"
-                      position="relative"
-                      transition="all 0.3s ease"
-                      _hover={{
-                        transform: "translateY(-4px)",
-                        boxShadow: "0 12px 40px rgba(16, 185, 129, 0.2)",
-                        borderColor: "green.400",
-                      }}
-                      _before={{
-                        content: '""',
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: "3px",
-                        bgGradient: doc.source === "upload" 
-                          ? "linear(to-r, green.500, green.600)"
-                          : "linear(to-r, green.400, green.500)",
-                      }}
-                    >
-                      <CardBody p={5}>
-                        <VStack align="stretch" spacing={4}>
-                          {/* File Header */}
-                          <HStack justify="space-between" align="start">
-                            <Box flex={1} minW={0}>
-                              <HStack spacing={2} mb={2}>
-                                <Box
-                                  p={2}
-                                  borderRadius="lg"
-                                  bg={getFileIconBg(doc.mime_type)}
-                                >
-                                  <AttachmentIcon 
-                                    boxSize={5} 
-                                    color={getFileIconColor(doc.mime_type)}
-                                  />
-                                </Box>
-                                <Badge
-                                  colorScheme="green"
-                                  fontSize="xs"
-                                  px={2}
-                                  py={1}
-                                  borderRadius="md"
-                                >
-                                  {formatMimeType(doc.mime_type)}
-                                </Badge>
-                              </HStack>
-                              <Text
-                                fontWeight="semibold"
-                                fontSize="md"
-                                color={textPrimary}
-                                noOfLines={2}
-                                mb={1}
-                              >
-                                {doc.filename}
-                              </Text>
-                            </Box>
-                          </HStack>
+                          <Card
+                            key={doc.id}
+                            bg={cardBg}
+                            backdropFilter="blur(20px)"
+                            border="1px solid"
+                            borderColor={borderColor}
+                            borderRadius="xl"
+                            boxShadow="0 4px 20px rgba(0, 0, 0, 0.1)"
+                            overflow="hidden"
+                            position="relative"
+                            transition="all 0.3s ease"
+                            _hover={{
+                              transform: "translateY(-4px)",
+                              boxShadow: "0 12px 40px rgba(16, 185, 129, 0.2)",
+                              borderColor: "green.400",
+                            }}
+                            _before={{
+                              content: '""',
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              height: "3px",
+                              bgGradient: doc.source === "upload"
+                                ? "linear(to-r, green.500, green.600)"
+                                : "linear(to-r, green.400, green.500)",
+                            }}
+                          >
+                            <CardBody p={5}>
+                              <VStack align="stretch" spacing={4}>
+                                {/* File Header */}
+                                <HStack justify="space-between" align="start">
+                                  <Box flex={1} minW={0}>
+                                    <HStack spacing={2} mb={2}>
+                                      <Box
+                                        p={2}
+                                        borderRadius="lg"
+                                        bg={getFileIconBg(doc.mime_type)}
+                                      >
+                                        <AttachmentIcon
+                                          boxSize={5}
+                                          color={getFileIconColor(doc.mime_type)}
+                                        />
+                                      </Box>
+                                      <Badge
+                                        colorScheme="green"
+                                        fontSize="xs"
+                                        px={2}
+                                        py={1}
+                                        borderRadius="md"
+                                      >
+                                        {formatMimeType(doc.mime_type)}
+                                      </Badge>
+                                    </HStack>
+                                    <Text
+                                      fontWeight="semibold"
+                                      fontSize="md"
+                                      color={textPrimary}
+                                      noOfLines={2}
+                                      mb={1}
+                                    >
+                                      {doc.filename}
+                                    </Text>
+                                  </Box>
+                                </HStack>
 
-                          <Divider borderColor={borderColor} />
+                                <Divider borderColor={borderColor} />
 
-                          {/* File Info */}
-                          <VStack align="stretch" spacing={2}>
-                            <HStack justify="space-between" fontSize="sm">
-                              <Text color={textSecondary}>Boyut:</Text>
-                              <Text fontWeight="medium" color={textPrimary}>
-                                {formatFileSize(doc.size)}
-                              </Text>
-                            </HStack>
-                            <HStack justify="space-between" fontSize="sm">
-                              <Text color={textSecondary}>Kaynak:</Text>
-                              <Badge
-                                colorScheme="green"
-                                fontSize="xs"
-                                px={2}
-                                py={1}
-                                borderRadius="md"
-                                variant={doc.source === "upload" ? "solid" : "outline"}
-                              >
-                                {doc.source === "upload" ? "Yükleme" : "Sohbet"}
-                              </Badge>
-                            </HStack>
-                            {doc.is_chat_scoped && doc.uploaded_from_chat_title && (
-                              <HStack justify="space-between" fontSize="sm">
-                                <Text color={textSecondary}>Sohbet:</Text>
-                                <Tooltip
-                                  label={`"${doc.uploaded_from_chat_title}" sohbetinden yüklendi`}
-                                  placement="top"
-                                  hasArrow
-                                >
-                                  <Text
-                                    fontWeight="medium"
-                                    color="green.400"
-                                    noOfLines={1}
-                                    maxW="150px"
-                                    cursor="help"
-                                  >
-                                    {doc.uploaded_from_chat_title.length > 15
-                                      ? doc.uploaded_from_chat_title.substring(0, 15) + "..."
-                                      : doc.uploaded_from_chat_title}
-                                  </Text>
-                                </Tooltip>
-                              </HStack>
-                            )}
-                            <HStack justify="space-between" fontSize="sm">
-                              <Text color={textSecondary}>Tarih:</Text>
-                              <Text fontWeight="medium" color={textPrimary} fontSize="xs">
-                                {formatDate(doc.created_at)}
-                              </Text>
-                            </HStack>
-                          </VStack>
+                                {/* File Info */}
+                                <VStack align="stretch" spacing={2}>
+                                  <HStack justify="space-between" fontSize="sm">
+                                    <Text color={textSecondary}>Boyut:</Text>
+                                    <Text fontWeight="medium" color={textPrimary}>
+                                      {formatFileSize(doc.size)}
+                                    </Text>
+                                  </HStack>
+                                  <HStack justify="space-between" fontSize="sm">
+                                    <Text color={textSecondary}>Kaynak:</Text>
+                                    <Badge
+                                      colorScheme="green"
+                                      fontSize="xs"
+                                      px={2}
+                                      py={1}
+                                      borderRadius="md"
+                                      variant={doc.source === "upload" ? "solid" : "outline"}
+                                    >
+                                      {doc.source === "upload" ? "Yükleme" : "Sohbet"}
+                                    </Badge>
+                                  </HStack>
+                                  {doc.is_chat_scoped && doc.uploaded_from_chat_title && (
+                                    <HStack justify="space-between" fontSize="sm">
+                                      <Text color={textSecondary}>Sohbet:</Text>
+                                      <Tooltip
+                                        label={`"${doc.uploaded_from_chat_title}" sohbetinden yüklendi`}
+                                        placement="top"
+                                        hasArrow
+                                      >
+                                        <Text
+                                          fontWeight="medium"
+                                          color="green.400"
+                                          noOfLines={1}
+                                          maxW="150px"
+                                          cursor="help"
+                                        >
+                                          {doc.uploaded_from_chat_title.length > 15
+                                            ? doc.uploaded_from_chat_title.substring(0, 15) + "..."
+                                            : doc.uploaded_from_chat_title}
+                                        </Text>
+                                      </Tooltip>
+                                    </HStack>
+                                  )}
+                                  <HStack justify="space-between" fontSize="sm">
+                                    <Text color={textSecondary}>Tarih:</Text>
+                                    <Text fontWeight="medium" color={textPrimary} fontSize="xs">
+                                      {formatDate(doc.created_at)}
+                                    </Text>
+                                  </HStack>
+                                </VStack>
 
-                          <Divider borderColor={borderColor} />
+                                <Divider borderColor={borderColor} />
 
-                          {/* Actions */}
-                          <HStack spacing={2} justify="flex-end">
-                            <Tooltip label="Görüntüle" placement="top" hasArrow>
-                              <IconButton
-                                icon={<ViewIcon />}
-                                aria-label="Görüntüle"
-                                size="md"
-                                variant="ghost"
-                                colorScheme="green"
-                                onClick={() => router.push(`/app/documents/${doc.id}`)}
-                                _hover={{
-                                  bg: "green.50",
-                                  color: "green.600",
-                                  transform: "scale(1.1)",
-                                }}
-                                transition="all 0.2s ease"
-                              />
-                            </Tooltip>
-                            <Tooltip label="Sil" placement="top" hasArrow>
-                              <IconButton
-                                icon={<DeleteIcon />}
-                                aria-label="Sil"
-                                size="md"
-                                variant="ghost"
-                                colorScheme="red"
-                                onClick={() => handleDeleteClick(doc.id, doc.filename)}
-                                _hover={{
-                                  bg: "red.50",
-                                  color: "red.600",
-                                  transform: "scale(1.1)",
-                                }}
-                                transition="all 0.2s ease"
-                              />
-                            </Tooltip>
-                          </HStack>
-                        </VStack>
-                      </CardBody>
-                    </Card>
-                  ))}
+                                {/* Actions */}
+                                <HStack spacing={2} justify="flex-end">
+                                  <Tooltip label="Görüntüle" placement="top" hasArrow>
+                                    <IconButton
+                                      icon={<ViewIcon />}
+                                      aria-label="Görüntüle"
+                                      size="md"
+                                      variant="ghost"
+                                      colorScheme="green"
+                                      onClick={() => router.push(`/app/documents/${doc.id}`)}
+                                      _hover={{
+                                        bg: "green.50",
+                                        color: "green.600",
+                                        transform: "scale(1.1)",
+                                      }}
+                                      transition="all 0.2s ease"
+                                    />
+                                  </Tooltip>
+                                  <Tooltip label="Sil" placement="top" hasArrow>
+                                    <IconButton
+                                      icon={<DeleteIcon />}
+                                      aria-label="Sil"
+                                      size="md"
+                                      variant="ghost"
+                                      colorScheme="red"
+                                      onClick={() => handleDeleteClick(doc.id, doc.filename)}
+                                      _hover={{
+                                        bg: "red.50",
+                                        color: "red.600",
+                                        transform: "scale(1.1)",
+                                      }}
+                                      transition="all 0.2s ease"
+                                    />
+                                  </Tooltip>
+                                </HStack>
+                              </VStack>
+                            </CardBody>
+                          </Card>
+                        ))}
                       </SimpleGrid>
                     </TabPanel>
 
                     {/* Bağımsız Tab */}
                     <TabPanel px={0}>
                       {independentDocuments.length === 0 ? (
-                        <Card 
+                        <Card
                           bg={cardBg}
                           backdropFilter="blur(20px)"
                           border="1px solid"
@@ -763,8 +821,8 @@ export default function DocumentsPage() {
                                           borderRadius="lg"
                                           bg={getFileIconBg(doc.mime_type)}
                                         >
-                                          <AttachmentIcon 
-                                            boxSize={5} 
+                                          <AttachmentIcon
+                                            boxSize={5}
                                             color={getFileIconColor(doc.mime_type)}
                                           />
                                         </Box>
@@ -867,7 +925,7 @@ export default function DocumentsPage() {
                     {/* Sohbetlerden Tab */}
                     <TabPanel px={0}>
                       {chatDocuments.length === 0 ? (
-                        <Card 
+                        <Card
                           bg={cardBg}
                           backdropFilter="blur(20px)"
                           border="1px solid"
@@ -943,8 +1001,8 @@ export default function DocumentsPage() {
                                           borderRadius="lg"
                                           bg={getFileIconBg(doc.mime_type)}
                                         >
-                                          <AttachmentIcon 
-                                            boxSize={5} 
+                                          <AttachmentIcon
+                                            boxSize={5}
                                             color={getFileIconColor(doc.mime_type)}
                                           />
                                         </Box>
@@ -1081,7 +1139,7 @@ export default function DocumentsPage() {
         motionPreset="slideInBottom"
       >
         <AlertDialogOverlay bg="blackAlpha.600" backdropFilter="blur(4px)" />
-                  <AlertDialogContent bg={cardBg} borderRadius="xl" boxShadow="2xl" border="1px solid" borderColor={borderColor}>
+        <AlertDialogContent bg={cardBg} borderRadius="xl" boxShadow="2xl" border="1px solid" borderColor={borderColor}>
           <AlertDialogHeader fontSize="lg" fontWeight="bold" pb={2} color={textPrimary}>
             Dosyayı Sil
           </AlertDialogHeader>

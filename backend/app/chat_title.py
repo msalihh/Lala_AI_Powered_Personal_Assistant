@@ -16,9 +16,9 @@ from app.memory import get_recent_messages
 logger = logging.getLogger(__name__)
 
 # OpenRouter API Configuration (reuse from main.py)
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")  # Optimized mini model for title generation
 
 # Title update policy constants
 TITLE_UPDATE_SIMILARITY_THRESHOLD = 0.55  # Embedding similarity threshold for topic drift
@@ -375,15 +375,17 @@ async def generateAndSetTitle(
         # Get first message for fallback
         first_message = user_messages[0]
         
-        # Try Layer B (LLM) first
-        title = await generateLLMTitle(
-            user_messages=user_messages[:3],
-            chat_mode=chat_mode,
-            document_filenames=document_filenames
-        )
-        title_source = "llm"
+        # Try Layer B (LLM) first -> DISABLED FOR STABILITY
+        # CRITICAL FIX: Skip LLM title generation to save rate limits
+        # title = await generateLLMTitle(
+        #     user_messages=user_messages[:3],
+        #     chat_mode=chat_mode,
+        #     document_filenames=document_filenames
+        # )
+        title = None  # Force fallback
+        title_source = "fallback"  # Default to fallback immediately
         
-        # Fallback to Layer A if LLM fails
+        # Fallback to Layer A if LLM fails (or is disabled)
         if not title:
             title = generateFallbackTitle(
                 first_message=first_message,

@@ -1,0 +1,7400 @@
+[
+    {
+        "id": "LGS-KK-001",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "27",
+                "C": "35",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-002",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "81, 75, 121, 256, 16, 64, 36, 42, 24 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "5",
+                "C": "4",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-003",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "15 ile 75 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "4",
+                "C": "5",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-004",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir basamaklı en büyük tam kare sayı ile üç basamaklı en küçük tam kare sayının toplamı kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "130",
+                "B": "125",
+                "C": "116",
+                "D": "109"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "basamak"
+        ]
+    },
+    {
+        "id": "LGS-KK-005",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Birler basamağı 9 olan üç basamaklı kaç tane tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "5",
+                "C": "6",
+                "D": "7"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "basamak"
+        ]
+    },
+    {
+        "id": "LGS-KK-006",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Yüzler basamağı 2 olan üç basamaklı kaç tane tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "basamak"
+        ]
+    },
+    {
+        "id": "LGS-KK-007",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Babası Ali'ye ekim ayının yalnızca tam kare sayı olan günlerinde yirmişer lira harçlık vermiştir. Ali, ekim ayında toplam kaç lira harçlık almıştır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "40",
+                "B": "60",
+                "C": "100",
+                "D": "120"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "günlük hayat"
+        ]
+    },
+    {
+        "id": "LGS-KK-008",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Aşağıdaki çarpma işlemlerinden hangisinin sonucu bir tam kare sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12 × 48",
+                "B": "50 × 18",
+                "C": "24 × 54",
+                "D": "75 × 15"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-009",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "240 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "5",
+                "C": "15",
+                "D": "20"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-010",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√(√36) ifadesi aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1296",
+                "B": "72",
+                "C": "18",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "iç içe"
+        ]
+    },
+    {
+        "id": "LGS-KK-011",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√49 + √144 − √81 işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√64",
+                "B": "√100",
+                "C": "√121",
+                "D": "√225"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-012",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "kaynak": "MEB",
+        "zorluk": "zor",
+        "soru": {
+            "metin": "Mavi ve beyaz bölmelerden oluşan kartlar belirli bir kurala göre birbirine yapıştırılacaktır. Bu dört kartın yapıştırılması tamamlandıktan sonra aynı kurala göre, dördüncü kartın sağına bir kart daha yapıştırılırsa bu kart hangisi olabilir?",
+            "gorseller": [
+                "q012.png"
+            ],
+            "siklar": {
+                "A": "[6, √81]",
+                "B": "[9, √64]",
+                "C": "[25, √36]",
+                "D": "[4, √25]"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "örüntü",
+            "görsel"
+        ]
+    },
+    {
+        "id": "LGS-KK-013",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 16 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "12",
+                "C": "16",
+                "D": "32"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-014",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Dört odalı bir evin her bir odasının tabanı verilen sayılarda kare şeklindeki fayanslarla döşenmiştir. Her bir model fayans bir odaya döşendiğine göre, hangi fayansın döşendiği taban kare şeklinde olamaz?",
+            "gorseller": [
+                "q014.png"
+            ],
+            "siklar": {
+                "A": "156 adet",
+                "B": "196 adet",
+                "C": "225 adet",
+                "D": "256 adet"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "fayans",
+            "görsel"
+        ]
+    },
+    {
+        "id": "LGS-KK-015",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Esra, bir kenarının uzunluğu 4 cm olan kare şeklindeki 5 eş karton parçasını kare şeklindeki bir mukavvaya yapıştırmıştır. Bu mukavvanın bir yüzünün tamamının kaplanması için bu karton parçalarından en az kaç tane daha gereklidir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "kare",
+            "kaplama"
+        ]
+    },
+    {
+        "id": "LGS-KK-016",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Her birinin alanı 18 cm² olan iki eş dikdörtgenin uzun kenarları çakıştırıldığında bir kare oluşuyor. Bu karenin bir kenarının uzunluğu kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "9",
+                "C": "12",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-017",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 64 cm² ile 144 cm² arasında olan bir karenin çevresi santimetre cinsinden aşağıdakilerden hangisi olabilir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "28",
+                "B": "43",
+                "C": "51",
+                "D": "56"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-018",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Şekildeki yan yana çizilmiş karelerin alanları sırasıyla 576 cm², 441 cm² ve 25 cm² dir. Buna göre |AB| kaç santimetredir?",
+            "gorseller": [
+                "q018.png"
+            ],
+            "siklar": {
+                "A": "50",
+                "B": "75",
+                "C": "96",
+                "D": "144"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "kenar"
+        ]
+    },
+    {
+        "id": "LGS-KK-019",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Dikdörtgen şeklindeki kartondan, alanları 81 cm², 36 cm² ve 25 cm² olan kare şeklindeki üç parça kesilerek çıkarılıyor. Buna göre kalan karton parçasının çevresi kaç santimetredir?",
+            "gorseller": [
+                "q019.png"
+            ],
+            "siklar": {
+                "A": "30",
+                "B": "32",
+                "C": "34",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-020",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Şekildeki ABCD karesinin alanı 225 cm² ve boyalı bölgenin alanı 81 cm² dir. Buna göre EFGH karesinin bir kenarının uzunluğu kaç santimetredir?",
+            "gorseller": [
+                "q020.png"
+            ],
+            "siklar": {
+                "A": "6",
+                "B": "12",
+                "C": "16",
+                "D": "17"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "iç içe kare"
+        ]
+    },
+    {
+        "id": "LGS-KK-021",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Şekildeki ABCD ve KLMD karelerinin alanları sırasıyla 169 cm² ve 25 cm² dir. Buna göre, |AK| kaç santimetredir?",
+            "gorseller": [
+                "q021.png"
+            ],
+            "siklar": {
+                "A": "5",
+                "B": "8",
+                "C": "9",
+                "D": "12"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "kenar farkı"
+        ]
+    },
+    {
+        "id": "LGS-KK-022",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kareli zeminde verilen şeklin alanı 117 cm² dir. Buna göre, |AB| kaç santimetredir?",
+            "gorseller": [
+                "q022.png"
+            ],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "6",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "birim kare"
+        ]
+    },
+    {
+        "id": "LGS-KK-023",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Şekilde alanları 25 m², 16 m², 9 m² ve 4 m² olan karelerin köşeleri uç uca eklenmiştir. Buna göre A noktasından B noktasına kenarlar kullanılarak gidilen en kısa uzaklık kaç metredir?",
+            "gorseller": [
+                "q023.png"
+            ],
+            "siklar": {
+                "A": "14",
+                "B": "24",
+                "C": "32",
+                "D": "34"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "yol"
+        ]
+    },
+    {
+        "id": "LGS-KK-024",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "zor",
+        "soru": {
+            "metin": "Bir tel, şekildeki gibi kıvrılarak üç tane kare oluşturuluyor. Karelerin sınırladıkları bölgelerin alanları 25 cm², 49 cm² ve 64 cm² olduğuna göre, bu tel ile oluşturulabilecek en büyük karenin sınırladığı bölgenin alanı kaç santimetrekare olur?",
+            "gorseller": [
+                "q024.png"
+            ],
+            "siklar": {
+                "A": "100",
+                "B": "138",
+                "C": "225",
+                "D": "400"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre",
+            "maksimum"
+        ]
+    },
+    {
+        "id": "LGS-KK-025",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Efe, proje ödevi için alanı 484 cm² olan kare şeklindeki kartondan, alanları otuz altışar santimetrekare olan iki kareyi şekildeki gibi kesip çıkarmıştır. Kalan kartonun çevre uzunluğu kaç cm dir?",
+            "gorseller": [
+                "q025.png"
+            ],
+            "siklar": {
+                "A": "88",
+                "B": "112",
+                "C": "124",
+                "D": "136"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-026",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 81 m² olan kare şeklindeki bir bahçenin etrafına 3 sıra dikenli tel çekilecektir. Bu bahçe için kullanılacak dikenli telin uzunluğu kaç metredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "27",
+                "B": "36",
+                "C": "108",
+                "D": "243"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre",
+            "tel"
+        ]
+    },
+    {
+        "id": "LGS-KK-027",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Şekildeki ABCD karesinin alanı 144 cm², EFGH karesinin alanı 81 cm² dir. |AF| = 19 cm ise taralı şeklin çevresi kaç cm dir?",
+            "gorseller": [
+                "q027.png"
+            ],
+            "siklar": {
+                "A": "34",
+                "B": "28",
+                "C": "22",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-028",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Şekildeki ABCD karesinin içine, EFGH karesi çizilerek aralarındaki bölge boyanmıştır. EFGH karesinin çevre uzunluğu 12 cm ve taralı bölgenin alanı 55 cm² olduğuna göre, ABCD karesinin çevre uzunluğu kaç santimetredir?",
+            "gorseller": [
+                "q028.png"
+            ],
+            "siklar": {
+                "A": "24",
+                "B": "28",
+                "C": "32",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre",
+            "iç içe kare"
+        ]
+    },
+    {
+        "id": "LGS-KK-029",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdaki sayılardan hangisi, kenar uzunluğu tam sayı olmayan bir karenin alanını gösterir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "25",
+                "C": "32",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "irrasyonel"
+        ]
+    },
+    {
+        "id": "LGS-KK-030",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√75 sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6 ile 7",
+                "B": "7 ile 8",
+                "C": "8 ile 9",
+                "D": "9 ile 10"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-031",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 39 m² olan kare şeklindeki bir bahçenin bir kenar uzunluğu, hangi metreler arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4 - 5",
+                "B": "5 - 6",
+                "C": "6 - 7",
+                "D": "7 - 8"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-032",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Sena'nın evi ile okulu arasındaki mesafe 5 km'den fazla 6 km'den azdır. Buna göre, Sena'nın evi ile okulu arasındaki mesafe kilometre cinsinden aşağıdakilerden hangisi olabilir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√18",
+                "B": "√24",
+                "C": "√34",
+                "D": "√40"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "mesafe"
+        ]
+    },
+    {
+        "id": "LGS-KK-033",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "9 < √b < 10 şartını sağlayan kaç farklı b tam sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "16",
+                "C": "17",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "eşitsizlik"
+        ]
+    },
+    {
+        "id": "LGS-KK-034",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Karekökü tam sayı olmayan iki basamaklı kaç tane doğal sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "84",
+                "B": "86",
+                "C": "88",
+                "D": "90"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-035",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi sayı doğrusunda 8 ile 9 arasında ve 9'a daha yakındır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√65",
+                "B": "√72",
+                "C": "√80",
+                "D": "√83"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "yaklaşıklık"
+        ]
+    },
+    {
+        "id": "LGS-KK-036",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√132 sayısına en yakın tam sayı aşağıdakilerden hangisidir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11",
+                "B": "12",
+                "C": "13",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "yaklaşıklık"
+        ]
+    },
+    {
+        "id": "LGS-KK-037",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√17 ve √125 sayıları arasında kaç tane tam sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "7",
+                "C": "8",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "aralık",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-038",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√34 ile √101 sayıları arasında kaç tane tam sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "5",
+                "C": "6",
+                "D": "7"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "aralık",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-039",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Sayı doğrusunda gösterilen a ve b ardışık tam sayılar olduğuna göre √247 için a + b kaçtır?",
+            "gorseller": [
+                "q039.png"
+            ],
+            "siklar": {
+                "A": "27",
+                "B": "29",
+                "C": "31",
+                "D": "33"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sayı doğrusu"
+        ]
+    },
+    {
+        "id": "LGS-KK-040",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Sayı doğrusunda A ile gösterilen sayı aşağıdakilerden hangisi olabilir? (A noktası 12.5 ile 13 arasındadır)",
+            "gorseller": [
+                "q040.png"
+            ],
+            "siklar": {
+                "A": "√150",
+                "B": "√155",
+                "C": "√158",
+                "D": "√168"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sayı doğrusu"
+        ]
+    },
+    {
+        "id": "LGS-KK-041",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Sayı doğrusunda ardışık iki tam sayı arasındaki uzaklık 1 birimdir. A ve B noktaları arasındaki uzaklık birim cinsinden aşağıdakilerden hangisi olabilir?",
+            "gorseller": [
+                "q041.png"
+            ],
+            "siklar": {
+                "A": "√3",
+                "B": "√10",
+                "C": "√18",
+                "D": "√20"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "uzaklık"
+        ]
+    },
+    {
+        "id": "LGS-KK-042",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Eşit aralıklara bölünmüş sayı doğrusu üzerinde A, B, C, D noktaları işaretlenmiştir. Bu noktalardan hangisi √35 ile eşleşen noktaya en yakın konumdadır?",
+            "gorseller": [
+                "q042.png"
+            ],
+            "siklar": {
+                "A": "A",
+                "B": "B",
+                "C": "C",
+                "D": "D"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayı doğrusu"
+        ]
+    },
+    {
+        "id": "LGS-KK-043",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "O noktasında bulunan bir araç √210 km yol aldığında bulunduğu yer, hangi ardışık iki nokta arasında olur? (K=6, L=11, M=16, N=21, P=26)",
+            "gorseller": [
+                "q043.png"
+            ],
+            "siklar": {
+                "A": "M ile N",
+                "B": "N ile P",
+                "C": "O ile K",
+                "D": "L ile M"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "mesafe",
+            "görsel"
+        ]
+    },
+    {
+        "id": "LGS-KK-044",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "zor",
+        "soru": {
+            "metin": "Bir gülle atma yarışmasında puan = √x sayısının en yakın olduğu tam sayı. Bu yarışmadan 4 puan alan bir yarışmacının attığı güllenin düştüğü yerin başlangıç çizgisine olan uzaklığı metre cinsinden aşağıdakilerden hangisi olabilir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "12",
+                "C": "19",
+                "D": "21"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "spor",
+            "yaklaşıklık"
+        ]
+    },
+    {
+        "id": "LGS-KK-045",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir okçu çapı 1 metre, yerden yüksekliği 3 metre olan hedef tahtasına atış yapmaktadır. Atılan ok hedef tahtasına isabet ettiğine göre, saplandığı noktanın yerden yüksekliği, metre cinsinden aşağıdakilerden hangisi olabilir?",
+            "gorseller": [
+                "q045.png"
+            ],
+            "siklar": {
+                "A": "√6",
+                "B": "√8",
+                "C": "√15",
+                "D": "√18"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "spor",
+            "yükseklik"
+        ]
+    },
+    {
+        "id": "LGS-KK-046",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "zor",
+        "soru": {
+            "metin": "10 metrelik düz bir pistte Can başlangıç çizgisinde, Ali ise Can'ın 1 metre önündedir. Can √65 m, Ali √48 m yol aldıklarına göre Ali ve Can'ın son durumdaki konumları ile ilgili aşağıdakilerden hangisi yanlıştır?",
+            "gorseller": [
+                "q046.png"
+            ],
+            "siklar": {
+                "A": "Ali'nin bitiş çizgisine olan uzaklığı 2-3 m arasındadır",
+                "B": "Can'ın bitiş çizgisine olan uzaklığı 1-2 m arasındadır",
+                "C": "Can bitiş çizgisine Ali'den daha yakındır",
+                "D": "Ali ile Can'ın birbirine olan uzaklığı 1 metreden fazladır"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "spor",
+            "mesafe"
+        ]
+    },
+    {
+        "id": "LGS-KK-047",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Selim, bir yüzünün alanı 150 cm² olan küp şeklindeki bir oyuncağı hediye kutusuna koymuştur. Bu oyuncak, aşağıda ayrıt uzunlukları verilen dik prizma şeklindeki hediye kutularından hangisinin içinde olabilir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14 × 13 × 13 cm",
+                "B": "12 × 14 × 13 cm",
+                "C": "16 × 11 × 14 cm",
+                "D": "15 × 16 × 12 cm"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "küp",
+            "hacim"
+        ]
+    },
+    {
+        "id": "LGS-KK-048",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "zor",
+        "soru": {
+            "metin": "17 boncuk, 8 cm, 29 cm ve a cm uzunluğunda üç ipe takılacak. Her ipe √uzunluk sayısının en yakın olduğu doğal sayı kadar boncuk. 2 boncuk kalıyorsa a en az kaçtır?",
+            "gorseller": [
+                "q048.png"
+            ],
+            "siklar": {
+                "A": "31",
+                "B": "43",
+                "C": "57",
+                "D": "73"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "boncuk",
+            "problem"
+        ]
+    },
+    {
+        "id": "LGS-KK-049",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Sayı doğrusunda L noktası 9'dur, K ile L arasındaki uzaklık √27 birimdir. K noktası hangi iki sayı arasındadır?",
+            "gorseller": [
+                "q049.png"
+            ],
+            "siklar": {
+                "A": "2 ile 3",
+                "B": "3 ile 4",
+                "C": "4 ile 5",
+                "D": "5 ile 6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayı doğrusu"
+        ]
+    },
+    {
+        "id": "LGS-KK-050",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Uzunluğu 11 m olan bir halattan √59 m uzunluğunda bir parça kesilip atılmıştır. Kalan parçanın metre cinsinden uzunluğu hangi iki doğal sayı arasındadır?",
+            "gorseller": [
+                "q050.png"
+            ],
+            "siklar": {
+                "A": "2 ile 3",
+                "B": "3 ile 4",
+                "C": "4 ile 5",
+                "D": "5 ile 6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-051",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√108 sayısı a√3 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "5",
+                "C": "6",
+                "D": "7"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-052",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√48 sayısı a√3 biçiminde yazıldığında a kaç olur?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-053",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√180 sayısı a√b biçiminde yazıldığında a + b toplamı kaç olur?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "9",
+                "C": "10",
+                "D": "11"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-054",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√5 = √a olduğuna göre a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "25",
+                "C": "35",
+                "D": "45"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "dönüşüm"
+        ]
+    },
+    {
+        "id": "LGS-KK-055",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi √32 sayısına eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8√2",
+                "B": "4√2",
+                "C": "4√4",
+                "D": "16√2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-056",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdaki sayılardan hangisi √500 sayısına eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√20",
+                "B": "10√50",
+                "C": "5√5",
+                "D": "10√5"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "eşitlik"
+        ]
+    },
+    {
+        "id": "LGS-KK-057",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi 5√3 sayısına eşit değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√15 · √5",
+                "B": "√50 · √3 / √2",
+                "C": "√75",
+                "D": "√225 / √3"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "eşitlik",
+            "işlem"
+        ]
+    },
+    {
+        "id": "LGS-KK-058",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√a · √2 = 6 olduğuna göre a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "18",
+                "B": "12",
+                "C": "8",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "denklem"
+        ]
+    },
+    {
+        "id": "LGS-KK-059",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√12 · √a = 12 olduğuna göre a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "12",
+                "C": "24",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "denklem"
+        ]
+    },
+    {
+        "id": "LGS-KK-060",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√a = b√5 ve a = 80 olduğuna göre b kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "6",
+                "C": "8",
+                "D": "10"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "dönüşüm"
+        ]
+    },
+    {
+        "id": "LGS-KK-061",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "2√7 sayısını √a biçiminde yazdığımızda a kaç olur?",
+            "gorseller": [],
+            "siklar": {
+                "A": "28",
+                "B": "14",
+                "C": "9",
+                "D": "7"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "dönüşüm"
+        ]
+    },
+    {
+        "id": "LGS-KK-062",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√72 sayısını a√2 biçiminde yazdığımızda a + 2 toplamı kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "7",
+                "C": "8",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-063",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√200 sayısını en sade biçimde yazınca kaç olur?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10√2",
+                "B": "5√8",
+                "C": "2√50",
+                "D": "4√12"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-064",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√245 sayısını en sade biçimde yazınca kaç olur?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√5",
+                "B": "5√7",
+                "C": "49√5",
+                "D": "5√49"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-065",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi diğerlerinden farklıdır? (3√20, 6√5, 2√45, √180)",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√20",
+                "B": "6√5",
+                "C": "2√45",
+                "D": "√180"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "eşitlik"
+        ]
+    },
+    {
+        "id": "LGS-KK-066",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi diğerlerinden farklıdır? (4√3, 2√12, √48, √45)",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√3",
+                "B": "2√12",
+                "C": "√48",
+                "D": "√45"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök"
+        ]
+    },
+    {
+        "id": "LGS-KK-067",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√98 = a√2 ise a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "49",
+                "B": "7",
+                "C": "14",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-068",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Farklı Yazım Biçimleri",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "5√2 = √a ise a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "25",
+                "C": "32",
+                "D": "50"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "dönüşüm"
+        ]
+    },
+    {
+        "id": "LGS-KK-069",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√27 · √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "9",
+                "C": "27",
+                "D": "81"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-070",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√12 · √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "6",
+                "C": "9",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-071",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√18 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "6",
+                "C": "3",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-072",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√75 / √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "5",
+                "C": "15",
+                "D": "√25"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-073",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√3 · 3√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√5",
+                "B": "6√6",
+                "C": "6√5",
+                "D": "5√6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-074",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√5 · 2√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "6",
+                "C": "25",
+                "D": "30"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-075",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√50 · √8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "20",
+                "C": "40",
+                "D": "400"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-076",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√5 · √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "10",
+                "C": "25",
+                "D": "√10"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-077",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√3 · √12 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "36",
+                "C": "6",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-078",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√6 · 3√6 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "36",
+                "C": "18",
+                "D": "6√6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-079",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√20 · √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "10",
+                "C": "25",
+                "D": "100"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-080",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "6√2 / 3√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√2",
+                "B": "2",
+                "C": "3",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-081",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√128 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "8",
+                "C": "16",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-082",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√180 / √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "6",
+                "C": "18",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-083",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√8 · √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "8",
+                "C": "16",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-084",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4√3 · 2√3 / 8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "6",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "işlem"
+        ]
+    },
+    {
+        "id": "LGS-KK-085",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√45 / √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "5",
+                "C": "3",
+                "D": "√9"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-086",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√5 · √20 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "20",
+                "C": "40",
+                "D": "100"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-087",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√72 / √8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "8",
+                "C": "3",
+                "D": "√9"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-088",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√2 · 4√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "24",
+                "C": "36",
+                "D": "7√2"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-089",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√63 · √7 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "21",
+                "C": "49",
+                "D": "441"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-090",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "10√3 / 2√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "5",
+                "C": "10",
+                "D": "15"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-091",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(√6)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "6",
+                "C": "12",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "kare"
+        ]
+    },
+    {
+        "id": "LGS-KK-092",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(2√3)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "12",
+                "C": "18",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "kare"
+        ]
+    },
+    {
+        "id": "LGS-KK-093",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(3√5)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "45",
+                "C": "75",
+                "D": "225"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "kare"
+        ]
+    },
+    {
+        "id": "LGS-KK-094",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "(√7)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "14",
+                "C": "49",
+                "D": "√49"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "kare"
+        ]
+    },
+    {
+        "id": "LGS-KK-095",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√2 · √8 · √4 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "8",
+                "C": "16",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-096",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√9 · √4 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "12",
+                "C": "36",
+                "D": "√36"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-097",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√12 · √27 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "18",
+                "C": "27",
+                "D": "324"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma"
+        ]
+    },
+    {
+        "id": "LGS-KK-098",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√48 / √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "4",
+                "C": "8",
+                "D": "√16"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-099",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√36 / √9 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-100",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Çarpma ve Bölme",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√100 / √25 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "5",
+                "D": "10"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "bölme"
+        ]
+    },
+    {
+        "id": "LGS-KK-101",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "2√3 + 5√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√3",
+                "B": "7√6",
+                "C": "10√3",
+                "D": "7√9"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama"
+        ]
+    },
+    {
+        "id": "LGS-KK-102",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "8√5 − 3√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "5√5",
+                "C": "11√5",
+                "D": "5√10"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-103",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√2 + √8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√10",
+                "B": "4√2",
+                "C": "5√2",
+                "D": "√26"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-104",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√12 + √27 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√39",
+                "B": "5√3",
+                "C": "6√3",
+                "D": "39"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-105",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√50 − √18 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√32",
+                "B": "2√2",
+                "C": "4√2",
+                "D": "8√2"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-106",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "4√7 + 3√7 − 2√7 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√7",
+                "B": "5√21",
+                "C": "9√7",
+                "D": "√35"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-107",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√75 + √48 − √27 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6√3",
+                "B": "7√3",
+                "C": "8√3",
+                "D": "96"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-108",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√45 + 3√20 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√65",
+                "B": "12√5",
+                "C": "17√5",
+                "D": "30√5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-109",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√32 − √8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√24",
+                "B": "2√2",
+                "C": "4√2",
+                "D": "6√2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-110",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "5√6 + 2√6 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√6",
+                "B": "7√12",
+                "C": "10√6",
+                "D": "7√36"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama"
+        ]
+    },
+    {
+        "id": "LGS-KK-111",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "9√2 − 4√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√2",
+                "B": "5√4",
+                "C": "13√2",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-112",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√98 + √50 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√148",
+                "B": "12√2",
+                "C": "14√2",
+                "D": "148"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-113",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√80 − √45 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√35",
+                "B": "√5",
+                "C": "5√5",
+                "D": "35"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-114",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "6√3 + √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√3",
+                "B": "6√6",
+                "C": "7√6",
+                "D": "√21"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama"
+        ]
+    },
+    {
+        "id": "LGS-KK-115",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√72 + √32 − √50 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√2",
+                "B": "7√2",
+                "C": "9√2",
+                "D": "54"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-116",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√28 − 2√63 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√7",
+                "B": "−√7",
+                "C": "0",
+                "D": "√63"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-117",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√125 + √45 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√170",
+                "B": "8√5",
+                "C": "10√5",
+                "D": "170"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-118",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√27 + √12 − √75 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√3",
+                "B": "5√3",
+                "C": "√3",
+                "D": "−√3"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-119",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√5 + √5 + √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√5",
+                "B": "√15",
+                "C": "3√15",
+                "D": "15"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama"
+        ]
+    },
+    {
+        "id": "LGS-KK-120",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4√18 − 3√8 + √50 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√2",
+                "B": "11√2",
+                "C": "6√2",
+                "D": "√50"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-121",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√200 + √50 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15√2",
+                "B": "10√3",
+                "C": "15√3",
+                "D": "250"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama"
+        ]
+    },
+    {
+        "id": "LGS-KK-122",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "10√3 − 7√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√3",
+                "B": "17√3",
+                "C": "3√6",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-123",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√48 + √12 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√60",
+                "B": "6√3",
+                "C": "8√3",
+                "D": "60"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-124",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "5√2 + 5√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10√2",
+                "B": "10√4",
+                "C": "25√2",
+                "D": "√50"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama"
+        ]
+    },
+    {
+        "id": "LGS-KK-125",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√75 − √27 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√3",
+                "B": "√48",
+                "C": "3√3",
+                "D": "√3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-126",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√63 + √28 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√91",
+                "B": "5√7",
+                "C": "7√7",
+                "D": "91"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-127",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√50 − 2√18 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√32",
+                "B": "9√2",
+                "C": "6√2",
+                "D": "3√2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-128",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4√3 + 5√3 − 6√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√3",
+                "B": "2√3",
+                "C": "3√3",
+                "D": "13√3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "işlem"
+        ]
+    },
+    {
+        "id": "LGS-KK-129",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√48 + √75 − √12 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√3",
+                "B": "9√3",
+                "C": "7√3",
+                "D": "111"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-130",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Toplama ve Çıkarma",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√45 − √20 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√25",
+                "B": "√5",
+                "C": "5",
+                "D": "25"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "sadeleştirme"
+        ]
+    },
+    {
+        "id": "LGS-KK-131",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 45 cm² olan karenin bir kenarının uzunluğu, en sade karekök biçiminde yazıldığında kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√5",
+                "B": "5√3",
+                "C": "9√5",
+                "D": "√45"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-132",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 72 m² olan bir karenin çevresi, metre cinsinden aşağıdakilerden hangisidir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "24√2",
+                "B": "6√2",
+                "C": "12√2",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-133",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu √50 cm olan bir karenin alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "50",
+                "C": "100",
+                "D": "√2500"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-134",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu 3√2 cm olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6√2",
+                "B": "9√2",
+                "C": "12√2",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-135",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 98 cm² olan bir karenin kenar uzunluğu, en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√2",
+                "B": "2√7",
+                "C": "49√2",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-136",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir dikdörtgenin kenarları √12 cm ve √27 cm dir. Bu dikdörtgenin alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "18",
+                "B": "√324",
+                "C": "6√9",
+                "D": "18√3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-137",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Kenar uzunlukları 2√5 cm ve 3√5 cm olan bir dikdörtgenin alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "30",
+                "B": "6√5",
+                "C": "6√25",
+                "D": "√150"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-138",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 54 cm² olan bir dikdörtgenin bir kenarı 3√2 cm ise diğer kenarı kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√3",
+                "B": "3√6",
+                "C": "6√3",
+                "D": "9√2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-139",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu √20 m olan kare şeklindeki bahçenin çevresi kaç metredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√5",
+                "B": "8√5",
+                "C": "20",
+                "D": "10√2"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-140",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir karenin alanı 200 cm² dir. Bu karenin bir kenarının uzunluğu en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10√2",
+                "B": "20",
+                "C": "2√50",
+                "D": "√200"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-141",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Bir karenin çevresi 8√3 cm ise bir kenarının uzunluğu kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2√3",
+                "B": "4√3",
+                "C": "2√12",
+                "D": "32√3"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "kenar"
+        ]
+    },
+    {
+        "id": "LGS-KK-142",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 32 cm² olan bir karenin köşegeni kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "4√2",
+                "C": "√64",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "köşegen",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-143",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir dikdörtgenin çevresi (6√5 + 4√5) cm olduğuna göre yarı çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√5",
+                "B": "10√5",
+                "C": "2√5",
+                "D": "√45"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-144",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 75 m² olan bir karenin çevresi kaç metredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√3",
+                "B": "10√3",
+                "C": "20√3",
+                "D": "300"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-145",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunlukları 5√2 m ve 4√2 m olan bir dikdörtgenin alanı kaç metrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "40",
+                "C": "20√2",
+                "D": "√160"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-146",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir karenin alanı 162 m² dir. Çevresi kaç metredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "18√2",
+                "B": "36√2",
+                "C": "9√2",
+                "D": "81√2"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-147",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir dikdörtgenin alanı 60 cm²dir. Bir kenarı 2√15 cm ise diğer kenarı kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√15",
+                "B": "2√15",
+                "C": "4√15",
+                "D": "30"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-148",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir dikdörtgenin çevresi 16√3 cm dir. Bir kenarı 5√3 cm ise diğer kenarı kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√3",
+                "B": "8√3",
+                "C": "11√3",
+                "D": "6√3"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-149",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenarları √8 cm ve √32 cm olan bir dikdörtgenin çevresi kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12√2",
+                "B": "√40",
+                "C": "6√2",
+                "D": "40"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-150",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 24 m² olan bir dikdörtgenin kenarları √6 m ve x m ise x kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√6",
+                "B": "2√6",
+                "C": "6√4",
+                "D": "√24"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-151",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunlukları √18 cm ve √72 cm olan bir dikdörtgenin alanı kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "36",
+                "B": "√1296",
+                "C": "6√2",
+                "D": "12√2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-152",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 128 m² olan bir karenin kenar uzunluğu, en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8√2",
+                "B": "4√8",
+                "C": "16√2",
+                "D": "√128"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "kenar"
+        ]
+    },
+    {
+        "id": "LGS-KK-153",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir dikdörtgenin kenarları (√50 + √8) cm ve √2 cm dir. Alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "12",
+                "C": "16",
+                "D": "√116"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-154",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunlukları sırasıyla √45 m, √20 m ve √80 m olan bir üçgenin çevresi kaç metredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11√5",
+                "B": "√145",
+                "C": "9√5",
+                "D": "√5"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "üçgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-155",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir üçgenin kenar uzunlukları √12 cm, √27 cm ve √48 cm dir. Çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9√3",
+                "B": "√87",
+                "C": "3√3",
+                "D": "6√3"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "üçgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-156",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Bir kenarı √75 cm olan eşkenar üçgenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15√3",
+                "B": "5√3",
+                "C": "3√75",
+                "D": "√225"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "üçgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-157",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir dikdörtgenin kenarları (3√2 + 2√8) cm ve √2 cm ise alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "10",
+                "C": "√14",
+                "D": "7√2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-158",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 63 cm² olan bir dikdörtgenin bir kenarı √7 cm ise diğer kenarı kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√7",
+                "B": "9√7",
+                "C": "7√3",
+                "D": "√63"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "dikdörtgen"
+        ]
+    },
+    {
+        "id": "LGS-KK-159",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Bir karenin alanı 25 cm² ise çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "10",
+                "C": "5",
+                "D": "100"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-160",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Gerçek Yaşam",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Bir evin bahçesi kare şeklindedir ve alanı 180 m² dir. Bahçenin bir kenarının uzunluğu, en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6√5",
+                "B": "5√6",
+                "C": "3√20",
+                "D": "√180"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "gerçek yaşam"
+        ]
+    },
+    {
+        "id": "LGS-KK-161",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 112 cm² olan bir dikdörtgenin kenarları √14 cm ve x cm ise x kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "4√14",
+                "C": "8√14",
+                "D": "√14"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-162",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Çevresi 24√5 m olan bir karenin alanı kaç metrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "144",
+                "B": "180",
+                "C": "576",
+                "D": "720"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-163",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√18 + √50 − √8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√2",
+                "B": "5√2",
+                "C": "6√2",
+                "D": "60"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-164",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√12 · √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "6",
+                "C": "√36",
+                "D": "6√3"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-165",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√75 / √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "5",
+                "C": "√25",
+                "D": "15"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-166",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√81 + √16 − √49 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "12",
+                "C": "6",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-167",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√225 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "25",
+                "C": "125",
+                "D": "625"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-168",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√5 · 2√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6√5",
+                "B": "5√6",
+                "C": "25",
+                "D": "30"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-169",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√32 sayısı a√2 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "8",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-170",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 49 m² olan karenin bir kenarı kaç metredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "14",
+                "C": "21",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-171",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√144 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "14",
+                "C": "72",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-172",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√63 hangi iki ardışık tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6-7",
+                "B": "7-8",
+                "C": "8-9",
+                "D": "9-10"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-173",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√45 + √80 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√125",
+                "B": "7√5",
+                "C": "5√5",
+                "D": "125"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-174",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "4√3 + 2√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6√3",
+                "B": "6√6",
+                "C": "8√3",
+                "D": "√18"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-175",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "7√2 − 3√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√2",
+                "B": "4",
+                "C": "10√2",
+                "D": "4√4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-176",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "48 sayısı 3a² şeklinde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "dönüşüm",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-177",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√64 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "16",
+                "C": "32",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-178",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√2 · √8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "8",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-179",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "6 < √x < 7 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "12",
+                "C": "13",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-180",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 36 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "24",
+                "B": "12",
+                "C": "6",
+                "D": "144"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-181",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√72 sayısı a√2 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "9",
+                "C": "12",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-182",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√5 · 3√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6√5",
+                "B": "30",
+                "C": "6√10",
+                "D": "5√6"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-183",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√98 + √50 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12√2",
+                "B": "14√2",
+                "C": "√148",
+                "D": "148"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-184",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√128 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "8",
+                "C": "16",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-185",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 80 m² olan bir karenin kenar uzunluğu en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√5",
+                "B": "8√5",
+                "C": "16√5",
+                "D": "√80"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-186",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√2 + 5√2 − 2√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6√2",
+                "B": "8√2",
+                "C": "10√2",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-187",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√50 sayısı a√2 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "25",
+                "C": "10",
+                "D": "√25"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-188",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√27 · √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "9",
+                "C": "27",
+                "D": "81"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-189",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√162 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "81",
+                "C": "√81",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-190",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "5 < √x < 6 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "10",
+                "C": "11",
+                "D": "12"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-191",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√196 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "98",
+                "C": "28",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-192",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√112 sayısı a√7 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "8",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-193",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√75 − √27 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "√48",
+                "B": "2√3",
+                "C": "√3",
+                "D": "48"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-194",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4√6 · 2√6 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "48",
+                "B": "24",
+                "C": "8√6",
+                "D": "8√36"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-195",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu √48 cm olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16√3",
+                "B": "4√3",
+                "C": "12√3",
+                "D": "48"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-196",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√200 + √32 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14√2",
+                "B": "12√2",
+                "C": "√232",
+                "D": "232"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-197",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√243 / √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "81",
+                "C": "27",
+                "D": "√81"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-198",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "(√5)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "10",
+                "C": "25",
+                "D": "√10"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "kare",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-199",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√99 hangi iki ardışık tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8-9",
+                "B": "9-10",
+                "C": "10-11",
+                "D": "11-12"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-200",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 63 m² olan bir karenin kenar uzunluğu en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√7",
+                "B": "7√3",
+                "C": "√63",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-201",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√18 + 3√8 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12√2",
+                "B": "5√26",
+                "C": "√26",
+                "D": "26"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-202",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√180 sayısı a√5 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "6",
+                "C": "12",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-203",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√45 · √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "15",
+                "C": "25",
+                "D": "225"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-204",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "8√3 − 5√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "3√3",
+                "C": "13√3",
+                "D": "3√6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-205",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Çevresi 12√5 cm olan bir karenin alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "45",
+                "B": "60",
+                "C": "30",
+                "D": "144"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-206",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√500 / √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "100",
+                "C": "√100",
+                "D": "50"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-207",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4 < √x < 5 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "8",
+                "C": "9",
+                "D": "10"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-208",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√147 sayısı a√3 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "7",
+                "C": "21",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-209",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "5√2 · 4√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "40",
+                "C": "9√2",
+                "D": "20√2"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-210",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√125 + √20 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√5",
+                "B": "9√5",
+                "C": "√145",
+                "D": "145"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-211",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√288 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "144",
+                "C": "24",
+                "D": "√144"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-212",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 112 m² olan bir karenin kenar uzunluğu en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√7",
+                "B": "8√7",
+                "C": "2√28",
+                "D": "√112"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-213",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√169 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "13",
+                "B": "26",
+                "C": "84.5",
+                "D": "169"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-214",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√121 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11",
+                "B": "22",
+                "C": "60.5",
+                "D": "121"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-215",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "6√5 + 4√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10√5",
+                "B": "10√10",
+                "C": "24√5",
+                "D": "10"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-216",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√80 − √20 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2√5",
+                "B": "6√5",
+                "C": "√60",
+                "D": "60"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-217",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√245 sayısı a√5 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "7",
+                "C": "35",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-218",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√7 · 2√7 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "42",
+                "B": "6√7",
+                "C": "6√14",
+                "D": "5√7"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-219",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "7 < √x < 8 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "14",
+                "C": "15",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-220",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu 2√7 cm olan bir karenin alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "28",
+                "C": "4√7",
+                "D": "√196"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-221",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√12 + √48 − √27 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√3",
+                "B": "5√3",
+                "C": "7√3",
+                "D": "33"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-222",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√320 / √5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "64",
+                "C": "16",
+                "D": "√64"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-223",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(4√2)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "8",
+                "B": "16",
+                "C": "32",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "kare",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-224",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√153 hangi iki ardışık tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11-12",
+                "B": "12-13",
+                "C": "13-14",
+                "D": "14-15"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-225",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4√3 · 3√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "36",
+                "C": "12√3",
+                "D": "7√3"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-226",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√63 + √28 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√7",
+                "B": "7√7",
+                "C": "√91",
+                "D": "91"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-227",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "9√5 − 4√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√5",
+                "B": "5",
+                "C": "13√5",
+                "D": "5√10"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-228",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√45 sayısı a√5 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "9",
+                "C": "5",
+                "D": "15"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-229",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√300 / √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "100",
+                "C": "√100",
+                "D": "50"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-230",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 99 m² olan bir karenin kenar uzunluğu kaç metredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3√11",
+                "B": "11√3",
+                "C": "√99",
+                "D": "9.9"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-231",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "2√75 + √27 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "13√3",
+                "B": "√102",
+                "C": "102",
+                "D": "17√3"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-232",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√162 sayısı a√2 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "81",
+                "C": "18",
+                "D": "27"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-233",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "5√6 · 2√6 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "60",
+                "B": "10√6",
+                "C": "7√6",
+                "D": "10√12"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-234",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "8 < √x < 9 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "16",
+                "C": "17",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-235",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√392 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "196",
+                "C": "28",
+                "D": "√196"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-236",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√108 − √48 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2√3",
+                "B": "√60",
+                "C": "60",
+                "D": "6√3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-237",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu 3√5 cm olan bir karenin alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "45",
+                "C": "9√5",
+                "D": "√225"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-238",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(5√3)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "75",
+                "C": "45",
+                "D": "√75"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "kare",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-239",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√175 sayısı a√7 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "25",
+                "C": "35",
+                "D": "7"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-240",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√180 + √45 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9√5",
+                "B": "√225",
+                "C": "225",
+                "D": "15"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-241",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "6√7 − 2√7 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "4√7",
+                "C": "8√7",
+                "D": "4√14"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-242",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√256 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "32",
+                "C": "64",
+                "D": "128"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-243",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√289 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "17",
+                "B": "34",
+                "C": "68",
+                "D": "144"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-244",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√192 sayısı a√3 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "8",
+                "C": "16",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-245",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√450 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "225",
+                "C": "√225",
+                "D": "50"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-246",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3√11 · 2√11 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "66",
+                "B": "6√11",
+                "C": "6√22",
+                "D": "5√11"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-247",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "8√2 − 4√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4√2",
+                "B": "4",
+                "C": "12√2",
+                "D": "4√4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-248",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√252 sayısı a√7 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "6",
+                "C": "12",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-249",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√200 − √50 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√2",
+                "B": "√150",
+                "C": "150",
+                "D": "15√2"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-250",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 147 m² olan bir karenin kenar uzunluğu en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√3",
+                "B": "3√7",
+                "C": "√147",
+                "D": "21"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-251",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√288 sayısı a√2 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "24",
+                "C": "144",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-252",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(6√2)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "24",
+                "C": "36",
+                "D": "72"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "kare",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-253",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√324 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "18",
+                "B": "36",
+                "C": "81",
+                "D": "162"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-254",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "5√3 + 7√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12√3",
+                "B": "12√6",
+                "C": "35√3",
+                "D": "12"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-255",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√363 / √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11",
+                "B": "121",
+                "C": "√121",
+                "D": "22"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-256",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "10 < √x < 11 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "18",
+                "B": "20",
+                "C": "21",
+                "D": "22"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-257",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4√5 · 3√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "60",
+                "B": "12√5",
+                "C": "12√10",
+                "D": "7√5"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-258",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√117 hangi iki ardışık tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9-10",
+                "B": "10-11",
+                "C": "11-12",
+                "D": "12-13"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-259",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√405 sayısı a√5 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "81",
+                "C": "27",
+                "D": "45"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-260",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu 4√3 cm olan bir karenin alanı kaç santimetrekaredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "24",
+                "B": "48",
+                "C": "16√3",
+                "D": "√576"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-261",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√300 + √75 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15√3",
+                "B": "√375",
+                "C": "375",
+                "D": "25√3"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-262",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "7√6 · √6 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "42",
+                "B": "7√6",
+                "C": "7√12",
+                "D": "42√6"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-263",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√512 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "256",
+                "C": "√256",
+                "D": "32"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-264",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "11√2 − 6√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "5√2",
+                "C": "17√2",
+                "D": "5√4"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-265",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√338 sayısı a√2 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "13",
+                "B": "26",
+                "C": "169",
+                "D": "6.5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-266",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 175 m² olan bir karenin kenar uzunluğu en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√7",
+                "B": "7√5",
+                "C": "√175",
+                "D": "25"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-267",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "3 < √x < 4 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "6",
+                "C": "7",
+                "D": "8"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-268",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√50 + √72 − √32 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7√2",
+                "B": "9√2",
+                "C": "11√2",
+                "D": "90"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "işlem",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-269",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(7√2)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "49",
+                "C": "98",
+                "D": "196"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "kare",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-270",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√539 / √7 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "77",
+                "C": "√77",
+                "D": "11"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-271",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "8√3 · √3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "24",
+                "B": "8√6",
+                "C": "8√9",
+                "D": "72"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-272",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√275 sayısı a√11 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "25",
+                "C": "55",
+                "D": "11"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-273",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√400 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "40",
+                "C": "100",
+                "D": "200"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-274",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "9√5 + 3√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "12√5",
+                "C": "27√5",
+                "D": "12√10"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-275",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√242 − √72 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5√2",
+                "B": "√170",
+                "C": "170",
+                "D": "17√2"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-276",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Kenar uzunluğu 5√2 cm olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10√2",
+                "B": "20√2",
+                "C": "25√2",
+                "D": "50"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çevre",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-277",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "6√7 · √7 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "42",
+                "B": "6√14",
+                "C": "6√49",
+                "D": "294"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-278",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√578 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "17",
+                "B": "289",
+                "C": "√289",
+                "D": "34"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-279",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√343 sayısı a√7 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "49",
+                "C": "14",
+                "D": "21"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-280",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "12√3 − 7√3 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "5√3",
+                "C": "19√3",
+                "D": "5√6"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-281",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(8√3)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "24",
+                "B": "64",
+                "C": "192",
+                "D": "576"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "kare",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-282",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "11 < √x < 12 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "22",
+                "C": "23",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-283",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√363 sayısı a√3 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11",
+                "B": "121",
+                "C": "33",
+                "D": "22"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-284",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "Alanı 243 m² olan bir karenin kenar uzunluğu en sade biçimde kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9√3",
+                "B": "3√27",
+                "C": "√243",
+                "D": "27"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-285",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "5√8 · 2√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "40",
+                "B": "10√16",
+                "C": "80",
+                "D": "10√10"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-286",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√245 + √80 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11√5",
+                "B": "√325",
+                "C": "325",
+                "D": "25√5"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-287",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√648 / √2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "18",
+                "B": "324",
+                "C": "√324",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-288",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "√484 ifadesinin değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "22",
+                "B": "44",
+                "C": "121",
+                "D": "242"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "hesaplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-289",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "8√6 + 4√6 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "12√6",
+                "C": "32√6",
+                "D": "12√12"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-290",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√507 sayısı a√3 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "13",
+                "B": "169",
+                "C": "39",
+                "D": "26"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-291",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "15√2 − 9√2 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "6√2",
+                "C": "24√2",
+                "D": "6√4"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "çıkarma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-292",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "(9√2)² işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "18",
+                "B": "81",
+                "C": "162",
+                "D": "324"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "kare",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-293",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√726 / √6 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11",
+                "B": "121",
+                "C": "√121",
+                "D": "22"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "bölme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-294",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "12 < √x < 13 şartını sağlayan kaç farklı x doğal sayısı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "22",
+                "B": "24",
+                "C": "25",
+                "D": "26"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "sayma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-295",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "6√5 · 2√5 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "60",
+                "B": "12√5",
+                "C": "12√10",
+                "D": "8√5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "çarpma",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-296",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√392 sayısı a√2 biçiminde yazıldığında a kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "196",
+                "C": "28",
+                "D": "7"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "sadeleştirme",
+            "LGS"
+        ]
+    },
+    {
+        "id": "LGS-KK-297",
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "LGS Geçmiş Yıllar",
+        "kaynak": "MEB",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "√320 + √80 işleminin sonucu kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12√5",
+                "B": "√400",
+                "C": "400",
+                "D": "20"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "LGS"
+        ]
+    }
+]

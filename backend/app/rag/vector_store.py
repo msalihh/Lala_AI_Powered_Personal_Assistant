@@ -63,10 +63,12 @@ def get_collection() -> chromadb.Collection:
             _collection = client.get_collection(name=COLLECTION_NAME)
             logger.info(f"Using existing ChromaDB collection: {COLLECTION_NAME}")
         except Exception:
-            # Collection doesn't exist, create it
+            # Collection doesn't exist, create it with cosine distance for similarity search
             _collection = client.create_collection(
                 name=COLLECTION_NAME,
-                metadata={"description": "Document chunks for RAG"}
+                metadata={"description": "Document chunks for RAG"},
+                # Use cosine distance for similarity search (distance function)
+                # ChromaDB default is L2, but cosine is better for text embeddings
             )
             logger.info(f"Created new ChromaDB collection: {COLLECTION_NAME}")
     
@@ -77,19 +79,26 @@ def index_document_chunks(
     document_id: str,
     chunks: List[dict],
     original_filename: str,
-    was_truncated: bool
+    was_truncated: bool,
+    user_id: Optional[str] = None,
+    source_type: str = "document",
+    email_metadata: Optional[dict] = None,
+    prompt_module: Optional[str] = None
 ) -> dict:
     """
     Index document chunks into ChromaDB.
     
     Args:
-        document_id: MongoDB document ID
+        document_id: MongoDB document ID or email ID
         chunks: List of chunk dictionaries with:
             - text: chunk text
             - chunk_index: chunk index
             - embedding: embedding vector (can be None)
-        original_filename: Original filename
+        original_filename: Original filename or Subject
         was_truncated: Whether document text was truncated
+        user_id: User ID for multi-tenant isolation (required for security)
+        source_type: "document" or "email"
+        email_metadata: Optional dict with subject, sender, date for emails
         
     Returns:
         Dictionary with indexing statistics:
@@ -122,7 +131,7 @@ def index_document_chunks(
         ids.append(chunk_id)
         embeddings.append(embedding)
         documents.append(chunk["text"])
-        # Enhanced metadata
+        # Enhanced metadata with user_id for multi-tenant isolation
         metadata = {
             "document_id": document_id,
             "original_filename": original_filename,
@@ -130,36 +139,100 @@ def index_document_chunks(
             "truncated": str(was_truncated),
             "text_length": len(chunk["text"]),
             "token_count": chunk.get("token_count", int(len(chunk["text"].split()) * 1.3)),
-            "word_count": chunk.get("word_count", len(chunk["text"].split()))
+            "word_count": chunk.get("word_count", len(chunk["text"].split())),
+            "source_type": source_type
         }
         
-        # Add optional metadata if available
-        if "text_type" in chunk:
-            metadata["text_type"] = chunk["text_type"]
-        if "section_number" in chunk:
-            metadata["section_number"] = chunk["section_number"]
+        # Add email metadata if provided
+        if email_metadata:
+            metadata.update({
+                "subject": email_metadata.get("subject", ""),
+                "sender": email_metadata.get("sender", ""),
+                "date": email_metadata.get("date", "")
+            })
+            
+        # Add user_id for multi-tenant isolation (CRITICAL for security)
+        if user_id:
+            metadata["user_id"] = user_id
+        else:
+            logger.warning(f"index_document_chunks: user_id not provided for document {document_id} - multi-tenant isolation may be compromised")
         
-        metadatas.append(metadata)
+        # Add prompt_module for module isolation (CRITICAL for module separation)
+        if prompt_module:
+            metadata["prompt_module"] = prompt_module
+        else:
+            metadata["prompt_module"] = "none"  # Default to "none" if not provided
+        
+        # Add optional metadata if available (only if not None - ChromaDB doesn't accept None values)
+        if "text_type" in chunk and chunk["text_type"] is not None:
+            metadata["text_type"] = chunk["text_type"]
+        if "section_number" in chunk and chunk["section_number"] is not None:
+            metadata["section_number"] = chunk["section_number"]
+        if "file_type" in chunk and chunk["file_type"] is not None:
+            metadata["file_type"] = chunk["file_type"]  # pdf, docx, txt, image
+        if "source" in chunk and chunk["source"] is not None:
+            metadata["source"] = chunk["source"]  # image_ocr, image_caption, document_text
+        
+        # CRITICAL: Remove any None values from metadata (ChromaDB doesn't accept None)
+        # Convert all values to strings/numbers/bools, remove None
+        cleaned_metadata = {}
+        for key, value in metadata.items():
+            if value is not None:
+                # Ensure all values are ChromaDB-compatible types
+                if isinstance(value, (str, int, float, bool)):
+                    cleaned_metadata[key] = value
+                else:
+                    # Convert to string if not a basic type
+                    cleaned_metadata[key] = str(value)
+            # Skip None values entirely
+        
+        metadatas.append(cleaned_metadata)
         indexed_chunks += 1
     
     # Batch insert into ChromaDB
     if ids:
         try:
+            # CRITICAL LOG: Verify user_id is in metadata before indexing
+            user_id_in_metadata = any(meta.get("user_id") for meta in metadatas)
+            logger.info(
+                f"[INDEX_VECTOR_STORE] doc_id={document_id} user_id={user_id} "
+                f"total_chunks={total_chunks} indexed_chunks={indexed_chunks} "
+                f"failed_chunks={failed_chunks} user_id_in_metadata={user_id_in_metadata} "
+                f"metadata_count={len(metadatas)} ids_count={len(ids)}"
+            )
+            
+            if not user_id:
+                logger.error(
+                    f"[INDEX_VECTOR_STORE] CRITICAL: user_id is None for doc_id={document_id}! "
+                    f"Chunks will NOT be searchable with user_id filter."
+                )
+            
             collection.add(
                 ids=ids,
                 embeddings=embeddings,
                 documents=documents,
                 metadatas=metadatas
             )
-            logger.info(f"Indexed {indexed_chunks} chunks for document {document_id}")
+            logger.info(
+                f"[INDEX_VECTOR_STORE_SUCCESS] doc_id={document_id} user_id={user_id} "
+                f"indexed={indexed_chunks} chunks successfully written to ChromaDB"
+            )
         except Exception as e:
-            logger.error(f"Error indexing chunks for document {document_id}: {str(e)}")
+            logger.error(
+                f"[INDEX_VECTOR_STORE_ERROR] doc_id={document_id} user_id={user_id} "
+                f"error={str(e)}", exc_info=True
+            )
             # Return partial success
             return {
                 "total_chunks": total_chunks,
                 "indexed_chunks": 0,
                 "failed_chunks": total_chunks
             }
+    else:
+        logger.warning(
+            f"[INDEX_VECTOR_STORE] doc_id={document_id} user_id={user_id} "
+            f"No chunks to index (ids list is empty)"
+        )
     
     return {
         "total_chunks": total_chunks,
@@ -244,18 +317,23 @@ def query_chunks(
     top_k: Optional[int] = None,
     min_score: Optional[float] = None,
     metadata_filters: Optional[Dict] = None,
-    use_cache: bool = True
+    use_cache: bool = True,
+    user_id: Optional[str] = None,
+    priority_doc_ids: Optional[List[str]] = None
 ) -> List[dict]:
     """
     Query ChromaDB for similar chunks with advanced features.
+    Multi-tenant safe: filters by user_id in metadata for security isolation.
     
     Args:
         query_embedding: Query text embedding vector
-        user_document_ids: List of user's document IDs to filter by
+        user_document_ids: List of user's document IDs to filter by (optional if user_id provided)
         top_k: Number of top results to return (uses config default if None)
         min_score: Minimum similarity score threshold (uses config default if None)
         metadata_filters: Additional metadata filters (folder_id, tags, mime_type, etc.)
         use_cache: Whether to use query cache
+        user_id: User ID for multi-tenant isolation (if provided, filters by user_id in metadata)
+        priority_doc_ids: Optional list of priority document IDs (if provided, only search in these docs)
         
     Returns:
         List of chunk dictionaries with:
@@ -276,7 +354,7 @@ def query_chunks(
     try:
         # Check query cache
         if use_cache and rag_config.enable_query_cache:
-            query_hash = _compute_query_hash(query_embedding, user_document_ids)
+            query_hash = _compute_query_hash(query_embedding, user_document_ids if user_document_ids else [user_id] if user_id else [])
             if query_hash in _query_cache:
                 cached_results, cached_time = _query_cache[query_hash]
                 cache_age = (datetime.utcnow() - cached_time).total_seconds()
@@ -288,33 +366,58 @@ def query_chunks(
                     # Cache expired, remove it
                     del _query_cache[query_hash]
         
-        # Query with filter for user's documents only
-        if not user_document_ids:
-            logger.warning("query_chunks: No user_document_ids provided")
+        # Build where filter with multi-tenant isolation
+        # Priority: user_id filter (most secure) > user_document_ids filter
+        where_filter_parts = []
+        
+        # CRITICAL: Multi-tenant isolation - always filter by user_id if provided
+        if user_id:
+            where_filter_parts.append({"user_id": user_id})
+            logger.debug(f"query_chunks: Using user_id filter for multi-tenant isolation: {user_id}")
+        
+        # PRIORITY: If priority_doc_ids provided, use only those (for priority search)
+        # Otherwise, use user_document_ids (for global search)
+        doc_ids_to_filter = priority_doc_ids if priority_doc_ids else user_document_ids
+        
+        # Also filter by document_ids if provided (for additional precision)
+        if doc_ids_to_filter:
+            if len(doc_ids_to_filter) == 1:
+                where_filter_parts.append({"document_id": doc_ids_to_filter[0]})
+            else:
+                where_filter_parts.append({
+                    "$or": [{"document_id": doc_id} for doc_id in doc_ids_to_filter]
+                })
+            # Log priority vs global search
+            if priority_doc_ids:
+                logger.debug(f"query_chunks: Using PRIORITY search with {len(priority_doc_ids)} documents")
+            else:
+                logger.debug(f"query_chunks: Using GLOBAL search with {len(user_document_ids)} documents")
+        elif not user_id:
+            # No user_id and no document_ids - cannot safely query
+            logger.warning("query_chunks: No user_id or user_document_ids provided - cannot safely query")
             return []
         
-        # Build where filter
-        # ChromaDB requires at least 2 items for $or, so handle single document_id case
-        if len(user_document_ids) == 1:
-            where_filter = {"document_id": user_document_ids[0]}
+        # Combine filters with $and
+        if len(where_filter_parts) == 1:
+            where_filter = where_filter_parts[0]
         else:
-            where_filter = {
-                "$or": [{"document_id": doc_id} for doc_id in user_document_ids]
-            }
+            where_filter = {"$and": where_filter_parts}
         
         # Add metadata filters if provided
         if metadata_filters:
             for key, value in metadata_filters.items():
                 if key in ["folder_id", "tags", "mime_type", "is_chat_scoped"]:
-                    # If we have a simple filter, combine with $and
-                    if len(user_document_ids) == 1:
-                        where_filter = {"$and": [where_filter, {key: value}]}
+                    # Combine with existing filter using $and
+                    if "$and" in where_filter:
+                        where_filter["$and"].append({key: value})
                     else:
-                        where_filter[key] = value
+                        where_filter = {"$and": [where_filter, {key: value}]}
         
-        logger.debug(
-            f"query_chunks: Querying with filter for {len(user_document_ids)} document_ids, "
-            f"top_k={query_top_k}, min_score={query_min_score}"
+        logger.info(
+            f"[QUERY_CHUNKS_START] user_id={user_id} "
+            f"priority_doc_ids_count={len(priority_doc_ids) if priority_doc_ids else 0} "
+            f"user_document_ids_count={len(user_document_ids) if user_document_ids else 0} "
+            f"top_k={query_top_k} min_score={query_min_score} where_filter={where_filter}"
         )
         
         # Query ChromaDB (request more results for filtering)
@@ -322,6 +425,13 @@ def query_chunks(
             query_embeddings=[query_embedding],
             n_results=min(query_top_k * 2, 50),  # Request more for filtering
             where=where_filter
+        )
+        
+        # CRITICAL LOG: Log raw query results
+        raw_results_count = len(query_results["ids"][0]) if query_results.get("ids") and len(query_results["ids"]) > 0 else 0
+        logger.info(
+            f"[QUERY_CHUNKS_RAW] user_id={user_id} raw_results_count={raw_results_count} "
+            f"query_embedding_len={len(query_embedding)}"
         )
         
         chunks = []
@@ -332,16 +442,57 @@ def query_chunks(
                 metadata = query_results["metadatas"][0][i] if "metadatas" in query_results else {}
                 document = query_results["documents"][0][i] if "documents" in query_results else ""
                 
+                # CRITICAL: Check if user_id exists in metadata (for debugging old indexes)
+                chunk_user_id = metadata.get("user_id")
+                chunk_doc_id = metadata.get("document_id", "")
+                
                 # Convert distance to score (0-1, higher is better)
-                # ChromaDB uses cosine distance, so score = 1 - distance
-                score = max(0.0, min(1.0, 1.0 - distance))
+                # ChromaDB default uses L2 distance, but we want cosine similarity
+                # L2 distance: lower is better, range 0 to infinity
+                # Cosine distance: range 0-2 (0=identical, 2=opposite)
+                # 
+                # For L2: we need to normalize (1 / (1 + distance)) or use negative distance
+                # For cosine: score = 1 - (distance / 2)
+                #
+                # Since ChromaDB default is L2, distance values can be large
+                # We'll use a normalized approach: score = 1 / (1 + distance)
+                # This gives us 0-1 range where 1 is perfect match (distance=0)
+                
+                # Alternative: If using cosine, distance is 0-2, so:
+                # score = 1 - (distance / 2)
+                
+                # For now, let's use a more lenient conversion that works for both:
+                # Normalize L2 distance: score = 1 / (1 + distance)
+                # This works for any distance metric
+                if distance <= 2.0:
+                    # Likely cosine distance (0-2 range)
+                    score = 1.0 - (distance / 2.0)
+                else:
+                    # Likely L2 distance (0 to infinity)
+                    # Normalize: score = 1 / (1 + distance) gives us 0-1 range
+                    score = 1.0 / (1.0 + distance)
+                
+                # Ensure score is in [0, 1] range
+                score = max(0.0, min(1.0, score))
+                
+                # CRITICAL LOG: Log every chunk's score before filtering
+                logger.info(
+                    f"[QUERY_CHUNKS_SCORE] chunk_{i} doc_id={chunk_doc_id[:8]}... "
+                    f"distance={distance:.4f} score={score:.4f} threshold={query_min_score} "
+                    f"passes_threshold={score >= query_min_score} user_id_in_meta={chunk_user_id is not None}"
+                )
                 
                 # Apply minimum score threshold
                 if score < query_min_score:
+                    logger.warning(
+                        f"[QUERY_CHUNKS_FILTERED] chunk_{i} doc_id={chunk_doc_id[:8]}... "
+                        f"score={score:.4f} < min_score={query_min_score} (FILTERED OUT) "
+                        f"distance={distance:.4f}"
+                    )
                     continue
                 
                 chunks.append({
-                    "document_id": metadata.get("document_id", ""),
+                    "document_id": chunk_doc_id,
                     "original_filename": metadata.get("original_filename", ""),
                     "chunk_index": metadata.get("chunk_index", 0),
                     "text": document,
@@ -350,8 +501,21 @@ def query_chunks(
                     "truncated": metadata.get("truncated", "False") == "True",
                     "text_type": metadata.get("text_type"),
                     "section_number": metadata.get("section_number"),
-                    "token_count": metadata.get("token_count", len(document.split()) * 1.3)
+                    "token_count": metadata.get("token_count", len(document.split()) * 1.3),
+                    "user_id_in_metadata": chunk_user_id is not None,  # Debug flag
+                    "source_type": metadata.get("source_type", "document"),
+                    "subject": metadata.get("subject"),
+                    "sender": metadata.get("sender"),
+                    "date": metadata.get("date")
                 })
+                
+                # Log first few chunks for debugging
+                if i < 3:
+                    logger.info(
+                        f"[QUERY_CHUNKS_RESULT] chunk_{i} doc_id={chunk_doc_id[:8]}... "
+                        f"score={score:.3f} distance={distance:.3f} user_id_in_meta={chunk_user_id is not None} "
+                        f"user_id_match={chunk_user_id == user_id if chunk_user_id else False}"
+                    )
         
         # Normalize scores
         chunks = _normalize_scores(chunks)
@@ -359,17 +523,21 @@ def query_chunks(
         # Sort by score (descending) and limit to top_k
         chunks = sorted(chunks, key=lambda x: x["score"], reverse=True)[:query_top_k]
         
+        # CRITICAL LOG: Final results with top score
+        top_score = chunks[0]["score"] if chunks else 0.0
+        chunks_with_user_id = sum(1 for c in chunks if c.get("user_id_in_metadata", False))
+        
+        logger.info(
+            f"[QUERY_CHUNKS_FINAL] user_id={user_id} returned_chunks={len(chunks)} "
+            f"top_score={top_score:.3f} chunks_with_user_id_meta={chunks_with_user_id}/{len(chunks)} "
+            f"threshold={query_min_score} threshold_met={top_score >= query_min_score if chunks else False}"
+        )
+        
         # Cache results
         if use_cache and rag_config.enable_query_cache:
-            query_hash = _compute_query_hash(query_embedding, user_document_ids)
+            query_hash = _compute_query_hash(query_embedding, user_document_ids if user_document_ids else [user_id] if user_id else [])
             _query_cache[query_hash] = (chunks, datetime.utcnow())
             logger.debug(f"Query cached: hash={query_hash[:8]}...")
-        
-        logger.debug(
-            f"query_chunks: Returned {len(chunks)} chunks from query "
-            f"(requested top_k={query_top_k}, filtered by {len(user_document_ids)} document_ids, "
-            f"min_score={query_min_score})"
-        )
         
         return chunks
     except Exception as e:

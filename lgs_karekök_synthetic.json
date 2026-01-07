@@ -1,0 +1,5637 @@
+[
+    {
+        "id": "LGS-KK-SYN-001",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "121",
+                "C": "11",
+                "D": "56"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-002",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "10",
+                "C": "52",
+                "D": "56"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-003",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "3",
+                "C": "18",
+                "D": "8"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-004",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "50",
+                "B": "54",
+                "C": "17",
+                "D": "81"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-005",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "75",
+                "B": "63",
+                "C": "100",
+                "D": "22"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-006",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "13",
+                "B": "36",
+                "C": "22",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-007",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "28",
+                "C": "49",
+                "D": "72"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-008",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "35",
+                "B": "169",
+                "C": "55",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-009",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "70",
+                "B": "23",
+                "C": "81",
+                "D": "48"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-010",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "51",
+                "B": "7",
+                "C": "144",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-011",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "19",
+                "B": "10",
+                "C": "75",
+                "D": "196"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-012",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "121",
+                "B": "70",
+                "C": "29",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-013",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "53",
+                "B": "121",
+                "C": "98",
+                "D": "22"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-014",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "55",
+                "B": "14",
+                "C": "20",
+                "D": "81"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-015",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "48",
+                "B": "225",
+                "C": "43",
+                "D": "53"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-016",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "196",
+                "B": "19",
+                "C": "6",
+                "D": "58"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-017",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "18",
+                "C": "7",
+                "D": "96"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-018",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "50",
+                "B": "96",
+                "C": "80",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-019",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "56",
+                "C": "9",
+                "D": "43"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-020",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "29",
+                "B": "225",
+                "C": "45",
+                "D": "31"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-021",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "75",
+                "C": "4",
+                "D": "57"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-022",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "169",
+                "B": "46",
+                "C": "33",
+                "D": "52"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-023",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "40",
+                "B": "100",
+                "C": "21",
+                "D": "35"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-024",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "80",
+                "B": "42",
+                "C": "121",
+                "D": "57"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-025",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "33",
+                "C": "23",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-026",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "81",
+                "B": "15",
+                "C": "39",
+                "D": "57"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-027",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "46",
+                "B": "196",
+                "C": "48",
+                "D": "39"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-028",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "169",
+                "B": "42",
+                "C": "58",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-029",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "64",
+                "B": "3",
+                "C": "11",
+                "D": "98"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-030",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayıdır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "44",
+                "B": "80",
+                "C": "1",
+                "D": "20"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "doğal sayı"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-031",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "169",
+                "B": "7",
+                "C": "9",
+                "D": "81"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-032",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "81",
+                "C": "9",
+                "D": "43"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-033",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "49",
+                "B": "24",
+                "C": "121",
+                "D": "169"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-034",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "196",
+                "B": "11",
+                "C": "16",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-035",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "4",
+                "C": "45",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-036",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "196",
+                "B": "4",
+                "C": "5",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-037",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "144",
+                "B": "9",
+                "C": "81",
+                "D": "18"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-038",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "169",
+                "C": "4",
+                "D": "32"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-039",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "144",
+                "C": "32",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-040",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "27",
+                "C": "169",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-041",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "9",
+                "B": "25",
+                "C": "49",
+                "D": "12"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-042",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "81",
+                "B": "34",
+                "C": "4",
+                "D": "169"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-043",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "169",
+                "B": "9",
+                "C": "16",
+                "D": "8"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-044",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "196",
+                "C": "18",
+                "D": "49"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-045",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "30",
+                "C": "169",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-046",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "13",
+                "C": "196",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-047",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "196",
+                "B": "1",
+                "C": "100",
+                "D": "26"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-048",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "6",
+                "C": "9",
+                "D": "81"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-049",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "49",
+                "C": "100",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-050",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "47",
+                "B": "4",
+                "C": "49",
+                "D": "121"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-051",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "26",
+                "C": "49",
+                "D": "25"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-052",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "35",
+                "C": "169",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-053",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "16",
+                "C": "81",
+                "D": "196"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-054",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "25",
+                "C": "7",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-055",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "47",
+                "B": "121",
+                "C": "81",
+                "D": "169"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-056",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "25",
+                "B": "10",
+                "C": "4",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-057",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "22",
+                "B": "100",
+                "C": "25",
+                "D": "16"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-058",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "39",
+                "B": "25",
+                "C": "1",
+                "D": "64"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-059",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "22",
+                "C": "36",
+                "D": "196"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-060",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-001",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Aşağıdakilerden hangisi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "64",
+                "B": "144",
+                "C": "81",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "ayırt etme"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-061",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "24 ile 56 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "3",
+                "C": "2",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-062",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "57 ile 105 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-063",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "15 ile 54 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "2",
+                "C": "4",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-064",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "36 ile 87 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "3",
+                "C": "2",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-065",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "55 ile 109 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "3",
+                "C": "2",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-066",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "40 ile 97 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "3",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-067",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "13 ile 48 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "3",
+                "C": "1",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-068",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "44 ile 79 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "4",
+                "C": "1",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-069",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "70 ile 107 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-070",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "49 ile 105 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "2",
+                "C": "3",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-071",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "34 ile 76 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "3",
+                "C": "1",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-072",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "45 ile 86 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "1",
+                "C": "2",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-073",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "13 ile 46 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "1",
+                "C": "3",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-074",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "14 ile 47 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "2",
+                "C": "1",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-075",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "65 ile 114 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "4",
+                "C": "1",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-076",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "42 ile 73 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "3",
+                "C": "2",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-077",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "56 ile 99 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "1",
+                "C": "3",
+                "D": "2"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-078",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "50 ile 101 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "1",
+                "C": "2",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-079",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "74 ile 113 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "1",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-080",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "47 ile 94 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "3",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-081",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "58 ile 109 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "4",
+                "C": "2",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-082",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "61 ile 108 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "2",
+                "C": "1",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-083",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "36 ile 79 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "1",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-084",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "66 ile 117 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "3",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-085",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-003",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "31 ile 82 arasında kaç tam kare sayı vardır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "3",
+                "C": "2",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-086",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{9} + \\sqrt{25} - \\sqrt{36} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{34} \\)",
+                "B": "\\( \\sqrt{24} \\)",
+                "C": "\\( \\sqrt{4} \\)",
+                "D": "\\( \\sqrt{14} \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-087",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{4} + \\sqrt{4} - \\sqrt{25} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{11} \\)",
+                "B": "\\( \\sqrt{1} \\)",
+                "C": "\\( \\sqrt{21} \\)",
+                "D": "\\( \\sqrt{31} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-088",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{81} + \\sqrt{64} - \\sqrt{25} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{144} \\)",
+                "B": "\\( \\sqrt{134} \\)",
+                "C": "\\( \\sqrt{154} \\)",
+                "D": "\\( \\sqrt{164} \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-089",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{25} + \\sqrt{16} - \\sqrt{4} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{39} \\)",
+                "B": "\\( \\sqrt{69} \\)",
+                "C": "\\( \\sqrt{59} \\)",
+                "D": "\\( \\sqrt{49} \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-090",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{16} + \\sqrt{100} - \\sqrt{81} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{35} \\)",
+                "B": "\\( \\sqrt{45} \\)",
+                "C": "\\( \\sqrt{15} \\)",
+                "D": "\\( \\sqrt{25} \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-091",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{9} + \\sqrt{81} - \\sqrt{16} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{64} \\)",
+                "B": "\\( \\sqrt{74} \\)",
+                "C": "\\( \\sqrt{54} \\)",
+                "D": "\\( \\sqrt{84} \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-092",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{81} + \\sqrt{121} - \\sqrt{100} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{100} \\)",
+                "B": "\\( \\sqrt{110} \\)",
+                "C": "\\( \\sqrt{90} \\)",
+                "D": "\\( \\sqrt{120} \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-093",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{16} + \\sqrt{81} - \\sqrt{81} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{36} \\)",
+                "B": "\\( \\sqrt{26} \\)",
+                "C": "\\( \\sqrt{16} \\)",
+                "D": "\\( \\sqrt{6} \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-094",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{100} + \\sqrt{81} - \\sqrt{25} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{216} \\)",
+                "B": "\\( \\sqrt{196} \\)",
+                "C": "\\( \\sqrt{206} \\)",
+                "D": "\\( \\sqrt{186} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-095",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{36} + \\sqrt{25} - \\sqrt{36} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{45} \\)",
+                "B": "\\( \\sqrt{25} \\)",
+                "C": "\\( \\sqrt{35} \\)",
+                "D": "\\( \\sqrt{15} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-096",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{16} + \\sqrt{16} - \\sqrt{25} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{19} \\)",
+                "B": "\\( \\sqrt{9} \\)",
+                "C": "\\( \\sqrt{29} \\)",
+                "D": "\\( \\sqrt{39} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-097",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{25} + \\sqrt{9} - \\sqrt{64} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{0} \\)",
+                "B": "\\( \\sqrt{20} \\)",
+                "C": "\\( \\sqrt{10} \\)",
+                "D": "\\( \\sqrt{30} \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-098",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{64} + \\sqrt{4} - \\sqrt{25} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{15} \\)",
+                "B": "\\( \\sqrt{25} \\)",
+                "C": "\\( \\sqrt{35} \\)",
+                "D": "\\( \\sqrt{45} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-099",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{121} + \\sqrt{64} - \\sqrt{81} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{120} \\)",
+                "B": "\\( \\sqrt{90} \\)",
+                "C": "\\( \\sqrt{110} \\)",
+                "D": "\\( \\sqrt{100} \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-100",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{64} + \\sqrt{64} - \\sqrt{100} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{26} \\)",
+                "B": "\\( \\sqrt{36} \\)",
+                "C": "\\( \\sqrt{56} \\)",
+                "D": "\\( \\sqrt{46} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-101",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{36} + \\sqrt{64} - \\sqrt{81} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{45} \\)",
+                "B": "\\( \\sqrt{15} \\)",
+                "C": "\\( \\sqrt{35} \\)",
+                "D": "\\( \\sqrt{25} \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-102",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{144} + \\sqrt{144} - \\sqrt{64} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{246} \\)",
+                "B": "\\( \\sqrt{256} \\)",
+                "C": "\\( \\sqrt{276} \\)",
+                "D": "\\( \\sqrt{266} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-103",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{121} + \\sqrt{100} - \\sqrt{4} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{371} \\)",
+                "B": "\\( \\sqrt{361} \\)",
+                "C": "\\( \\sqrt{351} \\)",
+                "D": "\\( \\sqrt{381} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-104",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{9} + \\sqrt{144} - \\sqrt{64} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{39} \\)",
+                "B": "\\( \\sqrt{49} \\)",
+                "C": "\\( \\sqrt{69} \\)",
+                "D": "\\( \\sqrt{59} \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-105",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{4} + \\sqrt{36} - \\sqrt{64} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{30} \\)",
+                "B": "\\( \\sqrt{10} \\)",
+                "C": "\\( \\sqrt{0} \\)",
+                "D": "\\( \\sqrt{20} \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-106",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{49} + \\sqrt{49} - \\sqrt{64} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{36} \\)",
+                "B": "\\( \\sqrt{56} \\)",
+                "C": "\\( \\sqrt{46} \\)",
+                "D": "\\( \\sqrt{26} \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-107",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{9} + \\sqrt{81} - \\sqrt{4} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{90} \\)",
+                "B": "\\( \\sqrt{120} \\)",
+                "C": "\\( \\sqrt{110} \\)",
+                "D": "\\( \\sqrt{100} \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-108",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{144} + \\sqrt{9} - \\sqrt{4} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{179} \\)",
+                "B": "\\( \\sqrt{159} \\)",
+                "C": "\\( \\sqrt{189} \\)",
+                "D": "\\( \\sqrt{169} \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-109",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{4} + \\sqrt{121} - \\sqrt{16} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{71} \\)",
+                "B": "\\( \\sqrt{101} \\)",
+                "C": "\\( \\sqrt{81} \\)",
+                "D": "\\( \\sqrt{91} \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-110",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-011",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Hesaplama",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{144} + \\sqrt{9} - \\sqrt{25} \\) işleminin sonucu aşağıdakilerden hangisine eşittir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( \\sqrt{100} \\)",
+                "B": "\\( \\sqrt{110} \\)",
+                "C": "\\( \\sqrt{90} \\)",
+                "D": "\\( \\sqrt{120} \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "toplama",
+            "çıkarma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-111",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 81 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "44",
+                "B": "36",
+                "C": "32",
+                "D": "40"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-112",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 36 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "28",
+                "B": "32",
+                "C": "24",
+                "D": "20"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-113",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 64 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "28",
+                "B": "32",
+                "C": "36",
+                "D": "40"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-114",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 25 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "28",
+                "C": "20",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-115",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 25 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "28",
+                "B": "16",
+                "C": "24",
+                "D": "20"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-116",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 81 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "44",
+                "B": "40",
+                "C": "32",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-117",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 16 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "12",
+                "B": "16",
+                "C": "20",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-118",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 100 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "40",
+                "B": "44",
+                "C": "48",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-119",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 36 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "28",
+                "C": "24",
+                "D": "32"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-120",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 144 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "48",
+                "B": "44",
+                "C": "52",
+                "D": "56"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-121",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 64 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "36",
+                "B": "40",
+                "C": "32",
+                "D": "28"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-122",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 64 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "28",
+                "B": "36",
+                "C": "32",
+                "D": "40"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-123",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 100 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "48",
+                "B": "44",
+                "C": "40",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-124",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 81 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "32",
+                "B": "36",
+                "C": "44",
+                "D": "40"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-125",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 81 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "36",
+                "B": "44",
+                "C": "40",
+                "D": "32"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-126",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 64 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "36",
+                "B": "40",
+                "C": "28",
+                "D": "32"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-127",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 25 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "28",
+                "C": "16",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-128",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 121 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "44",
+                "B": "52",
+                "C": "40",
+                "D": "48"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-129",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 121 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "48",
+                "B": "40",
+                "C": "44",
+                "D": "52"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-130",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 64 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "28",
+                "B": "32",
+                "C": "40",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-131",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 64 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "32",
+                "B": "40",
+                "C": "36",
+                "D": "28"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-132",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 100 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "40",
+                "B": "48",
+                "C": "44",
+                "D": "36"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-133",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 64 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "40",
+                "B": "32",
+                "C": "36",
+                "D": "28"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-134",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 25 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "20",
+                "C": "28",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-135",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 144 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "56",
+                "B": "44",
+                "C": "48",
+                "D": "52"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-136",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 121 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "44",
+                "B": "48",
+                "C": "52",
+                "D": "40"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-137",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 25 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "20",
+                "C": "28",
+                "D": "24"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-138",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 81 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "32",
+                "B": "36",
+                "C": "44",
+                "D": "40"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-139",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 144 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "44",
+                "B": "48",
+                "C": "56",
+                "D": "52"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-140",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-013",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Alan ve Çevre",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "Alanı 16 cm² olan bir karenin çevresi kaç santimetredir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "16",
+                "C": "24",
+                "D": "12"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "alan",
+            "çevre"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-141",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{130} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 10 \\) ile \\( 11 \\)",
+                "B": "\\( 12 \\) ile \\( 13 \\)",
+                "C": "\\( 11 \\) ile \\( 12 \\)",
+                "D": "\\( 13 \\) ile \\( 14 \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-142",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{120} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 10 \\) ile \\( 11 \\)",
+                "B": "\\( 12 \\) ile \\( 13 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 11 \\) ile \\( 12 \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-143",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{90} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 8 \\) ile \\( 9 \\)",
+                "B": "\\( 11 \\) ile \\( 12 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 10 \\) ile \\( 11 \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-144",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{60} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 6 \\) ile \\( 7 \\)",
+                "B": "\\( 8 \\) ile \\( 9 \\)",
+                "C": "\\( 7 \\) ile \\( 8 \\)",
+                "D": "\\( 9 \\) ile \\( 10 \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-145",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{80} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 7 \\) ile \\( 8 \\)",
+                "B": "\\( 9 \\) ile \\( 10 \\)",
+                "C": "\\( 8 \\) ile \\( 9 \\)",
+                "D": "\\( 10 \\) ile \\( 11 \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-146",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{40} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 6 \\) ile \\( 7 \\)",
+                "B": "\\( 8 \\) ile \\( 9 \\)",
+                "C": "\\( 7 \\) ile \\( 8 \\)",
+                "D": "\\( 5 \\) ile \\( 6 \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-147",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{30} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 6 \\) ile \\( 7 \\)",
+                "B": "\\( 7 \\) ile \\( 8 \\)",
+                "C": "\\( 5 \\) ile \\( 6 \\)",
+                "D": "\\( 4 \\) ile \\( 5 \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-148",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{120} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 10 \\) ile \\( 11 \\)",
+                "B": "\\( 12 \\) ile \\( 13 \\)",
+                "C": "\\( 11 \\) ile \\( 12 \\)",
+                "D": "\\( 9 \\) ile \\( 10 \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-149",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{90} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 9 \\) ile \\( 10 \\)",
+                "B": "\\( 10 \\) ile \\( 11 \\)",
+                "C": "\\( 8 \\) ile \\( 9 \\)",
+                "D": "\\( 11 \\) ile \\( 12 \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-150",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{60} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 6 \\) ile \\( 7 \\)",
+                "B": "\\( 9 \\) ile \\( 10 \\)",
+                "C": "\\( 8 \\) ile \\( 9 \\)",
+                "D": "\\( 7 \\) ile \\( 8 \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-151",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{150} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 14 \\) ile \\( 15 \\)",
+                "B": "\\( 12 \\) ile \\( 13 \\)",
+                "C": "\\( 13 \\) ile \\( 14 \\)",
+                "D": "\\( 11 \\) ile \\( 12 \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-152",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{60} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 6 \\) ile \\( 7 \\)",
+                "B": "\\( 8 \\) ile \\( 9 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 7 \\) ile \\( 8 \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-153",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{40} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 5 \\) ile \\( 6 \\)",
+                "B": "\\( 7 \\) ile \\( 8 \\)",
+                "C": "\\( 8 \\) ile \\( 9 \\)",
+                "D": "\\( 6 \\) ile \\( 7 \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-154",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{80} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 8 \\) ile \\( 9 \\)",
+                "B": "\\( 7 \\) ile \\( 8 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 10 \\) ile \\( 11 \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-155",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{60} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 8 \\) ile \\( 9 \\)",
+                "B": "\\( 6 \\) ile \\( 7 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 7 \\) ile \\( 8 \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-156",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{140} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 11 \\) ile \\( 12 \\)",
+                "B": "\\( 10 \\) ile \\( 11 \\)",
+                "C": "\\( 13 \\) ile \\( 14 \\)",
+                "D": "\\( 12 \\) ile \\( 13 \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-157",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{30} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 6 \\) ile \\( 7 \\)",
+                "B": "\\( 5 \\) ile \\( 6 \\)",
+                "C": "\\( 7 \\) ile \\( 8 \\)",
+                "D": "\\( 4 \\) ile \\( 5 \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-158",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{80} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 7 \\) ile \\( 8 \\)",
+                "B": "\\( 10 \\) ile \\( 11 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 8 \\) ile \\( 9 \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-159",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{130} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 12 \\) ile \\( 13 \\)",
+                "B": "\\( 11 \\) ile \\( 12 \\)",
+                "C": "\\( 13 \\) ile \\( 14 \\)",
+                "D": "\\( 10 \\) ile \\( 11 \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-160",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{30} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 6 \\) ile \\( 7 \\)",
+                "B": "\\( 4 \\) ile \\( 5 \\)",
+                "C": "\\( 7 \\) ile \\( 8 \\)",
+                "D": "\\( 5 \\) ile \\( 6 \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-161",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{120} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 12 \\) ile \\( 13 \\)",
+                "B": "\\( 10 \\) ile \\( 11 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 11 \\) ile \\( 12 \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-162",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{90} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 9 \\) ile \\( 10 \\)",
+                "B": "\\( 8 \\) ile \\( 9 \\)",
+                "C": "\\( 11 \\) ile \\( 12 \\)",
+                "D": "\\( 10 \\) ile \\( 11 \\)"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-163",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{60} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 8 \\) ile \\( 9 \\)",
+                "B": "\\( 7 \\) ile \\( 8 \\)",
+                "C": "\\( 6 \\) ile \\( 7 \\)",
+                "D": "\\( 9 \\) ile \\( 10 \\)"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-164",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{120} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 12 \\) ile \\( 13 \\)",
+                "B": "\\( 11 \\) ile \\( 12 \\)",
+                "C": "\\( 9 \\) ile \\( 10 \\)",
+                "D": "\\( 10 \\) ile \\( 11 \\)"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-165",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-030",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Karekök Tahmini",
+        "zorluk": "kolay",
+        "soru": {
+            "metin": "\\( \\sqrt{120} \\) sayısı hangi ardışık iki tam sayı arasındadır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "\\( 9 \\) ile \\( 10 \\)",
+                "B": "\\( 12 \\) ile \\( 13 \\)",
+                "C": "\\( 10 \\) ile \\( 11 \\)",
+                "D": "\\( 11 \\) ile \\( 12 \\)"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "karekök",
+            "tahmin",
+            "aralık"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-166",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "1, 15, 37, 289, 57, 81, 100, 40 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "5",
+                "C": "3",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-167",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "196, 53, 16, 121, 38, 9, 32, 36 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "5",
+                "C": "2",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-168",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "32, 35, 196, 121, 42, 1, 289 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "3",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-169",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "100, 3, 11, 46, 25, 225, 48, 64, 144 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "6",
+                "C": "3",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-170",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "81, 256, 49, 70, 25, 144, 100, 37 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "4",
+                "C": "2",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-171",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "289, 196, 55, 25, 1, 81, 24, 70 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "4",
+                "C": "2",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-172",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "16, 64, 58, 169, 5, 196, 32, 26 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "6",
+                "C": "5",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-173",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "13, 1, 75, 144, 16, 225, 32 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "3",
+                "C": "4",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-174",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "42, 169, 289, 5, 256, 75, 38, 144, 121 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "5",
+                "C": "4",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-175",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "6, 169, 100, 1, 36, 23, 256 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "3",
+                "C": "2",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-176",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "19, 48, 64, 35, 169, 256, 100, 13 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "5",
+                "C": "3",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-177",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "196, 37, 30, 16, 64, 25, 72, 289, 81 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "2",
+                "C": "4",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-178",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4, 25, 63, 19, 256, 196, 169 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "2",
+                "C": "3",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-179",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "4, 8, 64, 169, 12, 55, 100, 29, 256, 1 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "5",
+                "C": "6",
+                "D": "3"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-180",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "16, 9, 75, 64, 52, 4, 121, 57, 19 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "5",
+                "C": "3",
+                "D": "6"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-181",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "47, 80, 121, 256, 144, 16, 64, 1, 99 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "2",
+                "B": "4",
+                "C": "3",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-182",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "100, 4, 80, 225, 256, 20 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "1",
+                "B": "2",
+                "C": "3",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-183",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "25, 53, 49, 5, 16, 100, 256, 18, 29 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "5",
+                "C": "3",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-184",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "121, 16, 9, 48, 225, 50 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "4",
+                "B": "2",
+                "C": "3",
+                "D": "1"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-185",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-002",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "19, 225, 13, 58, 27, 289, 196, 49 sayılarından kaç tanesi tam kare doğal sayı değildir?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "5",
+                "C": "6",
+                "D": "4"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "sayma"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-186",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "50 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "30",
+                "C": "10",
+                "D": "12"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-187",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "14 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "21",
+                "C": "9",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-188",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "42 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "42",
+                "B": "16",
+                "C": "28",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-189",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "30 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "10",
+                "C": "12",
+                "D": "30"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-190",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "30 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "45",
+                "B": "15",
+                "C": "30",
+                "D": "17"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-191",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "24 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "6",
+                "B": "2",
+                "C": "4",
+                "D": "5"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-192",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "156 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "26",
+                "C": "39",
+                "D": "13"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-193",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "60 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "17",
+                "B": "30",
+                "C": "45",
+                "D": "15"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-194",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "120 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "15",
+                "B": "30",
+                "C": "17",
+                "D": "45"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-195",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "130 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "26",
+                "B": "39",
+                "C": "15",
+                "D": "13"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-196",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "70 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "14",
+                "C": "28",
+                "D": "42"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-197",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "88 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "11",
+                "B": "13",
+                "C": "22",
+                "D": "33"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-198",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "24 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "3",
+                "B": "5",
+                "C": "6",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "A",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-199",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "40 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "20",
+                "B": "12",
+                "C": "10",
+                "D": "30"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-200",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "9 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "5",
+                "B": "6",
+                "C": "3",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-201",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "10 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "10",
+                "B": "5",
+                "C": "15",
+                "D": "7"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-202",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "88 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "22",
+                "B": "11",
+                "C": "13",
+                "D": "33"
+            }
+        },
+        "dogru_cevap": "B",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-203",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "42 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "14",
+                "B": "21",
+                "C": "7",
+                "D": "9"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-204",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "60 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "7",
+                "B": "15",
+                "C": "5",
+                "D": "10"
+            }
+        },
+        "dogru_cevap": "C",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    },
+    {
+        "id": "LGS-KK-SYN-205",
+        "kaynak": "SENTETIK",
+        "uretici": "LLM",
+        "referans_id": "LGS-KK-009",
+        "sentetik": true,
+        "ders": "Matematik",
+        "sinif": 8,
+        "konu": "Kareköklü İfadeler",
+        "alt_konu": "Tam Kare Sayılar",
+        "zorluk": "orta",
+        "soru": {
+            "metin": "112 ile bir A sayısının çarpımı tam kare sayıdır. Buna göre A'nın alabileceği en küçük doğal sayı değeri kaçtır?",
+            "gorseller": [],
+            "siklar": {
+                "A": "16",
+                "B": "42",
+                "C": "28",
+                "D": "14"
+            }
+        },
+        "dogru_cevap": "D",
+        "etiketler": [
+            "tam kare",
+            "çarpma",
+            "en küçük"
+        ]
+    }
+]

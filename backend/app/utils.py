@@ -5,7 +5,7 @@ import os
 import re
 import random
 import string
-from typing import Tuple, List, Dict, Optional
+from typing import Tuple, List, Dict, Optional, Callable
 import httpx
 import logging
 
@@ -16,7 +16,7 @@ def sanitize_filename(filename: str) -> str:
     """
     Sanitize filename to prevent path traversal and other security issues.
     - Extract only basename (remove path)
-    - Remove path traversal sequences (.., /, \)
+    - Remove path traversal sequences (.., /, \\)
     - Remove special characters
     - Truncate if too long
     """
@@ -31,8 +31,9 @@ def sanitize_filename(filename: str) -> str:
     basename = basename.replace("/", "_")
     basename = basename.replace("\\", "_")
     
-    # Remove other dangerous characters but keep alphanumeric, dots, dashes, underscores
-    basename = re.sub(r'[^a-zA-Z0-9._-]', '_', basename)
+    # Remove other dangerous characters but keep Unicode letters, digits, dots, dashes, underscores, spaces
+    # This allows Turkish: ğ, ü, ş, ı, ö, ç, Ğ, Ü, Ş, İ, Ö, Ç
+    basename = re.sub(r'[^\w\s._-]', '_', basename, flags=re.UNICODE)
     
     # Remove leading/trailing dots and spaces
     basename = basename.strip('. ')
@@ -352,18 +353,21 @@ def compact_markdown_output(text: str) -> str:
     processed_lines = []
     for line in lines:
         stripped = line.strip()
-        # If line starts with "**Adım" or "**Sonuç", ensure it's at line start
-        if stripped.startswith('**Adım') or stripped.startswith('**Sonuç'):
+        # If line starts with "### Adım" or "### Sonuç", ensure it's at line start
+        if stripped.startswith('### Adım') or stripped.startswith('### Sonuç'):
             processed_lines.append(stripped)  # No leading spaces
         else:
             processed_lines.append(line)  # Keep original formatting
     
     text = '\n'.join(processed_lines)
     
+    # Force newlines before Adım/Sonuç even if mid-line (safeguard)
+    text = re.sub(r'([^\n])\s*(### Adım|### Sonuç)', r'\1\n\n\2', text)
+    
     # Add spacing between steps for better readability
     # Add space after "Adım" headers (but keep them at line start)
-    text = re.sub(r'(^\*\*Adım \d+[^*]+\*\*)', r'\1\n', text, flags=re.MULTILINE)
-    text = re.sub(r'(^\*\*Sonuç:\*\*)', r'\n\1', text, flags=re.MULTILINE)
+    text = re.sub(r'(^### Adım \d+[^*]*:)', r'\1\n', text, flags=re.MULTILINE)
+    text = re.sub(r'(^### Sonuç:)', r'\1\n', text, flags=re.MULTILINE)
     
     # Ensure spacing between math blocks and text
     # Add space before math blocks that come after text
@@ -459,73 +463,278 @@ async def call_llm(
     api_url: str,
     temperature: float = 0.7,
     max_tokens: int = 1000,
-    timeout: float = 30.0
+    timeout: float = 60.0,  # Increased default timeout
+    retries: int = 3  # Reduced to prevent long proxy timeouts
 ) -> str:
     """
-    Call LLM API (OpenRouter) with validated messages.
-    This function is extracted for testability.
-    
-    Args:
-        messages: List of message dicts (validated)
-        model: Model name
-        api_key: API key
-        api_url: API endpoint URL
-        temperature: Temperature parameter
-        max_tokens: Max tokens to generate
-        timeout: Request timeout in seconds
-        
-    Returns:
-        Generated response text
-        
-    Raises:
-        httpx.HTTPStatusError: If API call fails
-        httpx.TimeoutException: If request times out
-        ValueError: If response is invalid
+    Call LLM API (OpenRouter) with validated messages and retry logic for 429 errors.
     """
-    # Note: validate_messages should be called by the caller, not here
-    # This allows callers to handle validation errors appropriately
-    # validate_messages(messages)  # Removed - caller should validate
+    import asyncio
+    import time
     
-    async with httpx.AsyncClient(timeout=timeout) as client:
-        response = await client.post(
-            api_url,
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-                "HTTP-Referer": "http://localhost:3000",
-                "X-Title": "AI Chat App",
-            },
-            json={
-                "model": model,
-                "messages": messages,
-                "temperature": temperature,
-                "max_tokens": max_tokens,
-            },
-        )
-        
-        response.raise_for_status()
-        data = response.json()
-        
-        if "choices" not in data or len(data["choices"]) == 0:
-            raise ValueError("Invalid response from LLM API: no choices found")
-        
-        # Get message from first choice
-        message = data["choices"][0].get("message")
-        if not message:
-            raise ValueError("Invalid response from LLM API: no message found")
-        
-        # Get content from message
-        content = message.get("content")
-        
-        # Check if content is None or empty
-        if content is None:
-            raise ValueError("LLM API returned None content")
-        
-        if not isinstance(content, str):
-            raise ValueError(f"LLM API returned invalid content type: {type(content)}")
-        
-        if not content.strip():
-            raise ValueError("LLM API returned empty response")
-        
-        return content
+    # Simple retry logic without fallback models
+    last_error = None
+    
+    for attempt in range(retries + 1):
+        try:
+            async with httpx.AsyncClient(timeout=timeout) as client:
+                response = await client.post(
+                    api_url,
+                    headers={
+                        "Authorization": f"Bearer {api_key}",
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": "https://hace.ai",
+                        "X-Title": "Lala AI",
+                    },
+                    json={
+                        "model": model,
+                        "messages": messages,
+                        "temperature": temperature,
+                        "max_tokens": max_tokens,
+                    },
+                )
+                
+                if response.status_code == 429:
+                    error_body = response.text
+                    retry_after = response.headers.get("Retry-After")
+                    error_msg = f"LLM API 429 Too Many Requests (Attempt {attempt + 1}/{retries + 1}). Retry-After: {retry_after}"
+                    logger.warning(error_msg)
+                    
+                    if attempt < retries:
+                        wait_time = (2 * (2 ** attempt)) + (random.random() * 2)
+                        logger.info(f"Retrying in {wait_time:.2f}s...")
+                        await asyncio.sleep(wait_time)
+                        continue
+                    else:
+                         logger.error(f"LLM API 429 Persistent after {retries + 1} attempts.")
 
+                response.raise_for_status()
+                data = response.json()
+                
+                if "choices" not in data or len(data["choices"]) == 0:
+                    raise ValueError("Invalid response from LLM API: no choices found")
+                
+                message = data["choices"][0].get("message")
+                if not message:
+                    raise ValueError("Invalid response from LLM API: no message found")
+                
+                content = message.get("content")
+                if content is None:
+                    raise ValueError("LLM API returned None content")
+                
+                return content
+                
+        except httpx.HTTPStatusError as e:
+            last_error = e
+            if e.response.status_code == 429 and attempt < retries:
+                 continue # Handled above
+            logger.error(f"LLM HTTP Error: {e}")
+            if attempt < retries:
+                await asyncio.sleep(2)
+                continue
+            raise e
+        except Exception as e:
+            last_error = e
+            logger.warning(f"LLM Error: {e}")
+            if attempt < retries:
+                await asyncio.sleep(1)
+                continue
+            raise e
+            
+    if last_error:
+        raise last_error
+    raise ValueError("LLM call failed after retries")
+
+
+async def call_llm_streaming(
+    messages: List[Dict[str, str]],
+    model: str,
+    api_key: str,
+    api_url: str,
+    temperature: float = 0.7,
+    max_tokens: int = 1000,
+    timeout: float = 120.0,
+    on_chunk: Optional[Callable[[str], bool]] = None,
+    on_chunk_async: Optional[Callable[[str], any]] = None,
+    check_cancelled: Optional[Callable[[], bool]] = None,
+    retries: int = 2  # Reduced to prevent long proxy timeouts
+) -> str:
+    """
+    Call LLM API with streaming support and basic retry for 429 errors.
+    """
+    import json
+    import asyncio
+    
+    # OpenRouter uses OpenAI-compatible streaming API
+    stream_url = api_url
+    if not stream_url.endswith("/v1/chat/completions"):
+        if not stream_url.endswith("/"):
+            stream_url += "/"
+        stream_url += "v1/chat/completions"
+    
+    # Simple retry logic without fallback models for streaming
+    last_error = None
+    
+    for attempt in range(retries + 1):
+        accumulated_text = ""
+        try:
+            async with httpx.AsyncClient(timeout=timeout) as client:
+                async with client.stream(
+                    "POST",
+                    stream_url,
+                    headers={
+                        "Authorization": f"Bearer {api_key}",
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": "https://hace.ai",
+                        "X-Title": "Lala AI",
+                    },
+                    json={
+                        "model": model,
+                        "messages": messages,
+                        "temperature": temperature,
+                        "max_tokens": max_tokens,
+                        "stream": True,
+                    },
+                ) as response:
+                    if response.status_code == 429:
+                        await response.aread()
+                        error_body = response.text
+                        retry_after = response.headers.get("Retry-After")
+                        error_msg = f"LLM API Streaming 429 (Attempt {attempt + 1}/{retries + 1}). Retry-After: {retry_after}"
+                        logger.warning(error_msg)
+                        
+                        if attempt < retries:
+                            wait_time = (2 * (2 ** attempt)) + (random.random() * 2)
+                            logger.info(f"Retrying stream in {wait_time:.2f}s...")
+                            await asyncio.sleep(wait_time)
+                            continue
+                        else:
+                             # Retries exhausted
+                             logger.error("Streaming 429 Persistent.")
+                    
+                    response.raise_for_status()
+                    
+                    async for line in response.aiter_lines():
+                        if check_cancelled and check_cancelled():
+                            raise RuntimeError("Streaming cancelled by user")
+                        
+                        if not line.strip():
+                            continue
+                        
+                        if line.startswith("data: "):
+                            data_str = line[6:]
+                            if data_str == "[DONE]":
+                                break
+                            
+                            try:
+                                data = json.loads(data_str)
+                                if "choices" in data and len(data["choices"]) > 0:
+                                    delta = data["choices"][0].get("delta", {})
+                                    chunk_text = delta.get("content", "")
+                                    
+                                    if chunk_text:
+                                        accumulated_text += chunk_text
+                                        if on_chunk_async:
+                                            await on_chunk_async(chunk_text)
+                                        if on_chunk:
+                                            if not on_chunk(chunk_text):
+                                                raise RuntimeError("Streaming cancelled by callback")
+                            except json.JSONDecodeError:
+                                continue
+            
+            if not accumulated_text.strip():
+                if attempt < retries:
+                    continue
+                raise ValueError("LLM API returned empty response")
+            
+            return accumulated_text
+            
+        except httpx.HTTPStatusError as e:
+            last_error = e
+            if e.response.status_code == 429 and attempt < retries:
+                 continue # Handled above
+            if attempt < retries:
+                await asyncio.sleep(2)
+                continue
+            raise e
+            
+        except Exception as e:
+            last_error = e
+            logger.warning(f"Streaming Error: {e}")
+            if attempt < retries:
+                await asyncio.sleep(1)
+                continue
+            raise e
+
+    if last_error:
+        raise last_error
+    raise ValueError("LLM streaming failed after retries")
+
+def normalize_lgs_math(text: str) -> str:
+    """
+    Robust normalization for LGS module math output.
+    Ensures \[ \] and \( \) delimiters, closes unclosed blocks, 
+    and removes illegal LaTeX artifacts.
+    """
+    if not text:
+        return text
+
+    # 1. Mask already correct delimiters to protect them
+    # Match \[ ... \] and \( ... \)
+    correct_blocks = []
+    def hide_correct(m):
+        correct_blocks.append(m.group(0))
+        return f"__CORRECT_BLOCK_{len(correct_blocks)-1}__"
+    
+    text = re.sub(r'\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)', hide_correct, text)
+    
+    # 2. Convert illegal delimiters
+    # Convert $$ ... $$ to \[ ... \]
+    text = re.sub(r'\$\$(.*?)\$\$', r'\[ \1 \]', text, flags=re.DOTALL)
+    # Convert $ ... $ to \( ... \)
+    text = re.sub(r'(?<!\$)\$([^\$\n]+?)\$(?!\$)', r'\( \1 \)', text)
+    
+    # 3. Handle unclosed delims (simple fix for common LLM truncation)
+    if "$$" in text:
+        text = text.replace("$$", "\\[", 1)
+        if "$$" in text:
+            text = text.replace("$$", "\\]", 1)
+    
+    # 4. Restore hidden blocks
+    for i, block in enumerate(correct_blocks):
+        text = text.replace(f"__CORRECT_BLOCK_{i}__", block)
+    
+    # 5. Cleanup escaped and illegal symbols
+    # Remove \$$ and \$ artifacts
+    text = text.replace("\\$$", "$$").replace("\\$", "$")
+    # Clean up double escaped characters sometimes seen in LLM output (e.g. \\sqrt)
+    text = text.replace("\\\\", "\\")
+    
+    # 6. AUTO-CLOSE GUARD: Ensure all \[ and \( are closed at the end of the message
+    open_brackets = text.count('\\[')
+    close_brackets = text.count('\\]')
+    if open_brackets > close_brackets:
+        text += '\n\\]' * (open_brackets - close_brackets)
+    
+    open_parens = text.count('\\(')
+    close_parens = text.count('\\)')
+    if open_parens > close_parens:
+        text += '\\)' * (open_parens - close_parens)
+    
+    # 7. Final Sanity: Remove any remaining raw $
+    if "$" in text:
+        # Final attempt to pair them
+        text = re.sub(r'(?<!\$)\$([^\$\n]+?)\$(?!\$)', r'\( \1 \)', text)
+        # Any literal $ remains? Zap it.
+        text = text.replace("$", "")
+
+    # 8. Remove LaTeX-escaped Turkish characters (copy-paste security)
+    # Common ones: \c{c} -> ç, \u{g} -> ğ, \.{i} -> i (lowercase dotted), etc.
+    text = text.replace("\\c{c}", "ç").replace("\\c{C}", "Ç")
+    text = text.replace("\\c{s}", "ş").replace("\\c{S}", "Ş")
+    text = text.replace("\\u{g}", "ğ").replace("\\u{G}", "Ğ")
+    text = text.replace("\\.{i}", "i").replace("\\.{I}", "İ")
+    text = text.replace("\\\"{o}", "ö").replace("\\\"{O}", "Ö")
+    text = text.replace("\\\"{u}", "ü").replace("\\\"{U}", "Ü")
+    
+    return text

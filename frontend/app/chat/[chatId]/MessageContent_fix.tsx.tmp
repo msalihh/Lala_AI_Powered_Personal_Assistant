@@ -1,0 +1,277 @@
+function MessageContent({ content, isStreaming = false, isPartial = false, module }: { content: string; isStreaming?: boolean; isPartial?: boolean; module?: string }) {
+  // displayContent holds what's currently rendered
+  const [displayContent, setDisplayContent] = React.useState(content);
+  const [contentVersion, setContentVersion] = React.useState(0);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Update displayContent when content prop changes
+  React.useEffect(() => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    if (isStreaming || isPartial) {
+      // During streaming, use a 80ms debounce for smoother chunks (ChatGPT style)
+      debounceTimerRef.current = setTimeout(() => {
+        if (content !== displayContent) {
+          setDisplayContent(content);
+          setContentVersion(prev => prev + 1);
+        }
+      }, 80);
+    } else {
+      // Completed message: update immediately
+      setDisplayContent(content);
+      setContentVersion(prev => prev + 1);
+
+      // Force KaTeX render event
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent("forceKatexRender"));
+      }, 200);
+    }
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [content, isStreaming, isPartial, displayContent]);
+
+  // ATOMIC MATH BALANCER: Prevents rendering incomplete LaTeX blocks
+  // ================================================================
+  const { safePart, riskyPart } = React.useMemo(() => {
+    if (!displayContent) return { safePart: "", riskyPart: "" };
+
+    const text = displayContent;
+    
+    // 1. Block Math ($$) Check
+    const blockMathSplit = text.split('$$');
+    const isBlockMathIncomplete = blockMathSplit.length % 2 === 0;
+
+    // 2. Inline Math (\( \)) Check
+    const openInlineMatches = text.match(/\\\(/g) || [];
+    const closeInlineMatches = text.match(/\\\)/g) || [];
+    const isInlineMathIncomplete = openInlineMatches.length > closeInlineMatches.length;
+
+    // If streaming and we have an open block, find the last safe index
+    if ((isStreaming || isPartial) && (isBlockMathIncomplete || isInlineMathIncomplete)) {
+      let lastSafeIndex = text.length;
+
+      if (isBlockMathIncomplete) {
+        const lastOpenIndex = text.lastIndexOf('$$');
+        if (lastOpenIndex !== -1) {
+          lastSafeIndex = Math.min(lastSafeIndex, lastOpenIndex);
+        }
+      }
+
+      if (isInlineMathIncomplete) {
+        const lastOpenIndex = text.lastIndexOf('\\(');
+        if (lastOpenIndex !== -1) {
+          lastSafeIndex = Math.min(lastSafeIndex, lastOpenIndex);
+        }
+      }
+
+      return {
+        safePart: text.substring(0, lastSafeIndex),
+        riskyPart: text.substring(lastSafeIndex)
+      };
+    }
+
+    // Fully balanced content
+    return { safePart: text, riskyPart: "" };
+  }, [displayContent, isStreaming, isPartial]);
+
+  return (
+    <Box
+      className={`messageContent ${module === 'lgs_karekok' ? 'lgs-education-block' : ''}`}
+      sx={{
+        ...(module === 'lgs_karekok' && {
+          lineHeight: '1.8',
+          fontSize: '16px',
+          padding: '4px 8px',
+          color: '#E5E7EB',
+        }),
+        marginTop: '0 !important',
+        paddingTop: '0 !important',
+        overflow: 'visible',
+        overflowY: 'visible',
+        overflowX: 'visible',
+        '& ::-webkit-scrollbar-button': {
+          display: 'none !important',
+          width: '0 !important',
+          height: '0 !important',
+        },
+        '& .katex-display ::-webkit-scrollbar-button': {
+          display: 'none !important',
+          width: '0 !important',
+          height: '0 !important',
+        },
+        '& .katex ::-webkit-scrollbar-button': {
+          display: 'none !important',
+          width: '0 !important',
+          height: '0 !important',
+        },
+        '& p': {
+          marginBottom: '1.15em',
+          lineHeight: module === 'lgs_karekok' ? '1.8' : '1.6',
+          whiteSpace: 'pre-wrap',
+          wordWrap: 'normal',
+          color: 'inherit',
+        },
+        '& p:first-of-type': {
+          marginTop: 0,
+        },
+        '& p:last-child': {
+          marginBottom: 0,
+        },
+        '& .katex-display': {
+          display: 'block',
+          margin: '1.25em 0 !important',
+          overflowX: 'auto',
+          overflowY: 'hidden !important',
+          textAlign: 'center',
+          padding: '1em 0.25em',
+          whiteSpace: 'normal !important',
+          wordBreak: 'normal !important',
+          overflowWrap: 'normal !important',
+          maxHeight: 'none !important',
+          height: 'auto !important',
+          '& ::-webkit-scrollbar-button': {
+            display: 'none !important',
+            width: '0 !important',
+            height: '0 !important',
+            background: 'transparent !important',
+            border: 'none !important',
+            padding: '0 !important',
+            margin: '0 !important',
+          },
+        },
+        '& .katex': {
+          fontSize: '1.15em',
+        },
+        '& li': {
+          marginBottom: '0.25em',
+        },
+      }}
+    >
+      <ReactMarkdown
+        key={`markdown-${contentVersion}`}
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[[rehypeKatex, {
+          strict: false,
+          throwOnError: false,
+          errorColor: 'transparent',
+          macros: {},
+          displayMode: false,
+        }]]}
+        components={{
+          h1: ({ children }) => (
+            <Text as="h1" fontSize="2xl" fontWeight="bold" mb={3} mt={4} className="markdown-heading">
+              {children}
+            </Text>
+          ),
+          h2: ({ children }) => (
+            <Text as="h2" fontSize="xl" fontWeight="bold" mb={2} mt={3} className="markdown-heading">
+              {children}
+            </Text>
+          ),
+          h3: ({ children }) => (
+            <Text as="h3" fontSize="lg" fontWeight="semibold" mb={2} mt={2} className="markdown-heading">
+              {children}
+            </Text>
+          ),
+          ul: ({ children }) => (
+            <ul style={{
+              marginLeft: '24px',
+              marginBottom: '12px',
+              listStyleType: 'disc',
+              userSelect: 'text',
+              WebkitUserSelect: 'text',
+              cursor: 'text'
+            }}>
+              {children}
+            </ul>
+          ),
+          ol: ({ children }) => (
+            <ol style={{
+              marginLeft: '24px',
+              marginBottom: '12px',
+              listStyleType: 'decimal',
+              userSelect: 'text',
+              WebkitUserSelect: 'text',
+              cursor: 'text'
+            }}>
+              {children}
+            </ol>
+          ),
+          li: ({ children }) => (
+            <li style={{
+              marginBottom: '4px',
+              lineHeight: '1.7',
+              userSelect: 'text',
+              WebkitUserSelect: 'text',
+              cursor: 'text'
+            }}>
+              {children}
+            </li>
+          ),
+          code: ({ className, children, ...props }: any) => {
+            const isInline = !className;
+            if (isInline) {
+              return (
+                <code
+                  style={{
+                    backgroundColor: 'var(--chakra-colors-gray-700)',
+                    padding: '2px 6px',
+                    borderRadius: '3px',
+                    fontSize: '0.9em',
+                    fontFamily: 'monospace',
+                    userSelect: 'text',
+                    WebkitUserSelect: 'text',
+                    cursor: 'text',
+                    display: 'inline',
+                    verticalAlign: 'baseline'
+                  }}
+                  {...props}
+                >
+                  {children}
+                </code>
+              );
+            }
+            return (
+              <Box
+                as="pre"
+                bg="gray.800"
+                p={3}
+                borderRadius="md"
+                overflowX="auto"
+                my={2}
+                {...props}
+              >
+                <Text as="code" fontSize="sm" whiteSpace="pre" display="block">
+                  {children}
+                </Text>
+              </Box>
+            );
+          },
+        }}
+      >
+        {safePart}
+      </ReactMarkdown>
+
+      {/* RENDER RISKY CONTENT (PLAIN TEXT ONLY) */}
+      {riskyPart && (
+        <Text 
+          as="span" 
+          whiteSpace="pre-wrap" 
+          fontFamily="inherit"
+          color="inherit"
+          fontSize="inherit"
+          lineHeight="inherit"
+          display="inline"
+        >
+          {riskyPart}
+        </Text>
+      )}
+    </Box>
+  );
+}

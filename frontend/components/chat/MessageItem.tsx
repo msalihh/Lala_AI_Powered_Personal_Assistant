@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { Box, Avatar, useColorModeValue } from "@chakra-ui/react";
+import { Box, Avatar, useColorModeValue, Text, HStack } from "@chakra-ui/react";
 import ChatAvatar from "./Avatar";
 import MessageActions from "./MessageActions";
 import AttachmentList from "./AttachmentList";
+import SourcesPanel from "./SourcesPanel";
 
 interface Message {
   id: string;
@@ -19,6 +20,8 @@ interface Message {
     preview: string;
     score: number;
   }>;
+  used_documents?: boolean; // Whether documents were actually used (relevance gate passed)
+  document_ids?: string[]; // For user messages: which documents were attached
   attachments?: Array<{
     id: string;
     filename: string;
@@ -36,20 +39,21 @@ interface MessageItemProps {
 }
 
 export default function MessageItem({ message, messageContent, username }: MessageItemProps) {
-  const userMessageBg = useColorModeValue("#1A7F37", "#3FB950");
-  const userMessageText = useColorModeValue("#FFFFFF", "#FFFFFF");
-  const assistantMessageBg = useColorModeValue("#F6F8FA", "#161B22");
-  const assistantMessageText = useColorModeValue("#1F2328", "#E6EDF3");
-  const borderColor = useColorModeValue("#D1D9E0", "#30363D");
-  const accentPrimary = useColorModeValue("#1A7F37", "#3FB950");
-  const textSecondary = useColorModeValue("#656D76", "#8B949E");
-  const sourceBg = useColorModeValue("#F0F3F6", "#1C2128");
-  const sourceTitleColor = useColorModeValue("#1F2328", "#E6EDF3");
-  const sourceTextColor = useColorModeValue("#656D76", "#8B949E");
-  const sourcePreviewColor = useColorModeValue("#8B949E", "#8B949E");
-  const accentBorder = useColorModeValue("rgba(26, 127, 55, 0.3)", "rgba(63, 185, 80, 0.3)");
-  const hintBg = useColorModeValue("#F0F3F6", "#1C2128");
-  const hintTextColor = useColorModeValue("#656D76", "#8B949E");
+  // Premium dark theme colors
+  const userMessageBg = useColorModeValue("rgba(16, 185, 129, 0.15)", "rgba(16, 185, 129, 0.15)"); // accent-soft
+  const userMessageText = useColorModeValue("#111827", "#E5E7EB");
+  const assistantMessageBg = useColorModeValue("#F3F4F6", "#111827"); // bg-secondary
+  const assistantMessageText = useColorModeValue("#111827", "#E5E7EB");
+  const borderColor = useColorModeValue("#E5E7EB", "#1F2937"); // border-subtle
+  const accentPrimary = useColorModeValue("#10B981", "#10B981"); // accent-primary
+  const textSecondary = useColorModeValue("#6B7280", "#9CA3AF"); // text-secondary
+  const sourceBg = useColorModeValue("#F9FAFB", "#1F2937"); // bg-tertiary
+  const sourceTitleColor = useColorModeValue("#111827", "#E5E7EB");
+  const sourceTextColor = useColorModeValue("#4B5563", "#9CA3AF");
+  const sourcePreviewColor = useColorModeValue("#9CA3AF", "#6B7280");
+  const accentBorder = useColorModeValue("rgba(16, 185, 129, 0.25)", "rgba(16, 185, 129, 0.3)");
+  const hintBg = useColorModeValue("#F9FAFB", "#1F2937");
+  const hintTextColor = useColorModeValue("#6B7280", "#9CA3AF");
 
   // Skip system messages
   if (message.role === "system") {
@@ -64,15 +68,24 @@ export default function MessageItem({ message, messageContent, username }: Messa
 
   const isUser = message.role === "user";
   const isStreaming = message._isStreaming === true;
+  const isLgsModule = (message as any).module === "lgs_karekok";
 
   return (
-    <Box className={`msgRow msgRow--${message.role}`}>
+    <Box
+      className={`msgRow msgRow--${message.role} ${isLgsModule ? 'msgRow--lgs' : ''}`}
+      {... (isLgsModule && !isUser && {
+        borderBottom: "1px solid",
+        borderColor: borderColor,
+        pb: 8,
+        mb: 8,
+      })}
+    >
       {!isUser && (
         <Box className="msgAvatarArea">
-          <ChatAvatar role="assistant" />
+          <ChatAvatar role="assistant" module={(message as any).module} />
         </Box>
       )}
-      
+
       <Box className="msgBodyArea">
         {/* Attachments for user messages */}
         {isUser && message.attachments && Array.isArray(message.attachments) && message.attachments.length > 0 && (
@@ -81,8 +94,17 @@ export default function MessageItem({ message, messageContent, username }: Messa
           </Box>
         )}
 
-        {/* Message Bubble */}
-        <Box className={`msgBubble msgBubble--${message.role}`}>
+        {/* Message Bubble - LGS is borderless/backgroundless */}
+        <Box
+          className={`msgBubble msgBubble--${message.role} ${isLgsModule && !isUser ? 'msgBubble--lgs' : ''}`}
+          {... (isLgsModule && !isUser && {
+            bg: "transparent",
+            boxShadow: "none",
+            border: "none",
+            maxW: "100%",
+            px: 0,
+          })}
+        >
           <Box className="msgContent markdown">
             {message.content ? messageContent : null}
             {isStreaming && (
@@ -90,10 +112,11 @@ export default function MessageItem({ message, messageContent, username }: Messa
                 className="msgTypingInline"
                 display="inline-flex"
                 alignItems="center"
-                gap="8px"
+                gap="12px"
                 lineHeight="1.55"
                 verticalAlign="baseline"
                 ml={message.content ? 2 : 0}
+                mt={message.content ? 4 : 0}
               >
                 <Box
                   w="8px"
@@ -105,31 +128,13 @@ export default function MessageItem({ message, messageContent, username }: Messa
                     "@keyframes typing": {
                       "0%, 60%, 100%": {
                         transform: "translateY(0)",
-                        opacity: 0.7,
+                        opacity: 0.5,
                       },
                       "30%": {
-                        transform: "translateY(-8px)",
+                        transform: "translateY(-4px)",
                         opacity: 1,
                       },
                     },
-                  }}
-                />
-                <Box
-                  w="8px"
-                  h="8px"
-                  bg={accentPrimary}
-                  borderRadius="full"
-                  sx={{
-                    animation: "typing 1.4s ease-in-out infinite 0.2s",
-                  }}
-                />
-                <Box
-                  w="8px"
-                  h="8px"
-                  bg={accentPrimary}
-                  borderRadius="full"
-                  sx={{
-                    animation: "typing 1.4s ease-in-out infinite 0.4s",
                   }}
                 />
               </Box>
@@ -155,70 +160,25 @@ export default function MessageItem({ message, messageContent, username }: Messa
 
         {/* Sources UI for assistant messages */}
         {!isUser && message.sources && message.sources.length > 0 && (
-          <Box mt={4}>
-            {/* Sources accordion - keeping existing structure */}
-            <Box>
-              <Box mb={2}>
-                <Box fontSize="sm" fontWeight="semibold" color={sourceTitleColor}>
-                  Kaynaklar ({message.sources.length})
-                </Box>
-              </Box>
-              <Box>
-                {message.sources.map((source, idx) => (
-                  <Box
-                    key={idx}
-                    p={2}
-                    bg={sourceBg}
-                    border="1px solid"
-                    borderColor={accentBorder}
-                    borderRadius="md"
-                    fontSize="xs"
-                    mb={2}
-                  >
-                    <Box display="flex" justifyContent="space-between" mb={1}>
-                      <Box fontWeight="semibold" color={accentPrimary} isTruncated>
-                        {source.filename}
-                      </Box>
-                      <Box
-                        bg={accentPrimary}
-                        color="white"
-                        px={1.5}
-                        py={0.5}
-                        borderRadius="sm"
-                        fontSize="2xs"
-                      >
-                        {Math.round(source.score * 100)}%
-                      </Box>
-                    </Box>
-                    <Box fontSize="2xs" color={sourceTextColor} mb={1}>
-                      Bölüm {source.chunkIndex}
-                    </Box>
-                    <Box fontSize="2xs" color={sourcePreviewColor} noOfLines={2}>
-                      {source.preview}
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </Box>
+          <SourcesPanel sources={message.sources} />
         )}
 
         {/* Hint for no sources */}
-        {!isUser && message.content.includes("Bu dokümanlarda bulamadım") && 
-         (!message.sources || message.sources.length === 0) && (
-          <Box mt={3} p={2} bg={hintBg} borderRadius="md">
-            <Box fontSize="xs" color={hintTextColor}>
-              💡 İpucu: Doküman yükleyip indexlemeyi deneyin.
+        {!isUser && message.content.includes("Bu dokümanlarda bulamadım") &&
+          (!message.sources || message.sources.length === 0) && (
+            <Box mt={3} p={2} bg={hintBg} borderRadius="md">
+              <Box fontSize="xs" color={hintTextColor}>
+                💡 İpucu: Doküman yükleyip indexlemeyi deneyin.
+              </Box>
             </Box>
-          </Box>
-        )}
+          )}
       </Box>
 
       {/* User Avatar - Right side */}
       {isUser && (
         <Box className="msgAvatarArea">
-          <Avatar 
-            size="sm" 
+          <Avatar
+            size="sm"
             name={username || "User"}
             bg={accentPrimary}
             color={userMessageText}

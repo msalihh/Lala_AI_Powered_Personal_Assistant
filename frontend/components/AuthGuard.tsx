@@ -33,6 +33,38 @@ export default function AuthGuard({ children }: AuthGuardProps) {
       try {
         await apiFetch<UserResponse>("/api/me");
         setIsLoading(false);
+
+        // CRITICAL: Auto-sync Gmail in background immediately after successful login
+        // This runs silently, no UI blocking
+        // Check if we already triggered auto-sync for this session
+        const autoSyncKey = 'gmail_auto_sync_triggered';
+        if (!sessionStorage.getItem(autoSyncKey)) {
+          sessionStorage.setItem(autoSyncKey, 'true');
+
+          // Trigger auto-sync in background immediately (don't await, let it run silently)
+          import("@/lib/api").then(({ getGmailStatus, syncGmail }) => {
+            getGmailStatus().then((status) => {
+              if (status.is_connected) {
+                // Immediately sync on login (no delay check)
+                // Sync in background (don't await, let it run silently)
+                syncGmail().then((result) => {
+                  const now = Date.now();
+                  const lastSyncKey = `gmail_last_sync_${status.email || 'default'}`;
+                  localStorage.setItem(lastSyncKey, now.toString());
+                  console.log(`[AUTO-SYNC] Gmail synced on login: ${result.emails_indexed || 0} emails indexed`);
+                }).catch((error) => {
+                  // Silently fail - don't show error to user for background sync
+                  console.warn("[AUTO-SYNC] Gmail sync failed on login (silent):", error);
+                });
+              } else {
+                console.log("[AUTO-SYNC] Gmail not connected, skipping auto-sync");
+              }
+            }).catch((error) => {
+              // Silently fail - don't show error to user for background sync
+              console.warn("[AUTO-SYNC] Gmail status check failed on login (silent):", error);
+            });
+          });
+        }
       } catch (error: any) {
         // Token is invalid or expired
         removeToken();

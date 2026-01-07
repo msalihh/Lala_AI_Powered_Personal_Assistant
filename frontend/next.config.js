@@ -1,56 +1,73 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
+    const backendUrl = 'http://127.0.0.1:8000';
+
     return [
-      // Rewrite backend API routes to FastAPI server
-      // CRITICAL: /api/auth/* routes are EXCLUDED - they are handled by NextAuth route handler
+      // Health check
       {
-        source: "/api/me",
-        destination: "http://127.0.0.1:8000/me",
+        source: '/api/health',
+        destination: `${backendUrl}/health`,
+      },
+      // Auth routes
+      {
+        source: '/api/auth/login',
+        destination: `${backendUrl}/auth/login`,
       },
       {
-        source: "/api/auth/login",
-        destination: "http://127.0.0.1:8000/auth/login",
+        source: '/api/auth/register',
+        destination: `${backendUrl}/auth/register`,
       },
       {
-        source: "/api/auth/register",
-        destination: "http://127.0.0.1:8000/auth/register",
+        source: '/api/google-auth',
+        destination: `${backendUrl}/auth/google`,
+      },
+      // User routes
+      {
+        source: '/api/me',
+        destination: `${backendUrl}/me`,
       },
       {
-        source: "/api/documents",
-        destination: "http://127.0.0.1:8000/documents",
+        source: '/api/me/:path*',
+        destination: `${backendUrl}/me/:path*`,
       },
       {
-        source: "/api/documents/:path*",
-        destination: "http://127.0.0.1:8000/documents/:path*",
+        source: '/api/user/settings',
+        destination: `${backendUrl}/user/settings`,
+      },
+      // Chat routes
+      {
+        source: '/api/chat',
+        destination: `${backendUrl}/chat`,
       },
       {
-        source: "/api/chats",
-        destination: "http://127.0.0.1:8000/chats",
+        source: '/api/chat/runs/:path*',
+        destination: `${backendUrl}/chat/runs/:path*`,
       },
       {
-        source: "/api/chats/:path*",
-        destination: "http://127.0.0.1:8000/chats/:path*",
+        source: '/api/chats',
+        destination: `${backendUrl}/chats`,
       },
       {
-        source: "/api/chat",
-        destination: "http://127.0.0.1:8000/chat",
+        source: '/api/chats/:path*',
+        destination: `${backendUrl}/chats/:path*`,
+      },
+      // Documents
+      {
+        source: '/api/documents',
+        destination: `${backendUrl}/documents`,
       },
       {
-        source: "/api/chat/runs/:path*",
-        destination: "http://127.0.0.1:8000/chat/runs/:path*",
+        source: '/api/documents/:path*',
+        destination: `${backendUrl}/documents/:path*`,
       },
-      // Backend Google token exchange endpoint
-      // Using /api/google-auth to avoid conflict with NextAuth /api/auth/* routes
-      // Backend endpoint is /auth/google (not /api/auth/google)
+      // Integrations
       {
-        source: "/api/google-auth",
-        destination: "http://127.0.0.1:8000/auth/google",
+        source: '/api/integrations/:path*',
+        destination: `${backendUrl}/integrations/:path*`,
       },
-      // DO NOT add /api/auth/* routes - they are handled by NextAuth in app/api/auth/[...nextauth]/route.ts
     ];
   },
 };
 
 module.exports = nextConfig;
-

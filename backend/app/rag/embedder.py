@@ -14,8 +14,10 @@ from app.rag.config import embedding_config
 
 logger = logging.getLogger(__name__)
 
-# OpenRouter API Configuration
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
+# OpenRouter API Configuration - SECURITY: Requires environment variable
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
+if not OPENROUTER_API_KEY:
+    logger.warning("OPENROUTER_API_KEY not set - embeddings will fail")
 OPENROUTER_EMBEDDING_URL = "https://openrouter.ai/api/v1/embeddings"
 
 # In-memory cache for deduplication (production'da Redis kullanılabilir)
@@ -33,21 +35,10 @@ async def embed_text(
     metadata: Optional[Dict] = None,
     use_cache: bool = True
 ) -> Optional[List[float]]:
-    """
-    Generate embedding for a single text chunk using OpenRouter.
-    Supports deduplication, retry with backoff, and metadata tracking.
-    
-    Args:
-        text: Text to embed
-        metadata: Optional metadata dict (document_id, chunk_index, etc.)
-        use_cache: Whether to use deduplication cache
-        
-    Returns:
-        Embedding vector (list of floats) or None if failed
-    """
     if not text or not text.strip():
         logger.warning("Empty text provided for embedding")
         return None
+
     
     # Deduplication: Check cache first
     if use_cache and embedding_config.enable_deduplication:

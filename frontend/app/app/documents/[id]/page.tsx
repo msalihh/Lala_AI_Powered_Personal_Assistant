@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Box,
   VStack,
@@ -34,9 +34,44 @@ export default function DocumentDetailPage() {
   const documentId = params.id as string;
   const [document, setDocument] = useState<DocumentDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [fileBlobUrl, setFileBlobUrl] = useState<string | null>(null);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const cardBg = useColorModeValue("white", "gray.800");
   const codeBg = useColorModeValue("gray.100", "gray.700");
+  
+  // Load file as blob when document is loaded
+  useEffect(() => {
+    if (document && documentId) {
+      const loadFile = async () => {
+        try {
+          const token = localStorage.getItem("auth_token");
+          const response = await fetch(`/api/documents/${documentId}/file`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          
+          if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            setFileBlobUrl(url);
+          }
+        } catch (error) {
+          console.error("Failed to load file:", error);
+        }
+      };
+      
+      loadFile();
+      
+    }
+    
+    // Cleanup blob URL on unmount
+    return () => {
+      if (fileBlobUrl) {
+        URL.revokeObjectURL(fileBlobUrl);
+      }
+    };
+  }, [document, documentId]);
 
   useEffect(() => {
     if (documentId) {
@@ -191,31 +226,163 @@ export default function DocumentDetailPage() {
                     </CardBody>
                   </Card>
 
+                  {/* Document Viewer */}
                   <Card bg={cardBg}>
                     <CardBody>
                       <VStack align="stretch" spacing={4}>
-                        <Heading size="sm">Metin İçeriği</Heading>
-                        <Box
-                          bg={codeBg}
-                          p={4}
-                          borderRadius="md"
-                          maxH="600px"
-                          overflowY="auto"
-                          fontFamily="mono"
-                        >
-                          <Code
-                            display="block"
-                            whiteSpace="pre-wrap"
-                            wordBreak="break-word"
-                            bg="transparent"
-                            color="inherit"
-                          >
-                            {document.text_content || "(Metin içeriği yok)"}
-                          </Code>
-                        </Box>
+                        <Heading size="sm">Doküman Görüntüleyici</Heading>
+                        {(() => {
+                          const fileUrl = fileBlobUrl || `/api/documents/${documentId}/file`;
+                          const mimeType = document.mime_type || "";
+                          
+                          // PDF Viewer
+                          if (mimeType === "application/pdf") {
+                            return (
+                              <Box
+                                w="100%"
+                                h="80vh"
+                                border="1px solid"
+                                borderColor={useColorModeValue("gray.200", "gray.700")}
+                                borderRadius="md"
+                                overflow="hidden"
+                                bg={useColorModeValue("gray.100", "gray.900")}
+                              >
+                                {fileBlobUrl ? (
+                                  <iframe
+                                    src={fileBlobUrl}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: "none" }}
+                                    title={document.filename}
+                                  />
+                                ) : (
+                                  <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    h="100%"
+                                  >
+                                    <Spinner size="xl" />
+                                  </Box>
+                                )}
+                              </Box>
+                            );
+                          }
+                          
+                          // Word Document Viewer (using Office Online)
+                          if (mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                            return (
+                              <Box
+                                w="100%"
+                                h="80vh"
+                                border="1px solid"
+                                borderColor={useColorModeValue("gray.200", "gray.700")}
+                                borderRadius="md"
+                                overflow="hidden"
+                                bg={useColorModeValue("gray.100", "gray.900")}
+                              >
+                                {fileBlobUrl ? (
+                                  <iframe
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(window.location.origin + fileUrl)}`}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: "none" }}
+                                    title={document.filename}
+                                  />
+                                ) : (
+                                  <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    h="100%"
+                                  >
+                                    <Spinner size="xl" />
+                                  </Box>
+                                )}
+                              </Box>
+                            );
+                          }
+                          
+                          // TXT Viewer
+                          if (mimeType === "text/plain") {
+                            return (
+                              <Box
+                                bg={codeBg}
+                                p={4}
+                                borderRadius="md"
+                                maxH="80vh"
+                                overflowY="auto"
+                                fontFamily="mono"
+                              >
+                                <Code
+                                  display="block"
+                                  whiteSpace="pre-wrap"
+                                  wordBreak="break-word"
+                                  bg="transparent"
+                                  color="inherit"
+                                  fontSize="sm"
+                                >
+                                  {document.text_content || "(Metin içeriği yok)"}
+                                </Code>
+                              </Box>
+                            );
+                          }
+                          
+                          // Fallback: Show text content
+                          return (
+                            <Box
+                              bg={codeBg}
+                              p={4}
+                              borderRadius="md"
+                              maxH="600px"
+                              overflowY="auto"
+                              fontFamily="mono"
+                            >
+                              <Code
+                                display="block"
+                                whiteSpace="pre-wrap"
+                                wordBreak="break-word"
+                                bg="transparent"
+                                color="inherit"
+                              >
+                                {document.text_content || "(Metin içeriği yok)"}
+                              </Code>
+                            </Box>
+                          );
+                        })()}
                       </VStack>
                     </CardBody>
                   </Card>
+                  
+                  {/* Text Content (Collapsible) */}
+                  {document.text_content && (
+                    <Card bg={cardBg}>
+                      <CardBody>
+                        <VStack align="stretch" spacing={4}>
+                          <Heading size="sm">Metin İçeriği (Arama için)</Heading>
+                          <Box
+                            bg={codeBg}
+                            p={4}
+                            borderRadius="md"
+                            maxH="400px"
+                            overflowY="auto"
+                            fontFamily="mono"
+                          >
+                            <Code
+                              display="block"
+                              whiteSpace="pre-wrap"
+                              wordBreak="break-word"
+                              bg="transparent"
+                              color="inherit"
+                              fontSize="xs"
+                            >
+                              {document.text_content}
+                            </Code>
+                          </Box>
+                        </VStack>
+                      </CardBody>
+                    </Card>
+                  )}
                 </>
               )}
             </VStack>

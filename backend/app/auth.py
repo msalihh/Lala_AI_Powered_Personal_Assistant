@@ -2,14 +2,19 @@
 Authentication utilities: password hashing, JWT tokens, Google OAuth.
 """
 from jose import JWTError, jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 import bcrypt
 from google.auth.transport import requests
 from google.oauth2 import id_token
 
-# JWT settings
+# JWT settings - SECURITY: Use strong secret key in production
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
+if SECRET_KEY == "dev-secret-key-change-in-production":
+    import logging
+    logging.getLogger(__name__).warning(
+        "Using default SECRET_KEY - set SECRET_KEY environment variable in production!"
+    )
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30 * 24 * 60  # 30 days
 
@@ -50,7 +55,7 @@ def create_access_token(data: dict) -> str:
     Create a JWT access token.
     """
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt

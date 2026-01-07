@@ -4,19 +4,7 @@
   margin: 0;
 }
 
-/* ============================================
-   DEV-ONLY: Visualize scroll containers
-   ============================================
-   Remove this after identifying the scrollbar source
-   ============================================ */
-[style*="overflow"], 
-.overflow-y-auto, 
-.overflow-auto, 
-.overflow-scroll,
-[style*="overflow-y"],
-[style*="overflow-x"] {
-  outline: 2px solid red !important;
-}
+/* Scroll containers - no debug styling */
 
 html,
 body {
@@ -30,63 +18,91 @@ body {
   overflow: hidden;
 }
 
-/* Dark Theme (Default) */
+/* Dark Theme (Default) - Premium Dark UI */
 :root,
 [data-theme="dark"] {
-  /* Zemin & Yüzeyler */
-  --bg-primary: #0D1117;
-  --bg-panel: #161B22;
-  --bg-inner: #1C2128;
-  --bg-hover: #22272E;
-  --border-color: #30363D;
-  
-  /* Yeşil Accent (Profesyonel) */
-  --accent-primary: #3FB950;
-  --accent-hover: #2EA043;
-  --accent-active: #238636;
-  --accent-soft: rgba(63, 185, 80, 0.15);
-  --accent-border: rgba(63, 185, 80, 0.3);
-  
-  /* Metin Renkleri */
-  --text-primary: #E6EDF3;
-  --text-secondary: #8B949E;
-  --text-placeholder: #6E7681;
-  --text-disabled: #484F58;
-  
-  /* Durum Renkleri */
-  --error: #F85149;
-  --warning: #D29922;
-  --success: #3FB950;
-  --info: #58A6FF;
+  /* Backgrounds */
+  --bg-primary: #0B0F14;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1F2937;
+  --bg-panel: #111827;
+  --bg-inner: #1F2937;
+  --bg-hover: #1F2937;
+  --border-color: #1F2937;
+  --border-subtle: #1F2937;
+  --border-strong: #374151;
+
+  /* Primary Accent (Emerald Green) */
+  --accent-primary: #10B981;
+  --accent-hover: #34D399;
+  --accent-active: #059669;
+  --accent-soft: rgba(16, 185, 129, 0.15);
+  --accent-border: rgba(16, 185, 129, 0.3);
+
+  /* Secondary Accent (Purple) */
+  --accent-secondary: #8B5CF6;
+  --accent-secondary-soft: rgba(139, 92, 246, 0.15);
+
+  /* Text Colors */
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --text-placeholder: #6B7280;
+  --text-disabled: #4B5563;
+
+  /* Status Colors */
+  --error: #EF4444;
+  --warning: #F59E0B;
+  --success: #22C55E;
+  --success-green: #22C55E;
+  --info: #10B981;
+
+  /* Code/Sources */
+  --code-bg: #020617;
+  --code-border: #1E40AF;
 }
 
 /* Light Theme */
 [data-theme="light"] {
-  /* Zemin & Yüzeyler */
+  /* Backgrounds */
   --bg-primary: #FFFFFF;
+  --bg-secondary: #F6F8FA;
+  --bg-tertiary: #F0F3F6;
   --bg-panel: #F6F8FA;
   --bg-inner: #F0F3F6;
   --bg-hover: #E7ECF0;
   --border-color: #D1D9E0;
-  
-  /* Yeşil Accent (Aydınlık için) */
-  --accent-primary: #1A7F37;
-  --accent-hover: #2EA043;
-  --accent-active: #238636;
-  --accent-soft: rgba(26, 127, 55, 0.1);
-  --accent-border: rgba(26, 127, 55, 0.25);
-  
-  /* Metin Renkleri */
+  --border-subtle: #D1D9E0;
+  --border-strong: #C1C9D1;
+
+  /* Primary Accent (Emerald Green) */
+  --accent-primary: #059669;
+  --accent-hover: #10B981;
+  --accent-active: #047857;
+  --accent-soft: rgba(16, 185, 129, 0.1);
+  --accent-border: rgba(16, 185, 129, 0.25);
+
+  /* Secondary Accent (Purple) */
+  --accent-secondary: #6D4AFF;
+  --accent-secondary-soft: rgba(109, 74, 255, 0.1);
+
+  /* Text Colors */
   --text-primary: #1F2328;
   --text-secondary: #656D76;
+  --text-muted: #8B949E;
   --text-placeholder: #8B949E;
   --text-disabled: #B1BAC4;
-  
-  /* Durum Renkleri */
-  --error: #CF222E;
-  --warning: #9A6700;
-  --success: #1A7F37;
-  --info: #0969DA;
+
+  /* Status Colors */
+  --error: #DC2626;
+  --warning: #D97706;
+  --success: #16A34A;
+  --success-green: #16A34A;
+  --info: #2563EB;
+
+  /* Code/Sources */
+  --code-bg: #F1F5F9;
+  --code-border: #CBD5E1;
 }
 
 body {
@@ -153,8 +169,17 @@ a {
 }
 
 @keyframes neuralPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.5); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.5);
+  }
 }
 
 .login-container {
@@ -195,8 +220,15 @@ a {
 }
 
 @keyframes aiGlow {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.1); }
+
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
 }
 
 .login-header {
@@ -222,8 +254,13 @@ a {
 }
 
 @keyframes coreRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .logo-rings {
@@ -267,8 +304,17 @@ a {
 }
 
 @keyframes ringPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
 }
 
 .login-header h1 {
@@ -346,9 +392,9 @@ a {
   padding: 0 4px;
 }
 
-.smart-field input:focus + label,
-.smart-field input:not(:placeholder-shown) + label,
-.smart-field input:valid + label {
+.smart-field input:focus+label,
+.smart-field input:not(:placeholder-shown)+label,
+.smart-field input:valid+label {
   top: 0;
   font-size: 12px;
   font-weight: 500;
@@ -356,7 +402,7 @@ a {
   transform: translateY(-50%);
 }
 
-.smart-field input:focus ~ .field-background {
+.smart-field input:focus~.field-background {
   border-color: var(--neural-blue);
   background: rgba(30, 41, 59, 0.8);
   box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.5);
@@ -381,13 +427,22 @@ a {
   animation: aiIndicator 2s ease-in-out infinite;
 }
 
-.smart-field input:focus ~ .ai-indicator .ai-pulse {
+.smart-field input:focus~.ai-indicator .ai-pulse {
   opacity: 1;
 }
 
 @keyframes aiIndicator {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.5); opacity: 1; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
 }
 
 .field-completion {
@@ -402,7 +457,7 @@ a {
   z-index: 2;
 }
 
-.smart-field input:valid ~ .field-completion {
+.smart-field input:valid~.field-completion {
   width: 100%;
 }
 
@@ -494,13 +549,13 @@ a {
   z-index: 1;
 }
 
-.smart-checkbox input[type="checkbox"]:checked + .checkbox-ai .checkbox-core {
+.smart-checkbox input[type="checkbox"]:checked+.checkbox-ai .checkbox-core {
   background: var(--neural-blue);
   border-color: var(--neural-blue);
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
 }
 
-.smart-checkbox input[type="checkbox"]:checked + .checkbox-ai svg {
+.smart-checkbox input[type="checkbox"]:checked+.checkbox-ai svg {
   color: #ffffff;
 }
 
@@ -604,12 +659,27 @@ a {
   animation: neuralSpinner 1.2s ease-in-out infinite;
 }
 
-.spinner-segment:nth-child(2) { animation-delay: 0.1s; }
-.spinner-segment:nth-child(3) { animation-delay: 0.2s; }
+.spinner-segment:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.spinner-segment:nth-child(3) {
+  animation-delay: 0.2s;
+}
 
 @keyframes neuralSpinner {
-  0%, 80%, 100% { transform: scaleY(0.5); opacity: 0.5; }
-  40% { transform: scaleY(1); opacity: 1; }
+
+  0%,
+  80%,
+  100% {
+    transform: scaleY(0.5);
+    opacity: 0.5;
+  }
+
+  40% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 }
 
 .neural-button.loading .button-text {
@@ -861,9 +931,20 @@ a {
 }
 
 @keyframes successRing {
-  0% { opacity: 0; transform: scale(0); }
-  50% { opacity: 1; transform: scale(1.1); }
-  100% { opacity: 0.7; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
 }
 
 .success-core svg {
@@ -875,8 +956,15 @@ a {
 }
 
 @keyframes successCheck {
-  0% { opacity: 0; transform: scale(0); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .success-neural h3 {
@@ -895,25 +983,42 @@ a {
   .login-container {
     padding: 16px;
   }
-  
+
   .login-card {
     padding: 32px 24px;
     border-radius: 16px;
   }
-  
+
   .login-header h1 {
     font-size: 1.5rem;
   }
-  
+
   .ai-logo {
     width: 60px;
     height: 60px;
   }
-  
-  .ring-1 { width: 45px; height: 45px; top: 7.5px; left: 7.5px; }
-  .ring-2 { width: 52px; height: 52px; top: 4px; left: 4px; }
-  .ring-3 { width: 60px; height: 60px; top: 0; left: 0; }
-  
+
+  .ring-1 {
+    width: 45px;
+    height: 45px;
+    top: 7.5px;
+    left: 7.5px;
+  }
+
+  .ring-2 {
+    width: 52px;
+    height: 52px;
+    top: 4px;
+    left: 4px;
+  }
+
+  .ring-3 {
+    width: 60px;
+    height: 60px;
+    top: 0;
+    left: 0;
+  }
+
   .form-options {
     flex-direction: column;
     align-items: flex-start;
@@ -923,10 +1028,14 @@ a {
 
 /* Chat streaming animations */
 @keyframes blink {
-  0%, 50% {
+
+  0%,
+  50% {
     opacity: 1;
   }
-  51%, 100% {
+
+  51%,
+  100% {
     opacity: 0;
   }
 }
@@ -936,10 +1045,14 @@ a {
 }
 
 @keyframes bounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: scale(0);
     opacity: 0.3;
   }
+
   40% {
     transform: scale(1);
     opacity: 1;
@@ -964,6 +1077,7 @@ a {
     opacity: 0;
     transform: translateY(10px) scale(0.98);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -974,6 +1088,7 @@ a {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -984,6 +1099,7 @@ a {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -991,9 +1107,12 @@ a {
 }
 
 @keyframes glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
   }
+
   50% {
     box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
   }
@@ -1003,6 +1122,7 @@ a {
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
@@ -1030,7 +1150,8 @@ a {
    ============================================ */
 
 /* Revert problematic global CSS overrides for KaTeX elements */
-.katex, .katex * {
+.katex,
+.katex * {
   /* DO NOT use 'all: revert' - it breaks KaTeX's own styles! */
   /* Instead, selectively override problematic properties */
   letter-spacing: normal !important;
@@ -1040,7 +1161,8 @@ a {
   /* Restore KaTeX essential properties */
   font-family: 'KaTeX_Main', 'KaTeX_Math', 'KaTeX_AMS', 'Times New Roman', serif !important;
   line-height: 1.2 !important;
-  white-space: nowrap !important; /* CRITICAL: KaTeX requires nowrap for proper layout */
+  white-space: nowrap !important;
+  /* CRITICAL: KaTeX requires nowrap for proper layout */
   word-break: normal !important;
   overflow-wrap: normal !important;
 }
@@ -1051,17 +1173,20 @@ a {
   margin: 0.75em 0 !important;
   text-align: center !important;
   overflow-x: auto !important;
-  overflow-y: hidden !important; /* CRITICAL: NO vertical scroll */
-  white-space: normal !important; /* Container can wrap */
+  overflow-y: hidden !important;
+  /* CRITICAL: NO vertical scroll */
+  white-space: normal !important;
+  /* Container can wrap */
   /* CRITICAL: Prevent vertical scrollbar completely */
   max-height: none !important;
   height: auto !important;
 }
 
-.katex-display > .katex {
+.katex-display>.katex {
   display: inline-block !important;
   text-align: initial !important;
-  white-space: nowrap !important; /* Inner KaTeX must use nowrap */
+  white-space: nowrap !important;
+  /* Inner KaTeX must use nowrap */
 }
 
 /* Ensure KaTeX internal structure is preserved */
@@ -1146,9 +1271,11 @@ a {
 /* Only .katex-display may have horizontal scroll for wide equations */
 .messageContent .katex-display {
   overflow-x: auto;
-  overflow-y: hidden !important; /* CRITICAL: NO vertical scroll - prevents ▲▼ buttons */
+  overflow-y: hidden !important;
+  /* CRITICAL: NO vertical scroll - prevents ▲▼ buttons */
   /* Force no vertical scrollbar */
-  scrollbar-width: thin; /* Firefox */
+  scrollbar-width: thin;
+  /* Firefox */
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
   /* CRITICAL: Prevent any vertical scrolling */
   max-height: none !important;
@@ -1187,19 +1314,23 @@ a {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   /* CRITICAL: Prevent vertical scrollbar completely */
-  overflow-y: hidden !important; /* NO vertical scroll - prevents ▲▼ buttons */
+  overflow-y: hidden !important;
+  /* NO vertical scroll - prevents ▲▼ buttons */
   max-height: none !important;
   height: auto !important;
 }
 
 /* Webkit scrollbar for KaTeX - COMPLETELY HIDE BUTTONS */
 .katex-display::-webkit-scrollbar {
-  height: 6px; /* Thin horizontal scrollbar only */
-  width: 0; /* No vertical scrollbar */
+  height: 6px;
+  /* Thin horizontal scrollbar only */
+  width: 0;
+  /* No vertical scrollbar */
 }
 
 .katex-display::-webkit-scrollbar:vertical {
-  display: none !important; /* Hide vertical scrollbar completely */
+  display: none !important;
+  /* Hide vertical scrollbar completely */
   width: 0 !important;
 }
 
@@ -1255,6 +1386,7 @@ a {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -1264,6 +1396,7 @@ a {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -1274,6 +1407,7 @@ a {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1285,6 +1419,7 @@ a {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1296,6 +1431,7 @@ a {
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -1307,6 +1443,7 @@ a {
     opacity: 0;
     transform: translateX(20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -1319,6 +1456,7 @@ a {
     transform: translateY(100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1330,6 +1468,7 @@ a {
     transform: translateY(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1341,6 +1480,7 @@ a {
     transform: translateX(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -1352,6 +1492,7 @@ a {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -1364,6 +1505,7 @@ a {
     transform: scale(0.8);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -1375,6 +1517,7 @@ a {
     transform: scale(1);
     opacity: 1;
   }
+
   to {
     transform: scale(0.8);
     opacity: 0;
@@ -1385,6 +1528,7 @@ a {
   from {
     transform: scale(1);
   }
+
   to {
     transform: scale(1.05);
   }
@@ -1394,6 +1538,7 @@ a {
   from {
     transform: scale(1.05);
   }
+
   to {
     transform: scale(1);
   }
@@ -1405,12 +1550,15 @@ a {
     transform: scale(0.3);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.05);
   }
+
   70% {
     transform: scale(0.9);
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -1418,9 +1566,12 @@ a {
 }
 
 @keyframes bounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -1428,18 +1579,24 @@ a {
 
 /* Pulse Animasyonları */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
 }
 
 @keyframes pulseScale {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
@@ -1447,13 +1604,24 @@ a {
 
 /* Shake Animasyonu */
 @keyframes shake {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-5px);
   }
-  20%, 40%, 60%, 80% {
+
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(5px);
   }
 }
@@ -1463,6 +1631,7 @@ a {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -1473,6 +1642,7 @@ a {
     transform: rotate(-200deg);
     opacity: 0;
   }
+
   to {
     transform: rotate(0);
     opacity: 1;
@@ -1481,19 +1651,25 @@ a {
 
 /* Glow Animasyonları */
 @keyframes glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 5px rgba(63, 185, 80, 0.5);
   }
+
   50% {
     box-shadow: 0 0 20px rgba(63, 185, 80, 0.8), 0 0 30px rgba(63, 185, 80, 0.6);
   }
 }
 
 @keyframes glowPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     filter: brightness(1);
   }
+
   50% {
     opacity: 0.8;
     filter: brightness(1.2);
@@ -1502,9 +1678,13 @@ a {
 
 /* Typing Indicator */
 @keyframes typing {
-  0%, 60%, 100% {
+
+  0%,
+  60%,
+  100% {
     transform: translateY(0);
   }
+
   30% {
     transform: translateY(-10px);
   }
@@ -1515,6 +1695,7 @@ a {
   0% {
     background-position: -200px 0;
   }
+
   100% {
     background-position: calc(200px + 100%) 0;
   }
@@ -1526,6 +1707,7 @@ a {
     transform: scale(0);
     opacity: 1;
   }
+
   100% {
     transform: scale(4);
     opacity: 0;
@@ -1650,7 +1832,7 @@ div[role="menu"] {
   gap: 12px;
   width: 100%;
   margin-bottom: 24px;
-  animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Animation removed - was interfering with text selection */
 }
 
 .msgRow--assistant {
@@ -1659,11 +1841,12 @@ div[role="menu"] {
 
 .msgRow--user {
   justify-content: flex-end;
-  margin-bottom: -10px; /* Reduced from 24px - AI cevap hemen altında olsun */
+  margin-bottom: -10px;
+  /* Reduced from 24px - AI cevap hemen altında olsun */
 }
 
 /* User mesajından sonra gelen assistant mesajı için minimal boşluk */
-.msgRow--user + .msgRow--assistant {
+.msgRow--user+.msgRow--assistant {
   margin-top: 4px;
 }
 
@@ -1679,7 +1862,12 @@ div[role="menu"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2px; /* Fine-tune alignment with first line */
+  margin-top: 2px;
+  /* Fine-tune alignment with first line */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  cursor: default;
 }
 
 /* Body Area - Contains bubble + meta */
@@ -1687,13 +1875,16 @@ div[role="menu"] {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0; /* Allow shrinking */
-  max-width: 720px; /* Desktop max width */
+  min-width: 0;
+  /* Allow shrinking */
+  max-width: 720px;
+  /* Desktop max width */
 }
 
 @media (max-width: 768px) {
   .msgBodyArea {
-    max-width: calc(100% - 48px); /* Mobile: full width minus avatar + gap */
+    max-width: calc(100% - 48px);
+    /* Mobile: full width minus avatar + gap */
   }
 }
 
@@ -1705,7 +1896,7 @@ div[role="menu"] {
   white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  transition: all 0.2s ease;
+  /* Transition removed - was causing choppy text selection */
 }
 
 .msgBubble--assistant {
@@ -1728,11 +1919,19 @@ div[role="menu"] {
   overflow: visible;
   overflow-y: visible;
   overflow-x: visible;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  cursor: text;
 }
 
-.msgContent.markdown {
-  /* Typography for markdown content */
+/* Ensure all child elements are also selectable */
+.msgContent * {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
 }
+
 
 .msgContent.markdown p {
   margin-bottom: 1.15em;
@@ -1740,6 +1939,12 @@ div[role="menu"] {
   white-space: normal;
   word-wrap: normal;
   color: inherit;
+  /* CRITICAL: Ensure consistent selection behavior */
+  vertical-align: baseline;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  cursor: text;
 }
 
 .msgContent.markdown p:first-of-type {
@@ -1760,6 +1965,10 @@ div[role="menu"] {
   margin-bottom: 6px;
   line-height: 1.4;
   font-weight: 600;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  cursor: text;
 }
 
 .msgContent.markdown h1:first-of-type,
@@ -1776,11 +1985,44 @@ div[role="menu"] {
   padding-left: 18px;
   margin-bottom: 0.75em;
   margin-top: 0.5em;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  cursor: text;
 }
 
 .msgContent.markdown li {
   margin-bottom: 0.25em;
   line-height: 1.7;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  cursor: text;
+}
+
+/* Ensure list markers are also selectable */
+.msgContent.markdown li::marker {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+}
+
+/* CRITICAL: Inline formatting elements must not disrupt text selection */
+.msgContent.markdown strong,
+.msgContent.markdown b,
+.msgContent.markdown em,
+.msgContent.markdown i {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  cursor: text;
+  /* Ensure consistent baseline with surrounding text */
+  vertical-align: baseline;
+  line-height: inherit;
+  /* Prevent any layout shift */
+  display: inline;
+  margin: 0;
+  padding: 0;
 }
 
 .msgContent.markdown code {
@@ -1827,7 +2069,7 @@ div[role="menu"] {
   height: auto !important;
 }
 
-.msgContent .katex-display > .katex {
+.msgContent .katex-display>.katex {
   display: inline-block;
   text-align: initial;
   white-space: nowrap !important;
@@ -1841,6 +2083,8 @@ div[role="menu"] {
   line-height: 1.55;
   vertical-align: baseline;
   margin-left: 8px;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* Meta Bar - Actions + Time below bubble */
@@ -1852,7 +2096,8 @@ div[role="menu"] {
   padding-left: 2px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+  pointer-events: none;
 }
 
 .msgMetaBar--assistant {
@@ -1868,6 +2113,7 @@ div[role="menu"] {
 .msgRow:hover .msgMetaBar {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 /* Actions - Copy + Info buttons */
@@ -1875,6 +2121,9 @@ div[role="menu"] {
   display: flex;
   align-items: center;
   gap: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 /* Time or Spacer - Flexible space */
@@ -1902,4 +2151,3 @@ div[role="menu"] {
     max-width: calc(100% - 40px);
   }
 }
-

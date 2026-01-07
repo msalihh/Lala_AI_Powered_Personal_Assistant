@@ -15,14 +15,18 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useToast,
 } from "@chakra-ui/react";
+import { FaTrash } from "react-icons/fa";
 import { useRouter, useSearchParams } from "next/navigation";
 import { removeToken } from "@/lib/auth";
 import { useState, useEffect } from "react";
 import { AddIcon, ViewIcon } from "@chakra-ui/icons";
 import ChatContextMenu from "./ChatContextMenu";
 import { useSidebar } from "@/contexts/SidebarContext";
-import { listChats, deleteChat, deleteChatDocuments, ChatListItem, apiFetch, createChat } from "@/lib/api";
+import { deleteChatDocuments, apiFetch, listChats, deleteChat, updateChatTitle, archiveChat } from "@/lib/api";
+import GmailIcon from "@/components/icons/GmailIcon";
+import DocumentIcon from "@/components/icons/DocumentIcon";
 
 interface ChatHistory {
   id: string;
@@ -36,19 +40,22 @@ export default function Sidebar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isOpen, toggle } = useSidebar();
+  const toast = useToast();
   const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
   const [user, setUser] = useState<{ username: string } | null>(null);
-  
+
   // Tema-aware renkler - TÜM hook'lar component'in en üstünde olmalı
   const bgColor = useColorModeValue("#F6F8FA", "#161B22"); // Panel / Card
   const borderColor = useColorModeValue("#D1D9E0", "#30363D"); // Border / divider
   const buttonHoverBg = useColorModeValue("#E7ECF0", "#22272E"); // Hover yüzey
   const selectedBg = useColorModeValue("#F0F3F6", "#1C2128"); // İç yüzey
   const textPrimary = useColorModeValue("#1F2328", "#E6EDF3");
+  const toastBg = useColorModeValue("white", "#161B22"); // Toast background
+  const toastBorder = useColorModeValue("#D1D9E0", "#30363D"); // Toast border
   const textSecondary = useColorModeValue("#656D76", "#8B949E");
-  const accentPrimary = useColorModeValue("#1A7F37", "#3FB950");
-  const accentHover = useColorModeValue("#2EA043", "#2EA043");
-  const accentActive = useColorModeValue("#238636", "#238636");
+  const accentPrimary = useColorModeValue("#10B981", "#10B981");
+  const accentHover = useColorModeValue("#34D399", "#34D399");
+  const accentActive = useColorModeValue("#059669", "#059669");
   const errorColor = useColorModeValue("#CF222E", "#F85149");
   const iconButtonColor = useColorModeValue("gray.600", "gray.300");
   const iconButtonHoverBg = useColorModeValue("gray.200", "gray.700");
@@ -56,25 +63,35 @@ export default function Sidebar() {
   const buttonTextColor = useColorModeValue("#FFFFFF", "#0D1117");
   const avatarBg = useColorModeValue("#FFFFFF", "#0D1117");
 
-  // Load chat history from backend (user-scoped)
+  // CHAT SAVING ENABLED: Load chat history from backend (filtered by module)
   const loadHistory = async () => {
     try {
-      const chats = await listChats();
+      // Get current module from localStorage
+      const currentModule = typeof window !== 'undefined' 
+        ? (localStorage.getItem('selectedModule') === 'lgs_karekok' ? 'lgs_karekok' as const : 'none' as const)
+        : 'none' as const;
+      
+      const chats = await listChats(currentModule);
       // Convert backend format to frontend format
       const history: ChatHistory[] = chats.map((chat) => ({
         id: chat.id,
         title: chat.title,
-        timestamp: chat.created_at,
-        pinned: false, // Backend doesn't support pinned yet
-        archived: false, // Backend doesn't support archived yet
+        timestamp: chat.updated_at || chat.created_at,
+        pinned: false, // TODO: Add pinned support from backend
+        archived: false, // TODO: Add archived support from backend
       }));
-      // Sort by timestamp (newest first)
-      const sorted = history.sort((a, b) => 
-        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-      );
-      setChatHistory(sorted);
+
+      // Sort by updated_at (most recent first)
+      history.sort((a, b) => {
+        const dateA = new Date(a.timestamp).getTime();
+        const dateB = new Date(b.timestamp).getTime();
+        return dateB - dateA;
+      });
+
+      setChatHistory(history);
     } catch (error) {
       console.error("Failed to load chat history:", error);
+      // On error, set empty history
       setChatHistory([]);
     }
   };
@@ -84,7 +101,26 @@ export default function Sidebar() {
 
     // Listen for updates
     window.addEventListener("chatHistoryUpdated", loadHistory);
-    return () => window.removeEventListener("chatHistoryUpdated", loadHistory);
+    
+    // Listen for module changes (both storage event and custom event)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'selectedModule') {
+        loadHistory();
+      }
+    };
+    
+    const handleModuleChange = () => {
+      loadHistory();
+    };
+    
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("moduleChanged", handleModuleChange);
+    
+    return () => {
+      window.removeEventListener("chatHistoryUpdated", loadHistory);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("moduleChanged", handleModuleChange);
+    };
   }, []);
 
   // Fetch user info for avatar
@@ -108,62 +144,61 @@ export default function Sidebar() {
   };
 
   const handleRename = async (chatId: string, newTitle: string) => {
-    // TODO: Add PATCH /chats/{chat_id} endpoint for renaming
-    // For now, just update local state (backend doesn't support rename yet)
-    const history = [...chatHistory];
-    const index = history.findIndex((chat) => chat.id === chatId);
-    if (index >= 0) {
-      history[index].title = newTitle;
-      setChatHistory(history);
-      // Note: Backend rename endpoint not implemented yet
+    try {
+      // Update title in backend
+      await updateChatTitle(chatId, newTitle);
+
+      // Update local state
+      const history = [...chatHistory];
+      const index = history.findIndex((chat) => chat.id === chatId);
+      if (index >= 0) {
+        history[index].title = newTitle;
+        setChatHistory(history);
+      }
+    } catch (error) {
+      console.error("Failed to rename chat:", error);
     }
   };
 
-  const handleDelete = async (chatId: string) => {
+  // CHAT SAVING ENABLED: Delete chat from backend
+  const handleDelete = async (chatId: string, deleteDocuments?: boolean) => {
     try {
-      // Delete chat from backend (cascade delete messages)
-      await deleteChat(chatId);
-      
-      // Delete chat-scoped documents from backend (cascade delete)
-      try {
-        const result = await deleteChatDocuments(chatId);
-        if (result.deleted_documents > 0) {
-          console.log(`Deleted ${result.deleted_documents} documents and ${result.deleted_vectors} vectors for chat ${chatId}`);
-        }
-      } catch (error) {
-        console.error("Failed to delete chat documents:", error);
-        // Continue even if document deletion fails
-      }
-      
-      // Notify other components (like documents page) that a chat was deleted
-      // Note: focusInput will be set by ChatContextMenu after delete confirmation
-      window.dispatchEvent(new CustomEvent("chatDeleted", { detail: { chatId } }));
-      
-      // Delete local state (messages and settings)
+      const chatTitle = chatHistory.find(c => c.id === chatId)?.title || "Sohbet";
+      await deleteChat(chatId, deleteDocuments);
+
+      // Clear local storage
       localStorage.removeItem(`chat_messages_${chatId}`);
       localStorage.removeItem(`chat_settings_${chatId}`);
-      
-      // Reload history from backend
-      await loadHistory();
-      
+
+      // Dispatch chatDeleted event for chat page to handle
+      window.dispatchEvent(new CustomEvent("chatDeleted", {
+        detail: { chatId, focusInput: false }
+      }));
+
       // If deleted chat was current, go to new chat
       if (currentChatId === chatId) {
-        // Blur any active element before navigation to prevent focus on sidebar toggle
-        try {
-          const activeElement = document.activeElement as HTMLElement | null;
-          if (activeElement && activeElement !== document.body) {
-            activeElement.blur();
-          }
-        } catch (e) {
-          // Ignore blur errors
-        }
         router.push("/chat");
-        window.dispatchEvent(new CustomEvent("newChat"));
+      }
+
+      // Reload history from backend
+      try {
+        await loadHistory();
+      } catch (historyError) {
+        // History reload failed, but chat was already deleted successfully
+        // Just log the error, don't show toast (chat deletion was successful)
+        console.error("Failed to reload chat history:", historyError);
       }
     } catch (error) {
+      // Only show error toast if deleteChat itself failed
       console.error("Failed to delete chat:", error);
-      // Still reload history to sync with backend
-      await loadHistory();
+      toast({
+        title: "Hata",
+        description: "Sohbet silinemedi",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
     }
   };
 
@@ -187,35 +222,52 @@ export default function Sidebar() {
     }
   };
 
-  const handleArchive = (chatId: string) => {
-    // TODO: Backend doesn't support archived yet
-    const history = [...chatHistory];
-    const index = history.findIndex((chat) => chat.id === chatId);
-    if (index >= 0) {
-      history[index].archived = true;
-      setChatHistory(history.filter((chat) => !chat.archived));
-      
+  const handleArchive = async (chatId: string) => {
+    try {
+      const chat = chatHistory.find(c => c.id === chatId);
+      await archiveChat(chatId, true);
+      // Reload history from backend (archived chat will be excluded)
+      await loadHistory();
+
       if (currentChatId === chatId) {
         router.push("/chat");
         window.dispatchEvent(new CustomEvent("newChat"));
       }
+    } catch (error) {
+      console.error("Failed to archive chat:", error);
     }
   };
 
-  const handleUnarchive = (chatId: string) => {
-    // TODO: Backend doesn't support archived yet
-    const history = [...chatHistory];
-    const index = history.findIndex((chat) => chat.id === chatId);
-    if (index >= 0) {
-      history[index].archived = false;
-      setChatHistory(history);
+  const handleUnarchive = async (chatId: string) => {
+    try {
+      await archiveChat(chatId, false);
+      // Reload history from backend (unarchived chat will be included)
+      await loadHistory();
+    } catch (error) {
+      console.error("Failed to unarchive chat:", error);
     }
   };
 
   const handleNewChat = async () => {
-    // Just navigate to chat page - chat will be created when first message is sent
-    router.push("/chat");
-    window.dispatchEvent(new CustomEvent("newChat"));
+    try {
+      // Get current module from localStorage
+      const currentModule = typeof window !== 'undefined' 
+        ? (localStorage.getItem('selectedModule') === 'lgs_karekok' ? 'lgs_karekok' as const : 'none' as const)
+        : 'none' as const;
+      
+      // Create a new chat first
+      const { createChat } = await import("@/lib/api");
+      const newChat = await createChat(undefined, currentModule);
+      // Navigate to the new chat
+      router.push(`/chat/${newChat.id}`);
+      // Dispatch event for chat page to handle
+      window.dispatchEvent(new CustomEvent("newChat", { detail: { chatId: newChat.id } }));
+    } catch (error) {
+      console.error("Failed to create new chat:", error);
+      // Fallback: navigate to /chat and let the page handle it
+      router.push("/chat");
+      window.dispatchEvent(new CustomEvent("newChat"));
+    }
   };
 
   const handleLogout = () => {
@@ -261,15 +313,14 @@ export default function Sidebar() {
       left={isOpen ? "0" : "-260px"}
       top={0}
       zIndex={999}
-      transition="left 0.3s ease"
       boxShadow="2px 0 8px rgba(0, 0, 0, 0.1)"
       overflow="visible"
     >
       {/* Sidebar Header with Toggle Button (when open) */}
       {isOpen && (
         <Box position="relative" p={4} pb={2} minH="60px">
-          <Tooltip 
-            label="Kenar çubuğunu kapa" 
+          <Tooltip
+            label="Kenar çubuğunu kapa"
             placement="right"
             hasArrow
           >
@@ -289,8 +340,8 @@ export default function Sidebar() {
               variant="ghost"
               color={iconButtonColor}
               bg="transparent"
-              _hover={{ 
-                bg: iconButtonHoverBg, 
+              _hover={{
+                bg: iconButtonHoverBg,
                 color: iconButtonHoverColor
               }}
               transition="all 0.2s ease"
@@ -325,9 +376,9 @@ export default function Sidebar() {
           borderColor={borderColor}
           color={textPrimary}
           onClick={() => router.push("/app/documents")}
-          leftIcon={<ViewIcon />}
-          _hover={{ 
-            bg: buttonHoverBg, 
+          leftIcon={<DocumentIcon size={18} />}
+          _hover={{
+            bg: buttonHoverBg,
             borderColor: borderColor,
             transform: "translateY(-2px)",
             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
@@ -338,14 +389,35 @@ export default function Sidebar() {
         </Button>
       </Box>
 
+      {/* Gmail Button */}
+      <Box px={4} pb={2}>
+        <Button
+          w="100%"
+          variant="outline"
+          borderColor={borderColor}
+          color={textPrimary}
+          onClick={() => router.push("/app/gmail")}
+          leftIcon={<img src="/email.png" alt="Email" style={{ width: '18px', height: '18px', objectFit: 'contain' }} />}
+          _hover={{
+            bg: buttonHoverBg,
+            borderColor: borderColor,
+            transform: "translateY(-2px)",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+          }}
+          transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        >
+          Gmail
+        </Button>
+      </Box>
+
       <Divider borderColor={borderColor} />
 
       {/* Chat History */}
-      <Box 
-        flex={1} 
-        overflowY="auto" 
+      <Box
+        flex={1}
+        overflowY="auto"
         overflowX="hidden"
-        p={2} 
+        p={2}
         position="relative"
         sx={{
           "&::-webkit-scrollbar": {
@@ -379,7 +451,7 @@ export default function Sidebar() {
               p={1}
               borderRadius="md"
               bg={currentChatId === chat.id ? selectedBg : "transparent"}
-              _hover={{ 
+              _hover={{
                 bg: buttonHoverBg,
                 transform: "translateX(4px)",
               }}
@@ -396,10 +468,10 @@ export default function Sidebar() {
               position="relative"
             >
               <Box flex={1} minW={0}>
-                <Text 
-                  isTruncated 
-                  fontSize="sm" 
-                  title={chat.title} 
+                <Text
+                  isTruncated
+                  fontSize="sm"
+                  title={chat.title}
                   fontWeight={chat.pinned ? "semibold" : "normal"}
                   color={textPrimary}
                 >
@@ -407,7 +479,7 @@ export default function Sidebar() {
                   {chat.title}
                 </Text>
               </Box>
-              <Box 
+              <Box
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -444,26 +516,26 @@ export default function Sidebar() {
           <VStack spacing={3} align="stretch">
             <Menu>
               <MenuButton w="100%">
-                <HStack spacing={3} justify="flex-start">
-                  <Avatar 
-                    size="md" 
+                <HStack spacing={3} justify="flex-start" p={2} borderRadius="md" _hover={{ bg: buttonHoverBg }} transition="all 0.2s">
+                  <Avatar
+                    size="sm"
                     name={user.username}
                     bg={accentPrimary}
-                    color={avatarBg}
+                    color="white"
                     fontWeight="600"
                   />
                   <VStack align="start" spacing={0} flex={1}>
-                    <Text fontSize="sm" fontWeight="semibold" color={textPrimary}>
+                    <Text fontSize="sm" fontWeight="semibold" color={textPrimary} noOfLines={1}>
                       {user.username}
                     </Text>
                     <Text fontSize="xs" color={textSecondary}>
-                      Profil
+                      Hesap Ayarları
                     </Text>
                   </VStack>
                 </HStack>
               </MenuButton>
               <MenuList bg={selectedBg} borderColor={borderColor}>
-                <MenuItem 
+                <MenuItem
                   onClick={() => router.push("/app")}
                   bg={selectedBg}
                   color={textPrimary}

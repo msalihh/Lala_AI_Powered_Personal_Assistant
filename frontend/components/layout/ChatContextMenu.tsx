@@ -25,6 +25,8 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Text,
+  Checkbox,
+  Box,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
@@ -68,6 +70,7 @@ export default function ChatContextMenu({
   const cancelRef = useRef<HTMLButtonElement>(null);
   const deleteButtonRef = useRef<HTMLButtonElement>(null);
   const [newTitle, setNewTitle] = useState(chatTitle);
+  const [deleteDocuments, setDeleteDocuments] = useState(false);
   const toast = useToast();
 
   const handleRename = () => {
@@ -90,7 +93,7 @@ export default function ChatContextMenu({
   const handleDeleteConfirm = () => {
     // Close dialog first to prevent focus return
     onDeleteClose();
-    
+
     // Immediately blur any active element to prevent focus on sidebar toggle
     try {
       const activeElement = document.activeElement as HTMLElement | null;
@@ -104,28 +107,23 @@ export default function ChatContextMenu({
     } catch (e) {
       // Ignore blur errors
     }
-    
+
     // Call delete after blur
-    onDelete(chatId);
-    
-    toast({
-      title: "Sohbet silindi",
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-    });
-    
+    // Note: onDelete callback (Sidebar.handleDelete) will show toast and handle navigation
+    // Pass deleteDocuments flag to onDelete
+    (onDelete as any)(chatId, deleteDocuments);
+
     // Dispatch event to focus input - use multiple attempts with delays
     // First attempt: immediate
     setTimeout(() => {
       window.dispatchEvent(new CustomEvent("chatDeleted", { detail: { focusInput: true } }));
     }, 50);
-    
+
     // Second attempt: after a bit longer (in case DOM isn't ready)
     setTimeout(() => {
       window.dispatchEvent(new CustomEvent("chatDeleted", { detail: { focusInput: true } }));
     }, 200);
-    
+
     // Third attempt: after even longer (fallback)
     setTimeout(() => {
       window.dispatchEvent(new CustomEvent("chatDeleted", { detail: { focusInput: true } }));
@@ -177,18 +175,22 @@ export default function ChatContextMenu({
     if (isArchived) {
       onUnarchive(chatId);
       toast({
-        title: "Arşivden çıkarıldı",
-        status: "info",
-        duration: 2000,
+        title: "Sohbet arşivden çıkarıldı",
+        description: `${chatTitle} sohbeti arşivden çıkarıldı`,
+        status: "success",
+        duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     } else {
       onArchive(chatId);
       toast({
         title: "Sohbet arşivlendi",
+        description: `${chatTitle} sohbeti arşivlendi`,
         status: "info",
-        duration: 2000,
+        duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     }
   };
@@ -218,8 +220,8 @@ export default function ChatContextMenu({
 
   return (
     <>
-      <Menu 
-        isLazy 
+      <Menu
+        isLazy
         placement="bottom-end"
         closeOnBlur={true}
         closeOnSelect={true}
@@ -239,77 +241,119 @@ export default function ChatContextMenu({
           zIndex={10}
         />
         <Portal>
-          <MenuList 
-            boxShadow="xl"
-            minW="200px"
+          <MenuList
+            bg="#111827"
+            borderColor="rgba(16, 185, 129, 0.2)"
+            boxShadow="0 4px 20px rgba(0, 0, 0, 0.4)"
+            py={1.5}
+            minW="180px"
             zIndex={9999}
+            borderRadius="xl"
             onClick={(e) => {
               e.stopPropagation();
             }}
             onMouseDown={(e) => {
               e.stopPropagation();
             }}
-            sx={{
-              zIndex: "9999 !important",
-              position: 'relative',
-            }}
           >
-            <MenuItem 
-            icon={<span>📤</span>} 
-            onClick={(e) => {
-              e.stopPropagation();
-              handleShare();
-            }}
-          >
-            Paylaş
-          </MenuItem>
-          <MenuItem 
-            icon={<span>✏️</span>} 
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpen();
-            }}
-          >
-            Yeniden adlandır
-          </MenuItem>
-          <MenuItem 
-            icon={<span>📁</span>} 
-            onClick={(e) => {
-              e.stopPropagation();
-              handleMoveToProject();
-            }}
-          >
-            Projeye taşı
-            <span style={{ marginLeft: "auto" }}>›</span>
-          </MenuItem>
-          <MenuItem 
-            icon={<span>📌</span>} 
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePin();
-            }}
-          >
-            {isPinned ? "Sabitlemeyi kaldır" : "Sohbeti sabitle"}
-          </MenuItem>
-          <MenuItem 
-            icon={<span>📦</span>} 
-            onClick={(e) => {
-              e.stopPropagation();
-              handleArchive();
-            }}
-          >
-            {isArchived ? "Arşivden çıkar" : "Arşivle"}
-          </MenuItem>
-          <MenuItem 
-            icon={<span>🗑️</span>} 
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDelete();
-            }} 
-            color="red.500"
-          >
-            Sil
-          </MenuItem>
+            <MenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                handleShare();
+              }}
+              py={2.5}
+              px={4}
+              fontSize="14px"
+              fontWeight="500"
+              color="gray.200"
+              bg="transparent"
+              _hover={{ bg: "rgba(16, 185, 129, 0.1)", color: "#10B981" }}
+              transition="all 0.2s"
+            >
+              Paylaş
+            </MenuItem>
+            <MenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpen();
+              }}
+              py={2.5}
+              px={4}
+              fontSize="14px"
+              fontWeight="500"
+              color="gray.200"
+              bg="transparent"
+              _hover={{ bg: "rgba(16, 185, 129, 0.1)", color: "#10B981" }}
+              transition="all 0.2s"
+            >
+              Yeniden adlandır
+            </MenuItem>
+            <MenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                handleMoveToProject();
+              }}
+              py={2.5}
+              px={4}
+              fontSize="14px"
+              fontWeight="500"
+              color="gray.200"
+              bg="transparent"
+              _hover={{ bg: "rgba(16, 185, 129, 0.1)", color: "#10B981" }}
+              transition="all 0.2s"
+            >
+              Projeye taşı
+              <Box as="span" ml="auto" fontSize="18px" opacity={0.5}>›</Box>
+            </MenuItem>
+            <MenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePin();
+              }}
+              py={2.5}
+              px={4}
+              fontSize="14px"
+              fontWeight="500"
+              color="gray.200"
+              bg="transparent"
+              _hover={{ bg: "rgba(16, 185, 129, 0.1)", color: "#10B981" }}
+              transition="all 0.2s"
+            >
+              {isPinned ? "Sabitlemeyi kaldır" : "Sohbeti sabitle"}
+            </MenuItem>
+            <MenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                handleArchive();
+              }}
+              py={2.5}
+              px={4}
+              fontSize="14px"
+              fontWeight="500"
+              color="gray.200"
+              bg="transparent"
+              _hover={{ bg: "rgba(16, 185, 129, 0.1)", color: "#10B981" }}
+              transition="all 0.2s"
+            >
+              {isArchived ? "Arşivden çıkar" : "Arşivle"}
+            </MenuItem>
+            <Box h="1px" bg="rgba(16, 185, 129, 0.1)" my={1} />
+            <MenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
+              py={2.5}
+              px={4}
+              fontSize="14px"
+              fontWeight="500"
+              color="red.400"
+              bg="transparent"
+              _hover={{ bg: "rgba(220, 38, 38, 0.1)", color: "red.500" }}
+              transition="all 0.2s"
+            >
+              Sil
+            </MenuItem>
           </MenuList>
         </Portal>
       </Menu>
@@ -351,55 +395,83 @@ export default function ChatContextMenu({
         motionPreset="slideInBottom"
         returnFocusOnClose={false}
       >
-        <AlertDialogOverlay bg="blackAlpha.600" backdropFilter="blur(4px)" />
-        <AlertDialogContent 
-          borderRadius="xl" 
-          boxShadow="2xl"
+        <AlertDialogOverlay bg="rgba(0, 0, 0, 0.7)" backdropFilter="blur(8px)" />
+        <AlertDialogContent
+          bg="#111827"
+          color="gray.100"
+          borderRadius="2xl"
+          boxShadow="0 10px 40px rgba(0, 0, 0, 0.5)"
+          border="1px solid"
+          borderColor="rgba(16, 185, 129, 0.2)"
           onKeyDown={handleDeleteKeyDown}
+          mx={4}
         >
-          <AlertDialogHeader fontSize="lg" fontWeight="bold" pb={2}>
+          <AlertDialogHeader fontSize="xl" fontWeight="bold" pt={6} pb={2}>
             Sohbeti Sil
           </AlertDialogHeader>
           <AlertDialogBody>
-            <Text mb={2}>
-              <Text as="span" fontWeight="bold">{chatTitle}</Text> sohbetini silmek istediğinize emin misiniz?
+            <Text mb={6} fontSize="17px" color="gray.200" fontWeight="500">
+              <Text as="span" fontWeight="700" color="#10B981">{chatTitle}</Text> sohbetini silmek istediğinize emin misiniz?
             </Text>
-            <Text fontSize="sm" color="gray.500">
-              Bu işlem geri alınamaz. Sohbet ve tüm mesajları kalıcı olarak silinecektir.
-            </Text>
+
+            <Box py={2}>
+              <Checkbox
+                isChecked={deleteDocuments}
+                onChange={(e) => setDeleteDocuments(e.target.checked)}
+                colorScheme="green"
+                size="md"
+                sx={{
+                  "span.chakra-checkbox__control": {
+                    borderRadius: "4px",
+                    bg: "transparent",
+                    borderColor: "rgba(16, 185, 129, 0.4)",
+                  },
+                  "span.chakra-checkbox__control[data-checked]": {
+                    bg: "#10B981",
+                    borderColor: "#10B981",
+                    color: "white",
+                  }
+                }}
+              >
+                <Text fontSize="15px" fontWeight="500" color="gray.300">
+                  Bu sohbette yüklenen dosyaları da sil
+                </Text>
+              </Checkbox>
+            </Box>
           </AlertDialogBody>
-          <AlertDialogFooter gap={3}>
-            <Button ref={cancelRef} onClick={onDeleteClose} variant="ghost">
+          <AlertDialogFooter pt={2} pb={6} gap={3}>
+            <Button
+              ref={cancelRef}
+              onClick={onDeleteClose}
+              variant="ghost"
+              px={6}
+              fontWeight="600"
+              color="gray.400"
+              _hover={{ bg: "rgba(255, 255, 255, 0.05)", color: "white" }}
+            >
               İptal
             </Button>
             <Button
               ref={deleteButtonRef}
-              colorScheme="red"
               onClick={handleDeleteConfirm}
-              bg="red.500"
+              bg="#EF4444"
               color="white"
-              border="2px solid"
-              borderColor="red.600"
-              _hover={{ 
-                bg: "red.600",
-                borderColor: "red.700",
-                transform: "scale(1.02)",
+              px={8}
+              fontWeight="700"
+              borderRadius="xl"
+              boxShadow="0 4px 12px rgba(239, 68, 68, 0.3)"
+              _hover={{
+                bg: "#DC2626",
+                transform: "translateY(-1px)",
+                boxShadow: "0 6px 15px rgba(239, 68, 68, 0.4)",
               }}
-              _active={{ 
-                bg: "red.700",
-                borderColor: "red.800",
-                transform: "scale(0.98)",
+              _active={{
+                bg: "#B91C1C",
+                transform: "translateY(0)",
               }}
-              _focus={{ 
-                boxShadow: "0 0 0 3px rgba(220, 38, 38, 0.3)",
-                outline: "none",
-                bg: "red.500",
-                borderColor: "red.400",
-                borderWidth: "3px",
-              }}
-              transition="all 0.2s ease"
+              transition="all 0.2s"
             >
-              Sil
+              Kalıcı Olarak Sil
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

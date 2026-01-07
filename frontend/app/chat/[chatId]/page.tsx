@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import Image from "next/image";
 import {
   Box,
   VStack,
@@ -31,6 +32,11 @@ import {
   Checkbox,
   List,
   ListItem,
+  Select,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { ArrowUpIcon, AddIcon, AttachmentIcon } from "@chakra-ui/icons";
 import { FaFilePdf, FaFileWord, FaFileAlt, FaEnvelope, FaCopy, FaInfoCircle } from "react-icons/fa";
@@ -38,10 +44,12 @@ import { useRouter, useParams, useSearchParams } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
-import { apiFetch, uploadDocument, DocumentUploadResponse, listDocuments, DocumentListItem, createChat, listChats, getGenerationRun, cancelGenerationRun, GenerationRunStatus, getChatMessages, sendChatMessage, SendChatMessageRequest } from "@/lib/api";
+import { apiFetch, uploadDocument, DocumentUploadResponse, listDocuments, DocumentListItem, getGenerationRun, cancelGenerationRun, GenerationRunStatus, sendChatMessage, SendChatMessageRequest, getChatMessages, createChat, getChat } from "@/lib/api";
 import { useToast } from "@chakra-ui/react";
 import { useSidebar } from "@/contexts/SidebarContext";
+import { useChatStore, Run } from "@/contexts/ChatStoreContext";
 import DocumentPicker from "@/components/DocumentPicker";
+import LalaAILogo from "@/components/icons/LalaAILogo";
 import AttachmentList from "@/components/chat/AttachmentList";
 import MessageItem from "@/components/chat/MessageItem";
 // KaTeX CSS is now imported globally in layout.tsx
@@ -54,8 +62,11 @@ interface Message {
   role: "user" | "assistant" | "system";
   content: string;
   timestamp: Date;
-  status?: "cancelled" | "completed"; // ChatGPT style: cancelled messages stay visible
+  status?: "cancelled" | "completed" | "streaming"; // ChatGPT style: cancelled messages stay visible
   sources?: SourceInfo[];
+  used_documents?: boolean; // Whether documents were actually used (relevance gate passed)
+  is_partial?: boolean; // Whether message is partial (streaming/cancelled)
+  document_ids?: string[]; // For user messages: which documents were attached
   client_message_id?: string; // For duplicate detection
   attachments?: {
     id: string;
@@ -64,6 +75,7 @@ interface Message {
     size: number;
     documentId?: string;
   }[];
+  module?: string; // Track which module generated this message
 }
 
 interface SourceInfo {
@@ -72,6 +84,10 @@ interface SourceInfo {
   chunkIndex: number;
   score: number;
   preview: string;
+  source_type?: "document" | "email";
+  sender?: string;
+  subject?: string;
+  date?: string;
 }
 
 interface ChatResponse {
@@ -79,6 +95,7 @@ interface ChatResponse {
   role: "assistant";
   chatId?: string; // Backend may return chatId for new chats
   sources?: SourceInfo[];
+  used_documents?: boolean; // Whether documents were actually used (relevance gate passed)
   debug_info?: {
     incoming_document_ids?: string[];
     incoming_document_ids_count?: number;
@@ -93,6 +110,7 @@ interface AttachedFile {
   file: File;
   documentId?: string;
   isUploading?: boolean;
+  uploadProgress?: number; // 0-100 percentage
   abortController?: AbortController;
 }
 
@@ -106,30 +124,32 @@ interface UploadedDocument {
 
 /**
  * Convert Unicode math symbols to LaTeX format.
+ * FIXED: Uses single $ delimiters for inline math, not $$
  */
 function convertUnicodeToLatex(content: string): string {
   let result = content;
-  
+
   // Step 1: Protect existing LaTeX blocks ($$...$$ and $...$)
   const latexBlockRegex = /\$\$[\s\S]*?\$\$/g;
   const latexInlineRegex = /\$[^$\n]+\$/g;
-  
+
   const protectedBlocks: string[] = [];
   const protectedInlines: string[] = [];
-  
+
   result = result.replace(latexBlockRegex, (match) => {
     const placeholder = `__LATEX_BLOCK_${protectedBlocks.length}__`;
     protectedBlocks.push(match);
     return placeholder;
   });
-  
+
   result = result.replace(latexInlineRegex, (match) => {
     const placeholder = `__LATEX_INLINE_${protectedInlines.length}__`;
     protectedInlines.push(match);
     return placeholder;
   });
-  
+
   // Superscripts: x² → $x^{2}$, a³ → $a^{3}$
+  // FIXED: Use function replacement to avoid $$ issues in regex
   const superscripts: Record<string, string> = {
     '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
     '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9'
@@ -138,10 +158,10 @@ function convertUnicodeToLatex(content: string): string {
     const escapedUnicode = unicode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     result = result.replace(
       new RegExp(`([a-zA-Z0-9)]+)${escapedUnicode}`, 'g'),
-      `$$$$1^{${num}}$$`
+      (match, p1) => `$${p1}^{${num}}$`
     );
   }
-  
+
   // Subscripts: a₁ → $a_{1}$, x₂ → $x_{2}$
   const subscripts: Record<string, string> = {
     '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
@@ -151,296 +171,242 @@ function convertUnicodeToLatex(content: string): string {
     const escapedUnicode = unicode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     result = result.replace(
       new RegExp(`([a-zA-Z0-9)]+)${escapedUnicode}`, 'g'),
-      `$$$$1_{${num}}$$`
+      (match, p1) => `$${p1}_{${num}}$`
     );
   }
-  
-  // Math operators
-  result = result.replace(/×/g, '$\\times$');
-  result = result.replace(/÷/g, '$\\div$');
-  result = result.replace(/±/g, '$\\pm$');
-  result = result.replace(/≠/g, '$\\neq$');
-  result = result.replace(/≤/g, '$\\leq$');
-  result = result.replace(/≥/g, '$\\geq$');
-  
+
+  // Math operators - use function replacement
+  result = result.replace(/×/g, () => '$\\times$');
+  result = result.replace(/÷/g, () => '$\\div$');
+  result = result.replace(/±/g, () => '$\\pm$');
+  result = result.replace(/≠/g, () => '$\\neq$');
+  result = result.replace(/≤/g, () => '$\\leq$');
+  result = result.replace(/≥/g, () => '$\\geq$');
+
   // Step 3: Restore protected LaTeX blocks
-  // CRITICAL FIX: Use replaceAll with escaped $ to prevent $$ from being treated as special character
-  // JavaScript replace() treats $$ as escape sequence - we must use replaceAll or escape the $
   for (let i = protectedBlocks.length - 1; i >= 0; i--) {
-    // Use split+join instead of replace to avoid $$ escape issues
     result = result.split(`__LATEX_BLOCK_${i}__`).join(protectedBlocks[i]);
   }
-  
+
   for (let i = protectedInlines.length - 1; i >= 0; i--) {
     result = result.split(`__LATEX_INLINE_${i}__`).join(protectedInlines[i]);
   }
-  
+
   return result;
 }
+
 
 /**
  * Normalize math expressions in markdown content.
  * CRITICAL RULES:
  * 1. $$...$$ stays as $$...$$ (block math - NEVER convert to single $)
  * 2. $...$ stays as $...$ (inline math)
- * 3. Unicode → LaTeX conversion (Layer 2)
- * 4. Protect code blocks from math rendering
+ * 3. \( ... \) → $...$ (ChatGPT-style inline math)
+ * 4. Unicode → LaTeX conversion (Layer 2)
+ * 5. Protect code blocks from math rendering
  */
 function normalizeMath(content: string): string {
   // LAYER 2: Unicode→LaTeX conversion FIRST
   let result = convertUnicodeToLatex(content);
-  
+
   // Step 1: Protect code blocks (fenced code blocks and inline code)
   const codeBlockRegex = /```[\s\S]*?```/g;
   const inlineCodeRegex = /`[^`\n]+`/g;
-  
+
   const codeBlocks: string[] = [];
   const inlineCodes: string[] = [];
-  
+
   result = result.replace(codeBlockRegex, (match) => {
     const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
     codeBlocks.push(match);
     return placeholder;
   });
-  
+
   result = result.replace(inlineCodeRegex, (match) => {
     const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
     inlineCodes.push(match);
     return placeholder;
   });
-  
+
   // Step 2: Canonicalize math delimiters
   // CRITICAL: Handle $$...$$ FIRST to avoid conflicts with $...$
-  
+
   // A) Block math: $$\n...\n$$ → keep as block (clean up whitespace)
   result = result.replace(/\$\$\s*([\s\S]*?)\s*\$\$/g, (match, inner) => {
     const cleaned = inner.trim();
     return `$$\n${cleaned}\n$$`;
   });
-  
-  // B) Inline math: $...$ (but NOT $$)
+
+  // B) ChatGPT-style inline math: \( ... \) → $...$
+  // B) ChatGPT-style math delimiters: \( ... \) → $...$ and \[ ... \] → $$...$$
+  // This is the key conversion for ChatGPT-style output
+  result = result.replace(/\\\(([^)]*?)\\\)/g, (match, inner) => {
+    const cleaned = inner.trim();
+    return `$${cleaned}$`;
+  });
+
+  result = result.replace(/\\\[([\s\S]*?)\\\]/g, (match, inner) => {
+    const cleaned = inner.trim();
+    return `$$\n${cleaned}\n$$`;
+  });
+
+  // D) Heuristic: Catch [ ... ] if it contains typical LaTeX commands but missing backslash
+  // This happens when LLM starts hallucinating delimiters
+  result = result.replace(/(?<!\\)\[\s*([\s\S]*?\\(text|frac|sqrt|times|Delta|alpha|beta|sigma|cdot|deg|angle)[\s\S]*?)\s*\]/g, (match, inner) => {
+    const cleaned = inner.trim();
+    return `$${cleaned}$`;
+  });
+
+  // C) Inline math: $...$ (but NOT $$)
   // Use negative lookahead/lookbehind to avoid matching $$
   // Pattern: $ (not preceded/followed by $) ... $ (not preceded/followed by $)
   result = result.replace(/(?<!\$)\$(?!\$)([^\$\n]+?)(?<!\$)\$(?!\$)/g, (match, inner) => {
     const cleaned = inner.trim();
     return `$${cleaned}$`;
   });
-  
+
   // Step 3: Restore code blocks
   codeBlocks.forEach((codeBlock, index) => {
     result = result.replace(`__CODE_BLOCK_${index}__`, codeBlock);
   });
-  
+
   inlineCodes.forEach((inlineCode, index) => {
     result = result.replace(`__INLINE_CODE_${index}__`, inlineCode);
   });
-  
+
   return result;
 }
 
+
 // MessageContent Component - Renders markdown with KaTeX math support (ChatGPT style)
-// CRITICAL: isStreaming=false iken kullanılmalı (tam delimiter'lar için)
-function MessageContent({ content, isStreaming = false }: { content: string; isStreaming?: boolean }) {
-  // STREAMING GUARD: Check if message is incomplete (yarım mesajlar)
-  // This prevents rendering broken math during streaming
-  const isIncomplete = !isStreaming && (() => {
-    // Check 1: Odd number of backslashes at end (incomplete escape)
-    if (content.endsWith('\\')) {
-      const trailingBackslashes = content.match(/\\+$/)?.[0].length || 0;
-      if (trailingBackslashes % 2 !== 0) {
-        return true;
-      }
+// CHATGPT-LIKE: Real-time KaTeX rendering during streaming
+function MessageContent({ content, isStreaming = false, isPartial = false, module }: { content: string; isStreaming?: boolean; isPartial?: boolean; module?: string }): React.JSX.Element {
+  // displayContent holds what's currently rendered
+  const [displayContent, setDisplayContent] = React.useState(content);
+  const [contentVersion, setContentVersion] = React.useState(0);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Update displayContent when content prop changes
+  React.useEffect(() => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
     }
-    
-    // Check 2: Odd number of $$ (unmatched block delimiter)
-    const dollarPairs = (content.match(/\$\$/g) || []).length;
-    if (dollarPairs % 2 !== 0) {
-      return true;
+
+    if (isStreaming || isPartial) {
+      // During streaming, use a 80ms debounce for smoother chunks (ChatGPT style)
+      debounceTimerRef.current = setTimeout(() => {
+        if (content !== displayContent) {
+          setDisplayContent(content);
+          setContentVersion(prev => prev + 1);
+        }
+      }, 80);
+    } else {
+      // Completed message: update immediately
+      setDisplayContent(content);
+      setContentVersion(prev => prev + 1);
+
+      // Force KaTeX render event
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent("forceKatexRender"));
+      }, 200);
     }
-    
-    // Check 3: Incomplete \sqrt{ or other LaTeX commands
-    const openBraces = (content.match(/\\sqrt\{/g) || []).length;
-    const closeBraces = (content.match(/\\sqrt\{[^}]*\}/g) || []).length;
-    if (openBraces > closeBraces) {
-      return true;
-    }
-    
-    return false;
-  })();
-  
-  // If incomplete, show as plain text (no KaTeX render)
-  if (isIncomplete) {
-    return (
-      <Box fontSize="14px" lineHeight="1.6" color="gray.600">
-        <Text fontFamily="monospace" whiteSpace="pre-wrap">
-          {content}
-        </Text>
-        <Text fontSize="xs" color="orange.500" mt={1}>
-          ⚠️ Mesaj henüz tamamlanmadı, render bekleniyor...
-        </Text>
-      </Box>
-    );
-  }
-  
-  // Normalize math before rendering (only when not streaming)
-  const normalizedContent = isStreaming ? content : normalizeMath(content);
-  const contentRef = useRef<HTMLDivElement>(null);
-  
 
-  // PROOF: Check if KaTeX CSS is loaded and verify computed styles
-  useEffect(() => {
-    if (isStreaming || typeof window === 'undefined') return;
-    
-    const shouldCheck = process.env.NODE_ENV === 'development' || 
-                        (typeof window !== 'undefined' && (window as any).__MATH_DEBUG__);
-    
-    if (!shouldCheck) return;
-
-    // Wait for DOM to update after ReactMarkdown renders
-    const timeoutId = setTimeout(() => {
-      if (!contentRef.current) return;
-
-      // Check if katex.min.css is loaded
-      const katexStylesheet = Array.from(document.styleSheets).find(sheet => {
-        try {
-          return sheet.href?.includes('katex.min.css') || 
-                 sheet.ownerNode?.textContent?.includes('KaTeX');
-        } catch (e) {
-          return false;
-        }
-      });
-
-      // Find KaTeX elements in the rendered content
-      const katexElements = contentRef.current.querySelectorAll('.katex');
-      
-      if (katexElements.length > 0) {
-        const firstKatex = katexElements[0] as HTMLElement;
-        const computedStyle = window.getComputedStyle(firstKatex);
-        const fontFamily = computedStyle.fontFamily;
-        const display = computedStyle.display;
-        const whiteSpace = computedStyle.whiteSpace;
-        const lineHeight = computedStyle.lineHeight;
-
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
       }
-    }, 100);
-
-    return () => clearTimeout(timeoutId);
-  }, [content, isStreaming]);
-
-  // STREAMING: Plain text göster (math parse etme - yarım delimiter'lar parçalanır)
-  // KRİTİK FIX #1: Streaming sırasında KaTeX render KAPALI
-  // IMPROVEMENT: Mask unmatched LaTeX delimiters during streaming
-  if (isStreaming) {
-    
-    // Mask unmatched LaTeX delimiters to improve streaming appearance
-    // Hide any unmatched $ or $$ delimiters and their content until completion
-    const maskUnmatchedDelimiters = (text: string): string => {
-      let result = '';
-      let i = 0;
-      let inInlineMath = false;
-      let inBlockMath = false;
-      let mathStart = -1;
-      
-      while (i < text.length) {
-        // Check for block math delimiter $$
-        if (i < text.length - 1 && text[i] === '$' && text[i + 1] === '$') {
-          if (inBlockMath) {
-            // Closing $$ found - show everything from mathStart to here
-            result += text.slice(mathStart, i + 2);
-            inBlockMath = false;
-            mathStart = -1;
-            i += 2;
-          } else {
-            // Opening $$ found
-            if (inInlineMath) {
-              // Close inline math first (unmatched, so don't show it)
-              inInlineMath = false;
-              mathStart = -1;
-            }
-            inBlockMath = true;
-            mathStart = i;
-            i += 2;
-          }
-          continue;
-        }
-        
-        // Check for inline math delimiter $
-        if (text[i] === '$') {
-          if (inInlineMath) {
-            // Closing $ found - show everything from mathStart to here
-            result += text.slice(mathStart, i + 1);
-            inInlineMath = false;
-            mathStart = -1;
-            i += 1;
-          } else if (!inBlockMath) {
-            // Opening $ found (not inside block math)
-            inInlineMath = true;
-            mathStart = i;
-            i += 1;
-          } else {
-            // $ inside block math - treat as regular character, continue collecting
-            i += 1;
-          }
-          continue;
-        }
-        
-        // Regular character
-        if (!inInlineMath && !inBlockMath) {
-          // Not in math - show character
-          result += text[i];
-        }
-        // If in math, don't add to result yet (wait for closing delimiter)
-        i += 1;
-      }
-      
-      // If still in math at the end, don't show the unmatched portion
-      // (mathStart to end is hidden)
-      
-      return result;
     };
-    
-    const maskedContent = maskUnmatchedDelimiters(normalizedContent);
-    
-    return (
-      <Text 
-        whiteSpace="pre-wrap" 
-        wordBreak="normal"
-        lineHeight="1.6"
-        color="inherit"
-      >
-        {maskedContent}
-      </Text>
-    );
-  }
+  }, [content, isStreaming, isPartial, displayContent]);
 
-  // COMPLETE: Full markdown + math render
-  // KRİTİK FIX #2: remark-math + rehype-katex bağlantısı doğrulandı
-  // DOĞRULAMA: Paketler kurulu ve bağlı
-  // - remark-math@6.0.0 ✅
-  // - rehype-katex@7.0.1 ✅
-  // - react-markdown@10.1.0 ✅
-  // - katex@0.16.27 ✅
-  
-  
+  // Force re-render on custom events
+  React.useEffect(() => {
+    const handleForceRender = () => setContentVersion(p => p + 1);
+    window.addEventListener("forceKatexRender", handleForceRender);
+    return () => {
+      window.removeEventListener("forceKatexRender", handleForceRender);
+    };
+  }, []);
+
+  // ATOMIC MATH BALANCER: Prevents rendering incomplete LaTeX blocks
+  // ================================================================
+  const { safePart, riskyPart } = React.useMemo(() => {
+    if (!displayContent) return { safePart: "", riskyPart: "" };
+
+    let text = displayContent;
+
+    // LATEX FORMAT CONVERTER: Convert \(...\) to $...$ and \[...\] to $$...$$
+    // Backend sends \( and \) (single backslash in actual text)
+    // remark-math expects $...$ for inline and $$...$$ for display math
+    // CRITICAL FIX: Use captured groups, not manual slicing
+    text = text.replace(/\\\(([^\)]*?)\\\)/g, (match, inner) => {
+      return `$${inner.trim()}$`;
+    });
+
+    text = text.replace(/\\\[([^\]]*?)\\\]/g, (match, inner) => {
+      return `$$\n${inner.trim()}\n$$`;
+    });
+
+    // 1. Block Math ($$) Check
+    const blockMathSplit = text.split('$$');
+    const isBlockMathIncomplete = blockMathSplit.length % 2 === 0;
+
+    // 2. Inline Math ($) Check - count unescaped single $
+    const singleDollarMatches = text.match(/(?<!\$)\$(?!\$)/g) || [];
+    const isInlineMathIncomplete = singleDollarMatches.length % 2 !== 0;
+
+    // If streaming and we have an open block, find the last safe index
+    if ((isStreaming || isPartial) && (isBlockMathIncomplete || isInlineMathIncomplete)) {
+      let lastSafeIndex = text.length;
+
+      if (isBlockMathIncomplete) {
+        const lastOpenIndex = text.lastIndexOf('$$');
+        if (lastOpenIndex !== -1) {
+          lastSafeIndex = Math.min(lastSafeIndex, lastOpenIndex);
+        }
+      }
+
+      if (isInlineMathIncomplete) {
+        // Find last unmatched single $
+        const lastOpenIndex = text.lastIndexOf('$');
+        if (lastOpenIndex !== -1) {
+          lastSafeIndex = Math.min(lastSafeIndex, lastOpenIndex);
+        }
+      }
+
+      return {
+        safePart: text.substring(0, lastSafeIndex),
+        riskyPart: text.substring(lastSafeIndex)
+      };
+    }
+
+    // Fully balanced content
+    return { safePart: text, riskyPart: "" };
+  }, [displayContent, isStreaming, isPartial]);
+
   return (
     <Box
-      ref={contentRef}
-      className="messageContent"
+      className={`messageContent ${module === 'lgs_karekok' ? 'lgs-education-block' : ''}`}
       sx={{
-        // CRITICAL FIX: Remove top spacing for assistant messages
+        // Enable text selection for copying
+        userSelect: 'text',
+        WebkitUserSelect: 'text',
+        cursor: 'text',
+        ...(module === 'lgs_karekok' && {
+          lineHeight: '1.8',
+          fontSize: '16px',
+          padding: '4px 8px',
+          color: '#E5E7EB',
+        }),
         marginTop: '0 !important',
         paddingTop: '0 !important',
-        // CRITICAL: No vertical scroll in message content - only main list scrolls
         overflow: 'visible',
         overflowY: 'visible',
         overflowX: 'visible',
-        // Hide webkit scrollbar buttons everywhere inside message content
         '& ::-webkit-scrollbar-button': {
           display: 'none !important',
           width: '0 !important',
           height: '0 !important',
         },
-        // Hide scrollbar buttons in KaTeX elements
         '& .katex-display ::-webkit-scrollbar-button': {
           display: 'none !important',
           width: '0 !important',
@@ -451,13 +417,12 @@ function MessageContent({ content, isStreaming = false }: { content: string; isS
           width: '0 !important',
           height: '0 !important',
         },
-        // ChatGPT style: Clean, readable, no column splits
         '& p': {
           marginBottom: '1.15em',
-          lineHeight: '1.6', // Readable line height for markdown content
-          whiteSpace: 'normal',
+          lineHeight: module === 'lgs_karekok' ? '1.8' : '1.6',
+          whiteSpace: 'pre-wrap',
           wordWrap: 'normal',
-          color: 'inherit', // Ensure text color inherits from parent (user: white, assistant: inherit)
+          color: 'inherit',
         },
         '& p:first-of-type': {
           marginTop: 0,
@@ -465,22 +430,18 @@ function MessageContent({ content, isStreaming = false }: { content: string; isS
         '& p:last-child': {
           marginBottom: 0,
         },
-        // KaTeX block math styling - ChatGPT style
-        // ONLY .katex-display may have overflow-x:auto (for wide equations)
         '& .katex-display': {
           display: 'block',
-          margin: '1em 0 !important',
-          overflowX: 'auto', // Only horizontal scroll for wide equations
-          overflowY: 'hidden !important', // CRITICAL: NO vertical scroll - prevents ▲▼ buttons
+          margin: '1.25em 0 !important',
+          overflowX: 'auto',
+          overflowY: 'hidden !important',
           textAlign: 'center',
-          padding: '0.75em 0.25em',
-          whiteSpace: 'normal !important', // CRITICAL: nowrap breaks KaTeX vertical layout
+          padding: '1em 0.25em',
+          whiteSpace: 'normal !important',
           wordBreak: 'normal !important',
           overflowWrap: 'normal !important',
-          // CRITICAL: Prevent any height constraints that could cause scroll
           maxHeight: 'none !important',
           height: 'auto !important',
-          // CRITICAL: Hide scrollbar buttons in KaTeX display - ALL VARIATIONS
           '& ::-webkit-scrollbar-button': {
             display: 'none !important',
             width: '0 !important',
@@ -490,84 +451,9 @@ function MessageContent({ content, isStreaming = false }: { content: string; isS
             padding: '0 !important',
             margin: '0 !important',
           },
-          '& ::-webkit-scrollbar-button:start:decrement': {
-            display: 'none !important',
-            width: '0 !important',
-            height: '0 !important',
-          },
-          '& ::-webkit-scrollbar-button:end:increment': {
-            display: 'none !important',
-            width: '0 !important',
-            height: '0 !important',
-          },
-          '& ::-webkit-scrollbar-button:vertical:start:decrement': {
-            display: 'none !important',
-            width: '0 !important',
-            height: '0 !important',
-          },
-          '& ::-webkit-scrollbar-button:vertical:end:increment': {
-            display: 'none !important',
-            width: '0 !important',
-            height: '0 !important',
-          },
-          '& ::-webkit-scrollbar-button:horizontal:start:decrement': {
-            display: 'none !important',
-            width: '0 !important',
-            height: '0 !important',
-          },
-          '& ::-webkit-scrollbar-button:horizontal:end:increment': {
-            display: 'none !important',
-            width: '0 !important',
-            height: '0 !important',
-          },
-          // CRITICAL: Hide vertical scrollbar completely
-          '& ::-webkit-scrollbar:vertical': {
-            display: 'none !important',
-            width: '0 !important',
-          },
         },
-        // KaTeX inline math styling - ChatGPT style
-        '& .katex:not(.katex-display > .katex)': {
-          fontSize: '1em',
-          lineHeight: '1.2', // Proper line height for KaTeX vertical layout
-          whiteSpace: 'normal !important', // CRITICAL: nowrap breaks KaTeX vertical layout (vlist/msupsub)
-          wordBreak: 'normal !important',
-          overflowWrap: 'normal !important',
-        },
-        // Ensure KaTeX internal elements can use their own line metrics
-        '& .katex *': {
-          lineHeight: 'inherit',
-        },
-        // Prevent text splitting/columns - CRITICAL
-        // BUT: KaTeX elementlerine dokunma
-        '& *:not(.katex):not(.katex *)': {
-          maxWidth: '100%',
-          wordWrap: 'normal', // break-word LaTeX'i parçalar
-        },
-        // Ensure no column layout
-        '&': {
-          columnCount: 'unset !important',
-          columns: 'unset !important',
-        },
-        // First heading should have no top margin
-        '& > .markdown-heading:first-of-type': {
-          marginTop: '0 !important',
-        },
-        '& > h1:first-of-type, & > h2:first-of-type, & > h3:first-of-type, & > h4:first-of-type, & > h5:first-of-type, & > h6:first-of-type': {
-          marginTop: '0 !important',
-        },
-        // Preserve line breaks in code blocks
-        '& pre': {
-          whiteSpace: 'pre-wrap',
-          wordBreak: 'break-word',
-          overflowX: 'auto',
-          overflowY: 'visible', // CRITICAL: No vertical scroll in code blocks
-          maxHeight: 'none !important', // Prevent height constraints
-        },
-        // List styling
-        '& ul, & ol': {
-          marginLeft: '1.5em',
-          marginBottom: '0.75em',
+        '& .katex': {
+          fontSize: '1.15em',
         },
         '& li': {
           marginBottom: '0.25em',
@@ -575,13 +461,18 @@ function MessageContent({ content, isStreaming = false }: { content: string; isS
       }}
     >
       <ReactMarkdown
-        remarkPlugins={[remarkMath]} // KRİTİK: Math delimiter'ları algılar ($ ve $$)
-        rehypePlugins={[rehypeKatex]} // KRİTİK: LaTeX'i KaTeX'e dönüştürür
+        key={`markdown-${contentVersion}`}
+        remarkPlugins={[remarkMath]}  // FIXED: removed invalid singleDollarTextMath option
+        rehypePlugins={[[rehypeKatex, {
+          strict: false,
+          throwOnError: false,
+          errorColor: '#FF0000',
+          output: 'html',
+          trust: true,
+          macros: {},
+        }]]}
+
         components={{
-          // KRİTİK FIX: Custom component'ler math node'larını parçalayabilir
-          // ReactMarkdown'ın default component'lerini kullan, sadece CSS ile styling yap
-          // p component'ini override etme - math node'ları için default davranışı koru
-          // Customize headings (preserve markdown structure)
           h1: ({ children }) => (
             <Text as="h1" fontSize="2xl" fontWeight="bold" mb={3} mt={4} className="markdown-heading">
               {children}
@@ -597,39 +488,62 @@ function MessageContent({ content, isStreaming = false }: { content: string; isS
               {children}
             </Text>
           ),
-          // Customize lists (preserve markdown structure)
           ul: ({ children }) => (
-            <Box as="ul" ml={6} mb={3} listStyleType="disc">
+            <ul style={{
+              marginLeft: '24px',
+              marginBottom: '12px',
+              listStyleType: 'disc',
+              userSelect: 'text',
+              WebkitUserSelect: 'text',
+              cursor: 'text'
+            }}>
               {children}
-            </Box>
+            </ul>
           ),
           ol: ({ children }) => (
-            <Box as="ol" ml={6} mb={3} listStyleType="decimal">
+            <ol style={{
+              marginLeft: '24px',
+              marginBottom: '12px',
+              listStyleType: 'decimal',
+              userSelect: 'text',
+              WebkitUserSelect: 'text',
+              cursor: 'text'
+            }}>
               {children}
-            </Box>
+            </ol>
           ),
           li: ({ children }) => (
-            <Text as="li" mb={1} lineHeight="1.7">
+            <li style={{
+              marginBottom: '4px',
+              lineHeight: '1.7',
+              userSelect: 'text',
+              WebkitUserSelect: 'text',
+              cursor: 'text'
+            }}>
               {children}
-            </Text>
+            </li>
           ),
-          // Customize code blocks
           code: ({ className, children, ...props }: any) => {
             const isInline = !className;
             if (isInline) {
               return (
-                <Box
-                  as="code"
-                  bg="gray.700"
-                  px={1.5}
-                  py={0.5}
-                  borderRadius="sm"
-                  fontSize="0.9em"
-                  display="inline"
+                <code
+                  style={{
+                    backgroundColor: 'var(--chakra-colors-gray-700)',
+                    padding: '2px 6px',
+                    borderRadius: '3px',
+                    fontSize: '0.9em',
+                    fontFamily: 'monospace',
+                    userSelect: 'text',
+                    WebkitUserSelect: 'text',
+                    cursor: 'text',
+                    display: 'inline',
+                    verticalAlign: 'baseline'
+                  }}
                   {...props}
                 >
                   {children}
-                </Box>
+                </code>
               );
             }
             return (
@@ -650,14 +564,38 @@ function MessageContent({ content, isStreaming = false }: { content: string; isS
           },
         }}
       >
-        {normalizedContent}
+        {normalizeMath(safePart)}
       </ReactMarkdown>
-    </Box>
+
+      {/* RENDER RISKY CONTENT (PLAIN TEXT ONLY) */}
+      {
+        riskyPart && (
+          <Text
+            as="span"
+            whiteSpace="pre-wrap"
+            fontFamily="inherit"
+            color="inherit"
+            fontSize="inherit"
+            lineHeight="inherit"
+            display="inline"
+          >
+            {riskyPart}
+          </Text>
+        )
+      }
+    </Box >
   );
 }
 
-// FileChip Component - ChatGPT style with loading animation
-function FileChip({ file, onRemove, isUploading }: { file: AttachedFile; onRemove: () => void; isUploading?: boolean }) {
+// FileChip Component - ChatGPT style with loading animation and progress
+function FileChip({ file, onRemove, isUploading, uploadProgress }: {
+  file: AttachedFile;
+  onRemove: () => void;
+  isUploading?: boolean;
+  uploadProgress?: number;
+}): React.JSX.Element {
+  const progressValue = uploadProgress ?? 0;
+
   return (
     <Box
       display="inline-flex"
@@ -667,8 +605,10 @@ function FileChip({ file, onRemove, isUploading }: { file: AttachedFile; onRemov
       py={1.5}
       bg="gray.600"
       borderRadius="full"
-      maxW="200px"
+      maxW="220px"
       animation="slideDown 0.2s ease"
+      position="relative"
+      overflow="hidden"
       sx={{
         "@keyframes slideDown": {
           "0%": { opacity: 0, transform: "translateY(-5px)" },
@@ -676,21 +616,80 @@ function FileChip({ file, onRemove, isUploading }: { file: AttachedFile; onRemov
         },
       }}
     >
-      {isUploading ? (
-        <Spinner 
-          size="xs" 
-          color="green.500"
-          thickness="3px"
-          speed="0.8s"
-          sx={{
-            animation: "rotate 1s linear infinite",
-          }}
+      {/* Progress bar background */}
+      {isUploading && (
+        <Box
+          position="absolute"
+          left={0}
+          top={0}
+          bottom={0}
+          width={`${progressValue}%`}
+          bg="green.500"
+          opacity={0.3}
+          transition="width 0.3s ease"
+          borderRadius="full"
         />
+      )}
+
+      {isUploading ? (
+        <Box
+          position="relative"
+          w="20px"
+          h="20px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexShrink={0}
+        >
+          {/* Circular progress */}
+          <Box
+            as="svg"
+            w="20px"
+            h="20px"
+            viewBox="0 0 36 36"
+            sx={{
+              transform: "rotate(-90deg)",
+            }}
+          >
+            {/* Background circle */}
+            <circle
+              cx="18"
+              cy="18"
+              r="14"
+              fill="none"
+              stroke="rgba(255,255,255,0.2)"
+              strokeWidth="3"
+            />
+            {/* Progress circle */}
+            <circle
+              cx="18"
+              cy="18"
+              r="14"
+              fill="none"
+              stroke="#48BB78"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeDasharray={`${progressValue * 0.88} 88`}
+              style={{
+                transition: "stroke-dasharray 0.3s ease",
+              }}
+            />
+          </Box>
+          {/* Percentage text in center */}
+          <Text
+            position="absolute"
+            fontSize="6px"
+            fontWeight="bold"
+            color="white"
+          >
+            {progressValue < 100 ? `${progressValue}` : "✓"}
+          </Text>
+        </Box>
       ) : (
         <Box
           w="16px"
           h="16px"
-          bg="blue.500"
+          bg="green.500"
           borderRadius="sm"
           display="flex"
           alignItems="center"
@@ -700,18 +699,26 @@ function FileChip({ file, onRemove, isUploading }: { file: AttachedFile; onRemov
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
             <polyline points="14 2 14 8 20 8" />
+            <polyline points="9 15 12 18 15 15" />
+            <line x1="12" y1="12" x2="12" y2="18" />
           </svg>
         </Box>
       )}
-      <Text
-        fontSize="xs"
-        color="white"
-        isTruncated
-        flex={1}
-        minW={0}
-      >
-        {file.name}
-      </Text>
+      <VStack spacing={0} align="start" flex={1} minW={0}>
+        <Text
+          fontSize="xs"
+          color="white"
+          isTruncated
+          width="100%"
+        >
+          {file.name}
+        </Text>
+        {isUploading && (
+          <Text fontSize="9px" color="green.300">
+            Yükleniyor... {progressValue}%
+          </Text>
+        )}
+      </VStack>
       <IconButton
         icon={
           <Box
@@ -743,13 +750,13 @@ function FileChip({ file, onRemove, isUploading }: { file: AttachedFile; onRemov
 }
 
 // DocumentChip Component - For selected documents from global pool
-function DocumentChip({ 
-  documentId, 
-  filename, 
-  onRemove 
-}: { 
-  documentId: string; 
-  filename: string; 
+function DocumentChip({
+  documentId,
+  filename,
+  onRemove
+}: {
+  documentId: string;
+  filename: string;
   onRemove: () => void;
 }) {
   return (
@@ -761,7 +768,7 @@ function DocumentChip({
       py={1.5}
       bg="green.500"
       borderRadius="full"
-      maxW="200px"
+      maxW="250px"
       animation="slideDown 0.2s ease"
       sx={{
         "@keyframes slideDown": {
@@ -794,6 +801,18 @@ function DocumentChip({
       >
         {filename}
       </Text>
+      <Badge
+        fontSize="9px"
+        px={1.5}
+        py={0.5}
+        borderRadius="full"
+        bg="rgba(255,255,255,0.25)"
+        color="white"
+        fontWeight="bold"
+        flexShrink={0}
+      >
+        Öncelikli
+      </Badge>
       <IconButton
         icon={
           <Box
@@ -811,7 +830,7 @@ function DocumentChip({
             ×
           </Box>
         }
-        aria-label="Dokümanı kaldır"
+        aria-label="Önceliği kaldır"
         size="xs"
         variant="ghost"
         onClick={onRemove}
@@ -819,6 +838,7 @@ function DocumentChip({
         h="auto"
         p={0}
         _hover={{ bg: "rgba(255,255,255,0.4)" }}
+        title="Önceliği kaldır"
       />
     </Box>
   );
@@ -830,6 +850,7 @@ function ChatPage() {
   const router = useRouter();
   const toast = useToast();
   const { isOpen, toggle } = useSidebar();
+  const chatStore = useChatStore();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -840,21 +861,91 @@ function ChatPage() {
   const [hasMoreMessages, setHasMoreMessages] = useState(false); // Whether there are more messages to load
   const [isLoadingOlderMessages, setIsLoadingOlderMessages] = useState(false); // Loading older messages
   const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
-  
+  const [responseStyle, setResponseStyle] = useState<string>("auto"); // Response length style: "auto" | "short" | "medium" | "long" | "detailed"
+  const [selectedModule, setSelectedModule] = useState<"none" | "lgs_karekok">("none"); // Prompt module: "none" | "lgs_karekok"
+  // CRITICAL FIX: Explicit states for lifecycle management
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [canSendMessage, setCanSendMessage] = useState(true);
+
   // CRITICAL FIX: Sync attachedFiles state to ref SYNCHRONOUSLY
   // Instead of useEffect (async), update ref directly in setAttachedFiles calls
   // This ensures ref is always in sync when handleSend is called
   useEffect(() => {
     attachedFilesRef.current = attachedFiles;
   }, [attachedFiles]);
-  
+
+  // MODULE CHANGE CLEANUP: Reset state when module changes
+  // This ensures each module has independent state (Lala AI principle)
+  useEffect(() => {
+    // Only cleanup if there's an active run
+    const hasActiveRun = Array.from(storeRef.current.runs.values()).some(
+      run => run.status === "running"
+    );
+
+    if (hasActiveRun) {
+      // Cancel all active runs
+      Array.from(storeRef.current.runs.values()).forEach(run => {
+        if (run.status === "running") {
+          removeRun(run.runId);
+        }
+      });
+
+      // Reset loading states
+      setIsStreaming(false);
+      setIsLoading(false);
+      setCanSendMessage(true);
+
+      // Force finalize if there's a current chat
+      if (currentChatId) {
+        finalizeRun(currentChatId, true);
+      }
+    }
+  }, [selectedModule]); // Trigger cleanup when module changes
+
+  // Sync module selection from Topbar (localStorage) - with real-time updates
+  useEffect(() => {
+    const updateModuleFromStorage = () => {
+      if (typeof window !== 'undefined') {
+        const savedModule = localStorage.getItem('selectedModule');
+        if (savedModule === 'lgs_karekok') {
+          setSelectedModule('lgs_karekok');
+        } else {
+          setSelectedModule('none');
+        }
+      }
+    };
+
+    // Initial load
+    updateModuleFromStorage();
+
+    // Listen for storage changes (when module changes in Topbar)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'selectedModule') {
+        updateModuleFromStorage();
+      }
+    };
+
+    // Listen for custom event (when module changes in same tab)
+    const handleModuleChange = () => {
+      updateModuleFromStorage();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('moduleChanged', handleModuleChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('moduleChanged', handleModuleChange);
+    };
+  }, []); // Run once on mount
+
   // Helper: Update both state and ref synchronously
   const setAttachedFilesSync = (updater: (prev: AttachedFile[]) => AttachedFile[] | AttachedFile[]) => {
     setAttachedFiles((prev) => {
       const next = typeof updater === 'function' ? updater(prev) : updater;
       // CRITICAL: Update ref synchronously, not in useEffect
       attachedFilesRef.current = next;
-      
+
       return next;
     });
   };
@@ -867,7 +958,7 @@ function ChatPage() {
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true); // Auto-scroll aktif - ChatGPT style
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const userScrollLockRef = useRef(false); // Hard lock ref - no re-renders
-  
+
   // Debug flag for scroll logging
   const DEBUG_SCROLL = false;
   const [user, setUser] = useState<{ username: string } | null>(null);
@@ -884,7 +975,7 @@ function ChatPage() {
     }
     fetchUser();
   }, []);
-  
+
   // ============================================
   // NORMALIZE EDİLMİŞ MESSAGE STORE (CHATGPT MODELİ)
   // ============================================
@@ -904,6 +995,7 @@ function ChatPage() {
       size: number;
       documentId?: string;
     }[];
+    module?: string;
   }
 
   interface Run {
@@ -915,139 +1007,154 @@ function ChatPage() {
     startedAt: Date;
     lastSeq: number; // Stream event sequence number (duplicate chunk engelleme)
     abortController: AbortController;
+    module?: string;
   }
 
-  interface ChatData {
-    messageIds: string[];
-  }
-
-  // Normalize edilmiş store
-  const storeRef = useRef<{
-    chats: Map<string, ChatData>;
-    messages: Map<string, NormalizedMessage>;
-    runs: Map<string, Run>;
-  }>({
-    chats: new Map(),
-    messages: new Map(),
-    runs: new Map(),
-  });
+  // Use global chat store context
+  const {
+    store: storeRef,
+    getChatMessageIds,
+    getMessage,
+    getChatMessagesFromStore,
+    addMessage,
+    updateMessage,
+    getRun,
+    getRunByRequestId,
+    addRun,
+    updateRun,
+    removeRun,
+  } = chatStore;
 
   // Idempotency: Inflight requests Set (duplicate gönderim engelleme)
   const inflightRequestsRef = useRef<Set<string>>(new Set());
   // Send lock: prevents double-trigger (Enter + button / rapid clicks)
   const sendLockRef = useRef<boolean>(false);
 
-  // Store helper functions
-  const getChatMessageIds = (chatId: string): string[] => {
-    const chat = storeRef.current.chats.get(chatId);
-    return chat ? [...chat.messageIds] : [];
-  };
-
-  const getMessage = (messageId: string): NormalizedMessage | undefined => {
-    return storeRef.current.messages.get(messageId);
-  };
-
-  const getChatMessagesFromStore = (chatId: string): NormalizedMessage[] => {
-    const messageIds = getChatMessageIds(chatId);
-    return messageIds
-      .map(id => getMessage(id))
-      .filter((msg): msg is NormalizedMessage => msg !== undefined)
-      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-  };
-
-  const addMessage = (message: NormalizedMessage) => {
-    // CRITICAL: Prevent duplicate messages
-    const existingMessage = storeRef.current.messages.get(message.id);
-    if (existingMessage) {
-      console.warn("[DUPLICATE_PREVENTION] Message already exists:", message.id);
-      return; // Don't add duplicate
-    }
-    
-    storeRef.current.messages.set(message.id, message);
-    const chat = storeRef.current.chats.get(message.chatId);
-    if (chat) {
-      if (!chat.messageIds.includes(message.id)) {
-        chat.messageIds.push(message.id);
-      }
-    } else {
-      storeRef.current.chats.set(message.chatId, { messageIds: [message.id] });
-    }
-  };
-
-  const updateMessage = (messageId: string, updates: Partial<NormalizedMessage>) => {
-    const message = storeRef.current.messages.get(messageId);
-    if (message) {
-      storeRef.current.messages.set(messageId, { ...message, ...updates });
-    }
-  };
-
-  const getRun = (runId: string): Run | undefined => {
-    return storeRef.current.runs.get(runId);
-  };
-
-  const getRunByRequestId = (requestId: string): Run | undefined => {
-    for (const run of storeRef.current.runs.values()) {
-      if (run.requestId === requestId) {
-        return run;
-      }
-    }
-    return undefined;
-  };
-
-  const addRun = (run: Run) => {
-    storeRef.current.runs.set(run.runId, run);
-  };
-
-  const updateRun = (runId: string, updates: Partial<Run>) => {
-    const run = storeRef.current.runs.get(runId);
-    if (run) {
-      storeRef.current.runs.set(runId, { ...run, ...updates });
-    }
-  };
-
-  const removeRun = (runId: string) => {
-    storeRef.current.runs.delete(runId);
-  };
-
   // Sync store to local state for active chat
-  const syncStoreToLocalState = (chatId: string | null) => {
+  // CRITICAL: Wrap in useCallback to prevent unnecessary re-renders and allow use in dependency arrays
+  // CRITICAL: Centralized function to finalize a run and reset ALL related state
+  // This ensures isLoading, abortController, streamingContent are ALWAYS reset
+  // THIS IS THE SINGLE SOURCE OF TRUTH FOR STREAM CLEANUP
+  // THIS IS THE SINGLE SOURCE OF TRUTH FOR STREAM CLEANUP
+  const finalizeInteraction = useCallback((chatId: string | null = null, forceReset: boolean = false) => {
+    const targetChatId = chatId || currentChatId;
+
+    // 1. Abort existing stream
+    if (abortController && !abortController.signal.aborted) {
+      abortController.abort();
+    }
+
+    // 2. Identify active runs
+    const allRuns = Array.from(storeRef.current.runs.values());
+    const chatRuns = allRuns.filter(r => r.chatId === targetChatId);
+    const activeRun = chatRuns.find(r => r.status === "running");
+
+    // 3. Conditional Reset
+    if (!activeRun || forceReset) {
+      // Clear all runs for this chat if force resetting
+      if (forceReset) {
+        chatRuns.forEach(run => {
+          removeRun(run.runId);
+        });
+      }
+
+      setIsLoading(false);
+      setIsStreaming(false);
+      setCanSendMessage(true);
+      setAbortController(null);
+      setStreamingContent("");
+      return;
+    }
+
+    // 4. Sync to active run
+    setAbortController(activeRun.abortController);
+    setIsLoading(true);
+    setIsStreaming(true);
+    setCanSendMessage(false);
+  }, [abortController, currentChatId, removeRun, storeRef]);
+
+  // Aliasing finalizeRun for compatibility
+  const finalizeRun = finalizeInteraction;
+
+  const syncStoreToLocalState = useCallback((chatId: string | null) => {
     if (!chatId) {
       setMessages([]);
       setStreamingContent("");
       setIsLoading(false);
+      setAbortController(null);
       return;
     }
 
     const messages = getChatMessagesFromStore(chatId);
+
+    // CRITICAL: Find ONLY running runs for this chat
+    // Completed/failed/cancelled runs should already be removed
     const activeRun = Array.from(storeRef.current.runs.values()).find(
       r => r.chatId === chatId && r.status === "running"
     );
 
     // Convert normalized messages to legacy format for compatibility
-    const legacyMessages: (Message & { _isStreaming?: boolean })[] = messages.map(msg => ({
-      id: msg.id,
-      role: msg.role,
-      content: msg.content,
-      timestamp: msg.createdAt,
-      status: msg.status === "cancelled" ? "cancelled" : msg.status === "completed" ? "completed" : undefined,
-      sources: msg.sources,
-      client_message_id: msg.client_message_id,
-      attachments: msg.attachments,
-      // Add streaming status for typing indicator
-      _isStreaming: msg.status === "streaming", // Internal flag for typing indicator
-    }));
+    const legacyMessages: (Message & { _isStreaming?: boolean })[] = messages.map(msg => {
+      // Convert document_ids to attachments format for rendering
+      const attachments = msg.document_ids && msg.document_ids.length > 0
+        ? msg.document_ids.map((docId, idx) => {
+          // TRY to find actual document info from availableDocuments or attachedFiles
+          const existingInfo =
+            availableDocuments.find(d => d.id === docId) ||
+            attachedFiles.find(f => f.documentId === docId);
+
+          return {
+            id: `doc-${docId}-${idx}`,
+            filename: (existingInfo && 'filename' in existingInfo ? existingInfo.filename : null) || (existingInfo && 'name' in existingInfo ? existingInfo.name : null) || `Doküman ${docId.substring(0, 4)}...`,
+            type: (existingInfo && 'mime_type' in existingInfo ? existingInfo.mime_type : null) || (existingInfo && 'type' in existingInfo ? existingInfo.type : null) || "application/pdf",
+            size: existingInfo?.size || 0,
+            documentId: docId,
+          };
+        })
+        : msg.attachments;
+
+      return {
+        id: msg.id,
+        role: msg.role,
+        content: msg.content,
+        timestamp: msg.createdAt,
+        status: msg.status === "cancelled" ? "cancelled" : msg.status === "completed" ? "completed" : undefined,
+        sources: msg.sources,
+        used_documents: msg.used_documents,
+        client_message_id: msg.client_message_id,
+        attachments: attachments,
+        module: msg.module,
+        // CRITICAL: Typing indicator shows ONLY when message is NOT completed
+        // Message is streaming if status is "streaming" OR status is undefined (not yet completed)
+        _isStreaming: msg.status !== "completed" && msg.status !== "cancelled", // Internal flag for typing indicator
+      };
+    });
 
     setMessages(legacyMessages);
 
-    // Set abort controller if there's an active run
-    if (activeRun) {
-      setAbortController(activeRun.abortController);
-      setIsLoading(activeRun.status === "running");
-    } else {
-      setAbortController(null);
-      setIsLoading(false);
+    // CRITICAL: Save messages to localStorage for persistence across page reloads
+    // Messages are stored independently of runs (runs are temporary, messages persist)
+    // Only save completed messages (not streaming) to avoid saving incomplete data
+    const completedMessages = legacyMessages.filter(msg =>
+      msg.status !== "streaming" &&
+      !msg._isStreaming &&
+      msg.status !== "cancelled" &&
+      msg.content &&
+      msg.content.trim().length > 0
+    );
+    if (completedMessages.length > 0) {
+      try {
+        saveChatMessages(chatId, completedMessages);
+      } catch (error) {
+        console.error("Failed to save messages to localStorage:", error);
+      }
     }
-  };
+
+    // CRITICAL: Use finalizeRun to ensure consistent state reset
+    // If no active run, finalizeRun will reset isLoading, abortController, streamingContent
+    // If there's an active run, finalizeRun will set them correctly
+    finalizeRun(chatId, !activeRun);
+  }, [getChatMessagesFromStore, storeRef, finalizeRun]);
 
   // Legacy wrapper functions for backward compatibility (will be removed gradually)
   interface LegacyChatState {
@@ -1076,18 +1183,33 @@ function ChatPage() {
       r => r.chatId === chatId && r.status === "running"
     );
 
-    const legacyMessages: (Message & { _isStreaming?: boolean })[] = messages.map(msg => ({
-      id: msg.id,
-      role: msg.role,
-      content: msg.content,
-      timestamp: msg.createdAt,
-      status: msg.status === "cancelled" ? "cancelled" : msg.status === "completed" ? "completed" : undefined,
-      sources: msg.sources,
-      client_message_id: msg.client_message_id,
-      attachments: msg.attachments,
-      // Add streaming status for typing indicator
-      _isStreaming: msg.status === "streaming", // Internal flag for typing indicator
-    }));
+    const legacyMessages: (Message & { _isStreaming?: boolean })[] = messages.map(msg => {
+      // Convert document_ids to attachments format for rendering
+      const attachments = msg.document_ids && msg.document_ids.length > 0
+        ? msg.document_ids.map((docId, idx) => ({
+          id: `doc-${docId}-${idx}`,
+          filename: `Document ${docId.substring(0, 8)}...`, // Placeholder, will be replaced with actual filename
+          type: "application/pdf", // Placeholder
+          size: 0,
+          documentId: docId,
+        }))
+        : msg.attachments;
+
+      return {
+        id: msg.id,
+        role: msg.role,
+        content: msg.content,
+        timestamp: msg.createdAt,
+        status: msg.status === "cancelled" ? "cancelled" : msg.status === "completed" ? "completed" : undefined,
+        sources: msg.sources,
+        used_documents: msg.used_documents,
+        client_message_id: msg.client_message_id,
+        attachments: attachments,
+        // CRITICAL: Typing indicator shows ONLY when message is NOT completed
+        // Message is streaming if status is "streaming" OR status is undefined (not yet completed)
+        _isStreaming: msg.status !== "completed" && msg.status !== "cancelled", // Internal flag for typing indicator
+      };
+    });
 
     return {
       messages: legacyMessages,
@@ -1115,10 +1237,10 @@ function ChatPage() {
       syncStoreToLocalState(chatId);
     }
   };
-  
+
   // CRITICAL: Keep attachedFiles in ref for synchronous access in handleSend
   const attachedFilesRef = useRef<AttachedFile[]>([]); // Send lock: prevent duplicate sends
-  
+
   // BACKGROUND PROCESSING: Checkpoint system for resume capability
   const checkpointRef = useRef<{
     requestId: string;
@@ -1129,49 +1251,54 @@ function ChatPage() {
   } | null>(null);
   const { isOpen: isDocModalOpen, onOpen: onDocModalOpen, onClose: onDocModalClose } = useDisclosure();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  // Profesyonel tema renk sistemi - GitHub tarzı, yeşil accent
+  // Profesyonel tema renk sistemi - Premium Dark UI
   // Zemin & Yüzeyler (tema-aware)
-  const bgColor = useColorModeValue("#FFFFFF", "#0D1117");
-  const panelBg = useColorModeValue("#F6F8FA", "#161B22");
-  const innerBg = useColorModeValue("#F0F3F6", "#1C2128");
-  const hoverBg = useColorModeValue("#E7ECF0", "#22272E");
-  const borderColor = useColorModeValue("#D1D9E0", "#30363D");
-  
-  // Yeşil Accent (tema-aware)
-  const accentPrimary = useColorModeValue("#1A7F37", "#3FB950");
-  const accentHover = useColorModeValue("#2EA043", "#2EA043");
-  const accentActive = useColorModeValue("#238636", "#238636");
-  const accentSoft = useColorModeValue("rgba(26, 127, 55, 0.1)", "rgba(63, 185, 80, 0.15)");
-  const accentBorder = useColorModeValue("rgba(26, 127, 55, 0.25)", "rgba(63, 185, 80, 0.3)");
-  
+  const bgColor = useColorModeValue("#F9FAFB", "#0B0F14");
+  const panelBg = useColorModeValue("#F3F4F6", "#111827");
+  const innerBg = useColorModeValue("#E5E7EB", "#1F2937");
+  const hoverBg = useColorModeValue("#F3F4F6", "#1F2937");
+  const borderColor = useColorModeValue("#E5E7EB", "#1F2937");
+
+  // Primary Accent (Emerald Green)
+  const accentPrimary = useColorModeValue("#10B981", "#10B981");
+  const accentHover = useColorModeValue("#34D399", "#34D399");
+  const accentActive = useColorModeValue("#059669", "#059669");
+  const accentSoft = useColorModeValue("rgba(16, 185, 129, 0.1)", "rgba(16, 185, 129, 0.15)");
+  const accentBorder = useColorModeValue("rgba(16, 185, 129, 0.25)", "rgba(16, 185, 129, 0.3)");
+
+  // Secondary Accent (Purple)
+  const accentSecondary = useColorModeValue("#8B5CF6", "#8B5CF6");
+  const accentSecondarySoft = useColorModeValue("rgba(139, 92, 246, 0.1)", "rgba(139, 92, 246, 0.15)");
+
   // Mesaj renkleri (tema-aware)
   const messageBg = panelBg; // Asistan mesaj arka plan
-  const userMessageBg = useColorModeValue("#D4EDDA", "#3FB950"); // Kullanıcı mesaj arka plan (light: açık yeşil, dark: yeşil)
-  const userMessageText = useColorModeValue("#1F2328", "#0D1117"); // Kullanıcı mesaj metin rengi
-  const assistantMessageText = useColorModeValue("#1F2328", "#E6EDF3"); // Asistan mesaj metin rengi
-  
+  const userMessageBg = useColorModeValue("rgba(16, 185, 129, 0.15)", "rgba(16, 185, 129, 0.15)"); // accent-soft
+  const userMessageText = useColorModeValue("#111827", "#E5E7EB");
+  const assistantMessageText = useColorModeValue("#111827", "#E5E7EB");
+
   // Metin renkleri (tema-aware)
-  const textPrimary = useColorModeValue("#1F2328", "#E6EDF3");
-  const textSecondary = useColorModeValue("#656D76", "#8B949E");
-  const textPlaceholder = useColorModeValue("#8B949E", "#6E7681");
-  const textDisabled = useColorModeValue("#B1BAC4", "#484F58");
+  const textPrimary = useColorModeValue("#111827", "#E5E7EB");
+  const textSecondary = useColorModeValue("#6B7280", "#9CA3AF");
+  const textPlaceholder = useColorModeValue("#9CA3AF", "#6B7280");
+  const textDisabled = useColorModeValue("#D1D5DB", "#4B5563");
   // All color mode values - must be at top level to avoid hook order issues
-  const attachmentBg = useColorModeValue("rgba(255,255,255,0.1)", "rgba(0,0,0,0.2)");
-  const attachmentBorder = useColorModeValue("rgba(255,255,255,0.2)", "rgba(255,255,255,0.1)");
-  const sidebarToggleColor = useColorModeValue("gray.700", "gray.200");
-  const sidebarToggleBg = useColorModeValue("white", "gray.800");
-  const sidebarToggleBorder = useColorModeValue("gray.200", "gray.700");
-  const sidebarToggleHoverBg = useColorModeValue("gray.50", "gray.700");
+  const attachmentBg = useColorModeValue("rgba(16, 185, 129, 0.05)", "rgba(16, 185, 129, 0.1)");
+  const attachmentBorder = useColorModeValue("rgba(16, 185, 129, 0.1)", "rgba(16, 185, 129, 0.2)");
+  const sidebarToggleColor = useColorModeValue("gray.600", "gray.400");
+  const sidebarToggleBg = useColorModeValue("white", "#1F2937");
+  const sidebarToggleBorder = useColorModeValue("gray.200", "#374151");
+  const sidebarToggleHoverBg = useColorModeValue("gray.50", "#374151");
   const sidebarToggleHoverColor = useColorModeValue("gray.900", "white");
-  const sidebarToggleHoverBorder = useColorModeValue("gray.300", "gray.600");
+  const sidebarToggleHoverBorder = useColorModeValue("gray.300", "#4B5563");
   const systemMessageColor = useColorModeValue("gray.500", "gray.400");
-  // Source badge renkleri - yeşil accent sistemi
-  const sourceTitleColor = accentPrimary; // Yeşil accent
-  const sourceBg = accentSoft; // Soft highlight
-  const sourceTextColor = textSecondary; // İkincil metin
-  const sourcePreviewColor = textPlaceholder; // Placeholder rengi
+  // Source badge renkleri
+  const sourceTitleColor = accentPrimary;
+  const sourceBg = accentSoft;
+  const sourceTextColor = textSecondary;
+  const sourcePreviewColor = textPlaceholder;
   const hintBg = useColorModeValue("yellow.50", "yellow.900");
   const hintTextColor = useColorModeValue("yellow.800", "yellow.200");
 
@@ -1208,195 +1335,271 @@ function ChatPage() {
   };
 
   // Load messages from backend and populate store
+  // CHAT SAVING ENABLED: Load messages from backend
   const loadChatMessages = async (chatId: string) => {
+    if (!chatId || !isValidObjectId(chatId)) {
+      return;
+    }
+
     try {
-      console.log("[CHATDBG] loadChatMessages chatId=" + chatId + " userId=unknown status=loading");
-      // Preserve streaming messages
-      const existingMessageIds = getChatMessageIds(chatId);
-      const streamingIds = existingMessageIds.filter(id => {
-        const msg = getMessage(id);
-        return msg && msg.status === "streaming";
-      });
-      
-      // Load from backend
-      const cursorToUse = chatId === currentChatId ? messageCursor : null;
-      const backendResponse = await getChatMessages(chatId, 50, cursorToUse);
-      console.log("[CHATDBG] loadChatMessages chatId=" + chatId + " userId=unknown count=" + (backendResponse.messages?.length || 0) + " status=loaded");
-      
-      setMessageCursor(backendResponse.cursor || null);
-      setHasMoreMessages(backendResponse.has_more);
-      
-      // Clear non-streaming messages
-      existingMessageIds.forEach(id => {
-        const msg = getMessage(id);
-        if (msg && msg.status !== "streaming") {
-          storeRef.current.messages.delete(id);
+      const response = await getChatMessages(chatId, 50);
+
+      if (response.messages && response.messages.length > 0) {
+        console.log(`[LOAD] Loading ${response.messages.length} messages from API for chat ${chatId}`);
+
+        // Clear existing messages for this chat by removing all messages
+        const existingMessageIds = getChatMessageIds(chatId);
+        existingMessageIds.forEach((msgId) => {
+          storeRef.current.messages.delete(msgId);
+        });
+        // Clear chat's messageIds
+        const chat = storeRef.current.chats.get(chatId);
+        if (chat) {
+          chat.messageIds = [];
         }
-      });
-      
-      // Add backend messages to store
-      const newMessageIds: string[] = [];
-      if (backendResponse.messages && backendResponse.messages.length > 0) {
-        backendResponse.messages.forEach((msg) => {
-          const existingMsg = getMessage(msg.message_id);
-          if (existingMsg && existingMsg.status === "streaming") {
-            return; // Preserve streaming message
-          }
-          
-          if (storeRef.current.messages.has(msg.message_id)) {
-            newMessageIds.push(msg.message_id);
-            return;
-          }
-          
-          const normalizedMsg: NormalizedMessage = {
+
+        // Add messages to store
+        response.messages.forEach((msg) => {
+          // CRITICAL: Ensure content is never null/undefined
+          const messageContent = msg.content || "";
+          const isPartial = msg.is_partial === true;
+
+          // CRITICAL: Messages are loaded independently of runs
+          // If message is in DB, it's completed (even if is_partial flag exists)
+          // Only mark as streaming if there's an active run for this message
+          // For now, all messages from DB are treated as completed
+          addMessage({
             id: msg.message_id,
             chatId: chatId,
-            role: msg.role,
-            content: msg.content,
+            role: msg.role as "user" | "assistant",
+            content: messageContent,
+            sources: msg.sources || undefined,
+            used_documents: msg.used_documents,
+            is_partial: false,  // When loaded from DB, treat as complete (not partial)
+            document_ids: msg.document_ids || undefined,  // Load document IDs from DB
+            status: "completed",  // Always completed when loaded from backend (independent of runs)
             createdAt: new Date(msg.created_at),
-            status: "completed",
-            sources: msg.sources,
             client_message_id: msg.client_message_id,
-          };
-          
-          storeRef.current.messages.set(normalizedMsg.id, normalizedMsg);
-          newMessageIds.push(normalizedMsg.id);
+            module: (msg as any).module, // Track module from DB
+          });
         });
+
+        // Sync to local state
+        syncStoreToLocalState(chatId);
+        console.log(`[LOAD] Messages synced to local state for chat ${chatId}`);
+      } else {
+        console.log(`[LOAD] No messages found in API for chat ${chatId}`);
+        // CRITICAL: Even if no messages from API, sync store to local state
+        // This ensures any messages in store (from background polling) are shown
+        syncStoreToLocalState(chatId);
       }
-      
-      // Rebuild chat's messageIds list
-      const allMessageIds = [...new Set([...streamingIds, ...newMessageIds])];
-      const sortedMessageIds = allMessageIds.sort((a, b) => {
-        const msgA = getMessage(a);
-        const msgB = getMessage(b);
-        if (!msgA || !msgB) return 0;
-        return msgA.createdAt.getTime() - msgB.createdAt.getTime();
-      });
-      
-      storeRef.current.chats.set(chatId, { messageIds: sortedMessageIds });
-      
-      // Update React state
-      // CRITICAL FIX: Don't clear messages if backend returns 0 - preserve optimistic messages
-      // Always sync from store (which may contain optimistic messages)
-      const loadedMessages = getChatMessagesFromStore(chatId);
-      const legacyMessages: (Message & { _isStreaming?: boolean })[] = loadedMessages.map(msg => ({
-        id: msg.id,
-        role: msg.role,
-        content: msg.content,
-        timestamp: msg.createdAt,
-        status: msg.status === "cancelled" ? "cancelled" : msg.status === "completed" ? "completed" : undefined,
-        sources: msg.sources,
-        client_message_id: msg.client_message_id,
-        attachments: msg.attachments,
-        _isStreaming: msg.status === "streaming",
-      }));
-      // Always set messages from store (even if empty) - don't clear optimistic messages
-      setMessages(legacyMessages);
-      
-      syncStoreToLocalState(chatId);
-    } catch (error) {
-      console.error("Failed to load chat messages:", error);
+
+      // CRITICAL: Force KaTeX re-render after messages are loaded from backend
+      // Messages loaded from DB are always completed, so KaTeX should render
+      setTimeout(() => {
+        // Trigger a window resize event to force KaTeX to re-render
+        window.dispatchEvent(new Event('resize'));
+        // Also force a re-render of all MessageContent components
+        const event = new CustomEvent('forceKatexRender');
+        window.dispatchEvent(event);
+      }, 200);
+    } catch (error: any) {
+      // Handle 404 (chat not found) gracefully - might be archived or deleted
+      if (error?.code === "CHAT_NOT_FOUND") {
+        // Clear any existing messages for this chat
+        const existingMessageIds = getChatMessageIds(chatId);
+        existingMessageIds.forEach((msgId) => {
+          storeRef.current.messages.delete(msgId);
+        });
+        const chat = storeRef.current.chats.get(chatId);
+        if (chat) {
+          chat.messageIds = [];
+        }
+        return;
+      }
+      console.error(`[LOAD] Error loading messages:`, error);
+      // Don't show error toast for other errors - just log it
     }
   };
-  
+
   // Sync store to local state when currentChatId changes
   useEffect(() => {
     if (currentChatId) {
-    syncStoreToLocalState(currentChatId);
+      syncStoreToLocalState(currentChatId);
     }
   }, [currentChatId]);
+
+  // CRITICAL: Monitor isLoading and canSendMessage states and ensure they're correct
+  // This effect ensures isLoading and canSendMessage are always in sync with actual run status
+  useEffect(() => {
+    if (!currentChatId) {
+      setIsLoading(false);
+      setCanSendMessage(true);
+      setAbortController(null);
+      return;
+    }
+
+    const checkLoadingState = () => {
+      // Get all runs for this chat
+      const allRuns = Array.from(storeRef.current.runs.values());
+      const activeRun = allRuns.find(
+        r => r.chatId === currentChatId && r.status === "running"
+      );
+
+      // Clean up any non-running runs for this chat
+      allRuns.forEach(run => {
+        if (run.chatId === currentChatId && run.status !== "running") {
+          removeRun(run.runId);
+        }
+      });
+
+      // CRITICAL: Use finalizeRun to ensure consistent state reset
+      // If no active run, finalizeRun will reset isLoading, abortController, streamingContent
+      // If there's an active run, finalizeRun will set them correctly
+      finalizeRun(currentChatId, !activeRun);
+    };
+
+    // CRITICAL: Listen for runRemoved events from ChatStoreContext
+    // When a run is removed (completed/failed/cancelled), immediately finalize state
+    const handleRunRemoved = (e: CustomEvent<{ runId: string; chatId: string }>) => {
+      if (e.detail.chatId === currentChatId) {
+        // Run was removed for this chat - immediately finalize state
+        finalizeRun(currentChatId, true);
+      }
+    };
+
+    // Check immediately
+    checkLoadingState();
+
+    // Check frequently to catch state changes quickly
+    const checkInterval = setInterval(checkLoadingState, 150);
+
+    // Listen for runRemoved events
+    window.addEventListener("runRemoved", handleRunRemoved as EventListener);
+
+    return () => {
+      clearInterval(checkInterval);
+      window.removeEventListener("runRemoved", handleRunRemoved as EventListener);
+    };
+  }, [currentChatId, removeRun, finalizeRun]);
+
+  // BACKGROUND PROCESSING: Listen to store updates and sync active chat
+  // This ensures that when global polling updates store, active chat UI is updated
+  // CRITICAL: Continue syncing even when tab is hidden
+  useEffect(() => {
+    if (!currentChatId) return;
+
+    // Poll store for updates (global polling updates store, we sync UI)
+    // Continue syncing even when tab is hidden/background
+    const syncInterval = setInterval(() => {
+      syncStoreToLocalState(currentChatId);
+    }, 300); // Sync every 300ms for faster UI updates
+
+    // CRITICAL: When tab becomes visible, immediately sync to show any updates
+    // that happened while tab was hidden
+    const handleVisibilityChange = () => {
+      if (!document.hidden && currentChatId) {
+        // Tab became visible - sync immediately to show updates
+        syncStoreToLocalState(currentChatId);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(syncInterval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [currentChatId, syncStoreToLocalState]);
+
+  // CRITICAL: Check if chat module matches selected module when chat loads
+  useEffect(() => {
+    const checkChatModule = async () => {
+      const urlChatId = params?.chatId as string | undefined;
+      if (!urlChatId || !isValidObjectId(urlChatId)) {
+        return;
+      }
+
+      try {
+        // Get chat details to check module
+        const chat = await getChat(urlChatId);
+        const chatModule = chat.prompt_module || 'none';
+
+        // Get current selected module
+        const currentModule = typeof window !== 'undefined'
+          ? (localStorage.getItem('selectedModule') === 'lgs_karekok' ? 'lgs_karekok' : 'none')
+          : 'none';
+
+        // If modules don't match, create new chat and navigate
+        if (chatModule !== currentModule) {
+          console.log(`[MODULE_MISMATCH] Chat module (${chatModule}) != selected module (${currentModule}), creating new chat`);
+          try {
+            const newChat = await createChat(undefined, currentModule as "none" | "lgs_karekok");
+            router.push(`/chat/${newChat.id}`);
+            window.dispatchEvent(new CustomEvent("newChat", { detail: { chatId: newChat.id } }));
+          } catch (error) {
+            console.error("Failed to create new chat:", error);
+            // Fallback: navigate to /chat
+            router.push("/chat");
+          }
+        }
+      } catch (error) {
+        // Chat not found or error - ignore, let normal flow handle it
+        console.error("Error checking chat module:", error);
+      }
+    };
+
+    checkChatModule();
+  }, [params?.chatId, selectedModule, router]);
 
   // Sohbet değiştiğinde state'i yükle - eski sohbetin stream'ini durdurma
   useEffect(() => {
     const urlChatId = params?.chatId as string | undefined;
-    
+
     if (urlChatId && isValidObjectId(urlChatId) && urlChatId !== currentChatId) {
       // Yeni sohbetin state'ini yükle
       setCurrentChatId(urlChatId);
-      loadChatMessages(urlChatId);
+      // CHAT SAVING ENABLED: Load messages from backend
       loadChatSettings(urlChatId);
-      
+      loadChatMessages(urlChatId);
+
       // CRITICAL: Sync store to local state after a short delay
       // This ensures any background streaming updates from other chats are visible
       // when user switches back to a chat that was streaming in background
+      // Global polling in ChatStoreContext handles background updates automatically
       setTimeout(() => {
         syncStoreToLocalState(urlChatId);
       }, 100);
-      
-      // Check for pending runs
-      const checkPendingRuns = async (chatId: string) => {
-        let pollInterval: NodeJS.Timeout | null = null;
-        try {
-          const pendingRunKey = `pending_run_${chatId}`;
-          const pendingRunId = localStorage.getItem(pendingRunKey);
-          
-          if (pendingRunId) {
-            // CRITICAL FIX: Check run status immediately before starting polling
-            // If run doesn't exist (404), clean up and don't start polling
-            try {
-              const initialStatus = await getGenerationRun(pendingRunId);
-              
-              // Run exists, start polling
-              pollInterval = setInterval(async () => {
-                try {
-                  const runStatus = await getGenerationRun(pendingRunId);
-                  
-                  if (runStatus.status === "completed" && runStatus.completed_text) {
-                    if (pollInterval) clearInterval(pollInterval);
-                    localStorage.removeItem(pendingRunKey);
-                    
-                    // REMOVED: Don't create new assistant message here
-                    // The message should already exist in store from handleSend
-                    // Just update it if it exists
-                    const existingMessage = getMessage(runStatus.message_id);
-                    if (existingMessage) {
-                      updateMessage(runStatus.message_id, {
-                        content: runStatus.completed_text,
-                        status: "completed",
-                      });
-                      syncStoreToLocalState(chatId);
-                    }
-                  } else if (runStatus.status === "failed" || runStatus.status === "cancelled") {
-                    if (pollInterval) clearInterval(pollInterval);
-                    localStorage.removeItem(pendingRunKey);
-                  }
-                } catch (error: any) {
-                  if (error && typeof error === "object" && "code" in error && error.code === "RUN_NOT_FOUND") {
-                    if (pollInterval) clearInterval(pollInterval);
-                    localStorage.removeItem(pendingRunKey);
-                    return;
-                  }
-                  console.error(`[BACKGROUND] Error polling run ${pendingRunId}:`, error);
-                }
-              }, 2000);
-            } catch (error: any) {
-              // Run not found (404) - clean up and don't start polling
-              if (error && typeof error === "object" && "code" in error && error.code === "RUN_NOT_FOUND") {
-                localStorage.removeItem(pendingRunKey);
-                return; // Silently exit
-              }
-              // Other errors - log but don't start polling
-              console.error(`[BACKGROUND] Error checking initial run status ${pendingRunId}:`, error);
-            }
-          }
-        } catch (error) {
-          console.error("[BACKGROUND] Error checking pending runs:", error);
-        }
-        
-        // Cleanup on unmount
-        return () => {
-          if (pollInterval) clearInterval(pollInterval);
-        };
-      };
-      
-      checkPendingRuns(urlChatId);
-      
+
       // Save to localStorage
       try {
         localStorage.setItem("current_chat_id", urlChatId);
       } catch (error) {
         console.error("Failed to save current chat ID:", error);
       }
+
+      // CRITICAL: Auto-focus input when new chat is opened
+      // Use multiple attempts to ensure focus works
+      const focusInput = () => {
+        if (inputRef.current) {
+          try {
+            inputRef.current.focus();
+            return document.activeElement === inputRef.current;
+          } catch (error) {
+            return false;
+          }
+        }
+        return false;
+      };
+
+      // Try to focus after a short delay to ensure DOM is ready
+      setTimeout(() => {
+        if (!focusInput()) {
+          setTimeout(() => {
+            focusInput();
+          }, 100);
+        }
+      }, 200);
     }
     // Note: currentChatId dependency removed to prevent double loading
     // URL change is the single source of truth for chat loading
@@ -1423,7 +1626,7 @@ function ChatPage() {
   useEffect(() => {
     const loadAvailableDocuments = async () => {
       try {
-        const docs = await listDocuments();
+        const docs = await listDocuments(selectedModule);
         setAvailableDocuments(docs);
       } catch (error) {
         console.error("Failed to load available documents:", error);
@@ -1431,7 +1634,7 @@ function ChatPage() {
       }
     };
     loadAvailableDocuments();
-  }, []);
+  }, [selectedModule]);
 
   // Helper function to validate MongoDB ObjectId format
   const isValidObjectId = (id: string): boolean => {
@@ -1449,24 +1652,38 @@ function ChatPage() {
   };
 
   // Get or create chat ID (for file uploads)
-  const getOrCreateChatId = async (): Promise<string> => {
+  // CHAT SAVING ENABLED: Create chat if needed, or return existing chatId
+  const getOrCreateChatId = async (): Promise<string | null> => {
     const existingChatId = getChatId();
     if (existingChatId) {
       return existingChatId;
     }
-    // Create new chat if doesn't exist
-    const newChat = await createChat();
-    router.push(`/chat/${newChat.id}`);
-    return newChat.id;
+    // If no chatId, try to create a new chat
+    try {
+      const currentModule = typeof window !== 'undefined'
+        ? (localStorage.getItem('selectedModule') === 'lgs_karekok' ? 'lgs_karekok' as const : 'none' as const)
+        : 'none' as const;
+      const newChat = await createChat(undefined, currentModule);
+      const newChatId = newChat.id;
+      // Update URL without navigation
+      const newUrl = `/chat/${newChatId}`;
+      window.history.replaceState({}, "", newUrl);
+      setCurrentChatId(newChatId);
+      return newChatId;
+    } catch (error) {
+      console.error("Failed to create chat for file upload:", error);
+      // Return null if chat creation fails - document will be saved as independent
+      return null;
+    }
   };
-  
+
   // Handle chatId from URL - don't create chat if not present
   // Chat will be created when first message is sent
   useEffect(() => {
     const chatId = getChatId();
     if (chatId && chatId !== currentChatId) {
       setCurrentChatId(chatId);
-      loadChatMessages(chatId);
+      // CHAT SAVING DISABLED: No need to load messages
       loadChatSettings(chatId);
     } else if (!chatId) {
       // No chatId - clear state, chat will be created on first message
@@ -1487,12 +1704,12 @@ function ChatPage() {
             checkpointKeys.push(key);
           }
         }
-        
+
         // Resume from most recent checkpoint
         if (checkpointKeys.length > 0) {
           let latestCheckpoint: any = null;
           let latestTimestamp = 0;
-          
+
           for (const key of checkpointKeys) {
             try {
               const checkpointData = localStorage.getItem(key);
@@ -1504,20 +1721,19 @@ function ChatPage() {
                 }
               }
             } catch (error) {
-              console.warn(`Failed to parse checkpoint ${key}:`, error);
             }
           }
-          
+
           if (latestCheckpoint && latestCheckpoint.chatId) {
-            
+
             // Load chat messages first
-            loadChatMessages(latestCheckpoint.chatId);
+            // CHAT SAVING DISABLED: No need to load messages
             loadChatSettings(latestCheckpoint.chatId);
             setCurrentChatId(latestCheckpoint.chatId);
-            
+
             // Update URL
             window.history.pushState({}, "", `/chat?chatId=${latestCheckpoint.chatId}`);
-            
+
             // Resume streaming from checkpoint
             // Note: Response already received, just need to display it
             if (latestCheckpoint.sources !== undefined) {
@@ -1528,9 +1744,14 @@ function ChatPage() {
                 requestId: requestId,
                 isStreaming: true,
               });
-              
+
               // Get full response from backend (idempotency cache)
               try {
+                // Get current module from localStorage
+                const currentModule = typeof window !== 'undefined'
+                  ? (localStorage.getItem('selectedModule') === 'lgs_karekok' ? 'lgs_karekok' : 'none')
+                  : 'none';
+
                 const response = await apiFetch<ChatResponse>("/api/chat", {
                   method: "POST",
                   body: JSON.stringify({
@@ -1538,17 +1759,19 @@ function ChatPage() {
                     chatId: latestCheckpoint.chatId,
                     client_message_id: requestId,
                     mode: "qa",
+                    prompt_module: currentModule,  // Include module for checkpoint resume
                   }),
                 });
-                
+
                 // REMOVED: Checkpoint resume no longer creates new messages
                 // The message should already exist in store from original handleSend
                 // Just update it if it exists
                 const existingRun = getRunByRequestId(requestId);
                 if (existingRun) {
-                  await streamMessage(response.message, existingRun.runId, response.sources, undefined);
+                  // Use run's chatId for activeChatId parameter
+                  await streamMessage(response.message, existingRun.runId, response.sources, undefined, existingRun.chatId, response.used_documents);
                 }
-                
+
                 // Clear checkpoint after successful resume
                 localStorage.removeItem(`chat_checkpoint_${requestId}`);
                 checkpointRef.current = null;
@@ -1564,112 +1787,14 @@ function ChatPage() {
         console.error("[BACKGROUND] Error resuming from checkpoint:", error);
       }
     };
-    
+
     resumeFromCheckpoint();
   }, []); // Run once on mount
 
-  // Check for pending generation runs when chat loads
-  useEffect(() => {
-    const checkPendingRuns = async (chatId: string) => {
-      try {
-        // Check localStorage for pending run IDs for this chat
-        const pendingRunKey = `pending_run_${chatId}`;
-        const pendingRunId = localStorage.getItem(pendingRunKey);
-        
-        if (pendingRunId) {
-          // CRITICAL FIX: Check run status immediately before starting polling
-          // If run doesn't exist (404), clean up and don't start polling
-          let pollInterval: NodeJS.Timeout | null = null;
-          try {
-            const initialStatus = await getGenerationRun(pendingRunId);
-          
-            // Run exists, start polling
-            pollInterval = setInterval(async () => {
-              try {
-                const runStatus = await getGenerationRun(pendingRunId);
-                
-                if (runStatus.status === "completed" && runStatus.completed_text) {
-                  // Run completed - update existing message in store
-                  if (pollInterval) clearInterval(pollInterval);
-                  localStorage.removeItem(pendingRunKey);
-                  
-                  // REMOVED: Don't create new assistant message here
-                  // The message should already exist in store from handleSend
-                  // Just update it if it exists
-                  const existingMessage = getMessage(runStatus.message_id);
-                  if (existingMessage) {
-                    updateMessage(runStatus.message_id, {
-                      content: runStatus.completed_text,
-                      status: "completed",
-                    });
-                    syncStoreToLocalState(chatId);
-                  }
-                  
-                } else if (runStatus.status === "failed" || runStatus.status === "cancelled") {
-                  // Run failed or cancelled
-                  if (pollInterval) clearInterval(pollInterval);
-                  localStorage.removeItem(pendingRunKey);
-                }
-                // If still running, continue polling
-              } catch (error: any) {
-                // If run not found, stop polling silently
-                if (error && typeof error === "object" && "code" in error && error.code === "RUN_NOT_FOUND") {
-                  if (pollInterval) clearInterval(pollInterval);
-                  localStorage.removeItem(pendingRunKey);
-                  return; // Silently exit, don't log
-                }
-                // Only log other errors
-                console.error(`[BACKGROUND] Error polling run ${pendingRunId}:`, error);
-              }
-            }, 2000); // Poll every 2 seconds
-          } catch (error: any) {
-            // Run not found (404) - clean up and don't start polling
-            if (error && typeof error === "object" && "code" in error && error.code === "RUN_NOT_FOUND") {
-              localStorage.removeItem(pendingRunKey);
-              return; // Silently exit, don't log
-            }
-            // Other errors - log but don't start polling
-            console.error(`[BACKGROUND] Error checking initial run status ${pendingRunId}:`, error);
-          }
-          
-          // Cleanup on unmount
-          return () => {
-            if (pollInterval) clearInterval(pollInterval);
-          };
-        }
-      } catch (error) {
-        console.error("[BACKGROUND] Error checking pending runs:", error);
-      }
-    };
-
-    const handleLoadChat = (e: CustomEvent) => {
-      const { chatId } = e.detail;
-      if (chatId && chatId !== currentChatId) {
-        // CRITICAL: Do NOT abort ongoing streaming in old chat - let it continue
-        // Just save the current chat state before switching
-        if (currentChatId) {
-          const currentState = getCurrentChatState(currentChatId);
-          // Save current local state to chat-specific state before switching
-          updateCurrentChatState(currentChatId, {
-            messages,
-            streamingContent,
-            isLoading,
-            abortController,
-          });
-          // Do NOT abort - let the stream continue in background
-        }
-        
-        // Clear local state only (not chat-specific state)
-        setStreamingContent("");
-        setIsLoading(false);
-        setAbortController(null);
-        
-        // Navigate to new chat
-        router.push(`/chat/${chatId}`);
-      }
-    };
-
-    const handleNewChat = async () => {
+  // Event handlers for chat navigation
+  const handleLoadChat = useCallback((e: CustomEvent) => {
+    const { chatId } = e.detail;
+    if (chatId && chatId !== currentChatId) {
       // CRITICAL: Do NOT abort ongoing streaming in old chat - let it continue
       // Just save the current chat state before switching
       if (currentChatId) {
@@ -1682,92 +1807,287 @@ function ChatPage() {
           abortController,
         });
         // Do NOT abort - let the stream continue in background
-        // Do NOT delete chat state - keep it for when user returns
       }
-      
+
       // Clear local state only (not chat-specific state)
-      setMessages([]);
-      setInput("");
-      setCurrentChatId(null);
-      setStreamingContent(""); // Clear local streaming content
+      setStreamingContent("");
       setIsLoading(false);
-      setAbortController(null); // Clear local abort controller
-      
-      // CRITICAL: Use sync updater to clear both state and ref
-      setAttachedFilesSync(() => []);
-      setSelectedDocumentIds([]);
-      
-      // Clear localStorage chat state
-      try {
-        localStorage.removeItem("current_chat_id");
-        // Clear all chat-related localStorage items
-        const keys = Object.keys(localStorage);
-        keys.forEach(key => {
-          if (key.startsWith("chat_messages_") || key.startsWith("chat_settings_") || key.startsWith("chat_checkpoint_")) {
-            localStorage.removeItem(key);
-          }
-        });
-      } catch (error) {
-        console.error("Failed to clear chat state:", error);
-      }
-      
-      // Clear URL chatId parameter - chat will be created when first message is sent
-      router.push("/chat");
-    };
+      setAbortController(null);
 
-    const handleChatDeleted = (e: CustomEvent) => {
-      // Focus input after chat is deleted
-      if (e.detail?.focusInput) {
-        // Try to focus input with multiple attempts
-        const tryFocusInput = () => {
-          try {
-            // Aggressively blur any active element first (including sidebar toggle)
-            const activeElement = document.activeElement as HTMLElement | null;
-            if (activeElement && activeElement !== document.body) {
-              // Check if it's not the input before blurring
-              if (activeElement !== inputRef.current) {
-                activeElement.blur();
-              }
-            }
-            // Also ensure body doesn't have focus
-            if (document.activeElement === document.body) {
-              (document.body as HTMLElement).blur();
-            }
-            // Focus input if it exists
-            if (inputRef.current) {
-              inputRef.current.focus();
-              return true;
-            }
-          } catch (error) {
-            // Ignore focus errors
-          }
-          return false;
-        };
-        
-        // Try immediately
-        if (!tryFocusInput()) {
-          // If input not ready, try again after a short delay
-          setTimeout(() => {
-            if (!tryFocusInput()) {
-              // Last attempt after longer delay
-              setTimeout(tryFocusInput, 100);
-            }
-          }, 50);
+      // Navigate to new chat
+      router.push(`/chat/${chatId}`);
+    }
+  }, [currentChatId, messages, streamingContent, isLoading, abortController, router]);
+
+  const handleNewChat = useCallback(async () => {
+    // CRITICAL: Do NOT abort ongoing streaming in old chat - let it continue
+    // Just save the current chat state before switching
+    if (currentChatId) {
+      const currentState = getCurrentChatState(currentChatId);
+      // Save current local state to chat-specific state before switching
+      updateCurrentChatState(currentChatId, {
+        messages,
+        streamingContent,
+        isLoading,
+        abortController,
+      });
+      // Do NOT abort - let the stream continue in background
+      // Do NOT delete chat state - keep it for when user returns
+    }
+
+    // Clear local state only (not chat-specific state)
+    setMessages([]);
+    setInput("");
+    setCurrentChatId(null);
+    setStreamingContent(""); // Clear local streaming content
+    setIsLoading(false);
+    setAbortController(null); // Clear local abort controller
+
+    // CRITICAL: Use sync updater to clear both state and ref
+    setAttachedFilesSync(() => []);
+    setSelectedDocumentIds([]);
+
+    // Clear localStorage chat state
+    try {
+      localStorage.removeItem("current_chat_id");
+      // Clear all chat-related localStorage items
+      const keys = Object.keys(localStorage);
+      keys.forEach(key => {
+        if (key.startsWith("chat_messages_") || key.startsWith("chat_settings_") || key.startsWith("chat_checkpoint_")) {
+          localStorage.removeItem(key);
         }
-      }
-    };
+      });
+    } catch (error) {
+      console.error("Failed to clear chat state:", error);
+    }
 
+    // Clear URL chatId parameter - chat will be created when first message is sent
+    router.push("/chat");
+  }, [currentChatId, messages, streamingContent, isLoading, abortController, router, setAttachedFilesSync]);
+
+  const handleChatDeleted = useCallback((e: CustomEvent) => {
+    const deletedChatId = e.detail?.chatId;
+
+    // If the deleted chat is the current chat, navigate to new chat page
+    if (deletedChatId && deletedChatId === currentChatId) {
+      router.push("/chat");
+      return;
+    }
+
+    // Focus input after chat is deleted (if not navigating away)
+    if (e.detail?.focusInput) {
+      // Try to focus input with multiple attempts
+      const tryFocusInput = () => {
+        try {
+          // Aggressively blur any active element first (including sidebar toggle)
+          const activeElement = document.activeElement as HTMLElement | null;
+          if (activeElement && activeElement !== document.body) {
+            // Check if it's not the input before blurring
+            if (activeElement !== inputRef.current) {
+              activeElement.blur();
+            }
+          }
+          // Also ensure body doesn't have focus
+          if (document.activeElement === document.body) {
+            (document.body as HTMLElement).blur();
+          }
+          // Focus input if it exists
+          if (inputRef.current) {
+            inputRef.current.focus();
+            return true;
+          }
+        } catch (error) {
+          // Ignore focus errors
+        }
+        return false;
+      };
+
+      // Try immediately
+      if (!tryFocusInput()) {
+        // If input not ready, try again after a short delay
+        setTimeout(() => {
+          if (!tryFocusInput()) {
+            // Last attempt after longer delay
+            setTimeout(tryFocusInput, 100);
+          }
+        }, 50);
+      }
+    }
+  }, [currentChatId, router]);
+
+  // Set up event listeners for chat navigation
+  useEffect(() => {
     window.addEventListener("newChat", handleNewChat);
     window.addEventListener("loadChat", handleLoadChat as EventListener);
     window.addEventListener("chatDeleted", handleChatDeleted as EventListener);
-    
+
     return () => {
       window.removeEventListener("newChat", handleNewChat);
       window.removeEventListener("loadChat", handleLoadChat as EventListener);
       window.removeEventListener("chatDeleted", handleChatDeleted as EventListener);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params?.chatId]);
+  }, [handleNewChat, handleLoadChat, handleChatDeleted]);
+
+  // Check for pending generation runs when chat loads
+  useEffect(() => {
+    const checkPendingRuns = async (chatId: string) => {
+      try {
+        // Check localStorage for pending run IDs for this chat
+        const pendingRunKey = `pending_run_${chatId}`;
+        const pendingRunId = localStorage.getItem(pendingRunKey);
+
+        if (pendingRunId) {
+          // CRITICAL FIX: Check run status immediately before starting polling
+          // If run doesn't exist (404), clean up and don't start polling
+          let pollInterval: NodeJS.Timeout | null = null;
+          try {
+            const initialStatus = await getGenerationRun(pendingRunId);
+
+            // Run exists, start polling
+            pollInterval = setInterval(async () => {
+              try {
+                const runStatus = await getGenerationRun(pendingRunId);
+
+                // CRITICAL: Backend uses content_so_far for streaming content
+                const content = runStatus.content_so_far || runStatus.completed_text || "";
+
+                if (runStatus.status === "completed" && content) {
+                  // Run completed - update existing message in store
+                  if (pollInterval) clearInterval(pollInterval);
+                  localStorage.removeItem(pendingRunKey);
+
+                  // Update message with final content
+                  const existingMessage = getMessage(runStatus.message_id || "");
+                  if (existingMessage) {
+                    updateMessage(runStatus.message_id || "", {
+                      content: content,
+                      status: "completed",
+                      sources: runStatus.sources,
+                      used_documents: runStatus.used_documents,
+                      is_partial: false,
+                    });
+
+                    // CRITICAL: Remove the completed run from store
+                    const runToRemove = Array.from(storeRef.current.runs.values()).find(
+                      r => (r.runId === pendingRunId || r.requestId === pendingRunId) && r.chatId === chatId
+                    );
+                    if (runToRemove) {
+                      removeRun(runToRemove.runId);
+                      // CRITICAL: Force finalize run state IMMEDIATELY
+                      finalizeRun(chatId, true);
+                    }
+
+                    // CRITICAL: Sync state after removing run
+                    syncStoreToLocalState(chatId);
+                  }
+
+                } else if (runStatus.status === "failed" || runStatus.status === "cancelled") {
+                  // Run failed or cancelled - keep partial content
+                  if (pollInterval) clearInterval(pollInterval);
+                  localStorage.removeItem(pendingRunKey);
+
+                  // CRITICAL: Remove run from store
+                  const runToRemove = Array.from(storeRef.current.runs.values()).find(
+                    r => r.runId === pendingRunId || r.requestId === pendingRunId
+                  );
+                  if (runToRemove) {
+                    removeRun(runToRemove.runId);
+                    // CRITICAL: Force finalize run state IMMEDIATELY
+                    finalizeRun(chatId, true);
+                  }
+
+                  // Update message with partial content if available
+                  if (content) {
+                    const existingMessage = getMessage(runStatus.message_id || "");
+                    if (existingMessage) {
+                      updateMessage(runStatus.message_id || "", {
+                        content: content,
+                        status: runStatus.status === "cancelled" ? "cancelled" : "completed",
+                        is_partial: true,
+                      });
+                      syncStoreToLocalState(chatId);
+                    }
+                  }
+                } else if (runStatus.status === "running" && content) {
+                  // STREAMING: Update partial content during streaming
+                  const existingMessage = getMessage(runStatus.message_id || "");
+                  if (existingMessage) {
+                    // Only update if content is longer (to avoid overwriting with older data)
+                    if (content.length >= existingMessage.content.length) {
+                      updateMessage(runStatus.message_id || "", {
+                        content: content,
+                        status: "streaming",
+                        sources: runStatus.sources,
+                        used_documents: runStatus.used_documents,
+                        is_partial: true,
+                      });
+                      syncStoreToLocalState(chatId);
+                    }
+                  } else {
+                    // Message doesn't exist - create placeholder
+                    if (runStatus.message_id) {
+                      addMessage({
+                        id: runStatus.message_id,
+                        chatId: chatId,
+                        role: "assistant",
+                        content: content,
+                        createdAt: new Date(),
+                        status: "streaming",
+                        is_partial: true,
+                        module: selectedModule, // Ensure module is set during polling
+                      });
+                      syncStoreToLocalState(chatId);
+                    }
+                  }
+                }
+                // If still running, continue polling
+              } catch (error: any) {
+                // If run not found, stop polling silently
+                if (error && typeof error === "object" && "code" in error && error.code === "RUN_NOT_FOUND") {
+                  if (pollInterval) clearInterval(pollInterval);
+                  localStorage.removeItem(pendingRunKey);
+
+                  // CRITICAL: Remove run from store and reset loading state
+                  const runToRemove = Array.from(storeRef.current.runs.values()).find(
+                    r => r.runId === pendingRunId || r.requestId === pendingRunId
+                  );
+                  if (runToRemove) {
+                    removeRun(runToRemove.runId);
+                    // CRITICAL: Force finalize run state IMMEDIATELY
+                    finalizeRun(chatId, true);
+                  }
+                  syncStoreToLocalState(chatId);
+
+                  return; // Silently exit, don't log
+                }
+                // Only log other errors
+                console.error(`[BACKGROUND] Error polling run ${pendingRunId}:`, error);
+              }
+            }, 500); // Poll every 500ms for faster streaming updates
+          } catch (error: any) {
+            // Run not found (404) - clean up and don't start polling
+            if (error && typeof error === "object" && "code" in error && error.code === "RUN_NOT_FOUND") {
+              localStorage.removeItem(pendingRunKey);
+              return; // Silently exit, don't log
+            }
+            // Other errors - log but don't start polling
+            console.error(`[BACKGROUND] Error checking initial run status ${pendingRunId}:`, error);
+          }
+
+          // Cleanup on unmount
+          return () => {
+            if (pollInterval) clearInterval(pollInterval);
+          };
+        }
+      } catch (error) {
+        console.error("[BACKGROUND] Error checking pending runs:", error);
+      }
+    };
+
+    if (currentChatId) {
+      checkPendingRuns(currentChatId);
+    }
+  }, [currentChatId]);
 
   // Save messages whenever they change
   useEffect(() => {
@@ -1776,12 +2096,26 @@ function ChatPage() {
     }
   }, [messages, currentChatId]);
 
-  // Auto-focus input after message sent or file upload completed
+  // Auto-focus input only when a new message is ADDED (not on every change)
+  // This allows text selection in messages without losing focus
+  const prevMessagesLengthRef = useRef(messages.length);
   useEffect(() => {
-    if (!isLoading && !isUploading && inputRef.current) {
-      inputRef.current.focus();
+    // Only focus if new message was added and we're not loading/uploading
+    if (
+      !isLoading &&
+      !isUploading &&
+      messages.length > prevMessagesLengthRef.current &&
+      inputRef.current
+    ) {
+      // Small delay to allow text selection to complete if in progress
+      setTimeout(() => {
+        if (document.activeElement?.tagName !== 'TEXTAREA' && inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 100);
     }
-  }, [isLoading, isUploading, messages]);
+    prevMessagesLengthRef.current = messages.length;
+  }, [isLoading, isUploading, messages.length]);
 
   // STEP B: Single Scroll Gate Function
   // ====================================
@@ -1790,16 +2124,16 @@ function ChatPage() {
   function maybeScrollToBottom(reason: string, force: boolean = false, smooth: boolean = false) {
     const container = messagesContainerRef.current;
     const bottomElement = messagesEndRef.current;
-    
+
     if (!container || !bottomElement) {
       return;
     }
-    
+
     // Calculate distance from bottom
     const el = container;
     const dist = el.scrollHeight - (el.scrollTop + el.clientHeight);
     const scrollBehavior: ScrollBehavior = smooth ? "smooth" : "auto";
-    
+
     if (force) {
       // Force scroll: reset lock and scroll
       userScrollLockRef.current = false;
@@ -1808,18 +2142,18 @@ function ChatPage() {
       bottomElement.scrollIntoView({ behavior: scrollBehavior, block: "end" });
       return;
     }
-    
+
     // CRITICAL: Check lock first - if locked, do nothing regardless of distance
     if (userScrollLockRef.current) {
       return;
     }
-    
+
     // For streaming: if lock is false, always scroll (streaming should follow bottom)
     if (reason === "stream") {
       bottomElement.scrollIntoView({ behavior: scrollBehavior, block: "end" });
       return;
     }
-    
+
     // For other reasons: only scroll if user is near bottom
     if (dist <= 20) {
       bottomElement.scrollIntoView({ behavior: scrollBehavior, block: "end" });
@@ -1845,85 +2179,25 @@ function ChatPage() {
         setTimeout(checkContainer, 100);
         return;
       }
-      
-      
+
+
       cleanup = setupScrollListeners(container);
     };
-    
+
     let cleanup: (() => void) | null = null;
-    
+
     checkContainer();
-    
+
     function setupScrollListeners(container: HTMLElement) {
       // STEP C: Lock rules - simple distance + wheel up
       const handleScrollContainer = async (e: Event) => {
         const el = container;
         const dist = el.scrollHeight - (el.scrollTop + el.clientHeight);
         const scrollTop = el.scrollTop;
-        
-        // Cursor pagination: Load older messages when scrolling to top
-        if (scrollTop < 100 && hasMoreMessages && !isLoadingOlderMessages && currentChatId) {
-          setIsLoadingOlderMessages(true);
-          try {
-            const oldScrollHeight = el.scrollHeight;
-            const backendResponse = await getChatMessages(currentChatId, 50, messageCursor);
-            
-            if (backendResponse.messages && backendResponse.messages.length > 0) {
-              // Prepend older messages to store
-              const olderMessageIds: string[] = [];
-              backendResponse.messages.forEach((msg) => {
-                const normalizedMsg: NormalizedMessage = {
-                  id: msg.message_id,
-                  chatId: currentChatId,
-                  role: msg.role,
-                  content: msg.content,
-                  createdAt: new Date(msg.created_at),
-                  status: "completed",
-                  sources: msg.sources,
-                  client_message_id: msg.client_message_id,
-                };
-                
-                if (!storeRef.current.messages.has(normalizedMsg.id)) {
-                  storeRef.current.messages.set(normalizedMsg.id, normalizedMsg);
-                  olderMessageIds.push(normalizedMsg.id);
-                }
-              });
-              
-              // Update chat's messageIds list (prepend older messages)
-              const currentMessageIds = getChatMessageIds(currentChatId);
-              const allMessageIds = [...olderMessageIds, ...currentMessageIds];
-              const sortedMessageIds = allMessageIds.sort((a, b) => {
-                const msgA = getMessage(a);
-                const msgB = getMessage(b);
-                if (!msgA || !msgB) return 0;
-                return msgA.createdAt.getTime() - msgB.createdAt.getTime();
-              });
-              
-              storeRef.current.chats.set(currentChatId, { messageIds: sortedMessageIds });
-              
-              // Update cursor and has_more
-              setMessageCursor(backendResponse.cursor || null);
-              setHasMoreMessages(backendResponse.has_more);
-              
-              // Sync to local state
-              syncStoreToLocalState(currentChatId);
-              
-              // Maintain scroll position (adjust for new content height)
-              setTimeout(() => {
-                const newScrollHeight = el.scrollHeight;
-                const heightDiff = newScrollHeight - oldScrollHeight;
-                el.scrollTop = scrollTop + heightDiff;
-              }, 0);
-            } else {
-              setHasMoreMessages(false);
-            }
-          } catch (error) {
-            console.error("[PAGINATION] Failed to load older messages:", error);
-          } finally {
-            setIsLoadingOlderMessages(false);
-          }
-        }
-        
+
+        // CHAT SAVING DISABLED: No pagination needed (messages only in local state)
+        // Cursor pagination disabled - messages are not saved to database
+
         // Lock rules: dist > 80 => lock true, dist <= 20 => lock false
         if (dist > 80) {
           userScrollLockRef.current = true;
@@ -1935,14 +2209,14 @@ function ChatPage() {
           setIsUserScrolledUp(false);
         }
       };
-      
+
       // Wheel event handler - lock on upward scroll
       const handleWheel = (e: WheelEvent) => {
         const target = e.target as HTMLElement;
         const isWithinContainer = container.contains(target);
-        
+
         if (!isWithinContainer) return;
-        
+
         // Lock rule - wheel up (deltaY < 0) => lock true
         if (e.deltaY < 0) {
           userScrollLockRef.current = true;
@@ -1950,11 +2224,11 @@ function ChatPage() {
           setIsUserScrolledUp(true);
         }
       };
-      
+
       // Add listeners to container
       container.addEventListener('scroll', handleScrollContainer, { passive: true });
       container.addEventListener('wheel', handleWheel, { passive: true, capture: true });
-      
+
       // Initial check
       const { scrollTop, scrollHeight, clientHeight } = container;
       const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
@@ -1962,14 +2236,14 @@ function ChatPage() {
       userScrollLockRef.current = !initialIsAtBottom;
       setAutoScrollEnabled(initialIsAtBottom);
       setIsUserScrolledUp(!initialIsAtBottom);
-      
+
       // Return cleanup function
       return () => {
         container.removeEventListener('scroll', handleScrollContainer);
         container.removeEventListener('wheel', handleWheel);
       };
     }
-    
+
     // Return cleanup from useEffect
     return () => {
       if (cleanup) cleanup();
@@ -1983,7 +2257,7 @@ function ChatPage() {
         maybeScrollToBottom("stream");
       }
     }, 0);
-    
+
     return () => clearTimeout(timeoutId);
   }, [messages, streamingContent]);
 
@@ -2003,7 +2277,7 @@ function ChatPage() {
     }
 
     const message = firstMessage.trim();
-    
+
     // 1. İlk mesajdan ana konuyu çıkar (%60-70 ağırlık)
     // Kısa ve öz mesajlar direkt başlık olabilir
     if (message.length <= 40 && !message.includes("?") && !message.includes("hata") && !message.includes("error")) {
@@ -2024,7 +2298,7 @@ function ChatPage() {
     // Niyet tespiti
     let detectedIntent: string | null = null;
     const lowerMessage = message.toLowerCase();
-    
+
     for (const [intent, keywords] of Object.entries(intentKeywords)) {
       if (keywords.some(keyword => lowerMessage.includes(keyword))) {
         detectedIntent = intent;
@@ -2043,22 +2317,22 @@ function ChatPage() {
     // Cümleleri ayır ve önemli kelimeleri çıkar
     const sentences = message.split(/[.!?。，、\n]/).filter(s => s.trim().length > 0);
     const importantWords: string[] = [];
-    
+
     sentences.forEach(sentence => {
       // Türkçe ve İngilizce kelimeleri ayır
       const words = sentence
         .toLowerCase()
         .replace(/[^\w\sğüşıöçĞÜŞİÖÇ]/g, " ")
         .split(/\s+/)
-        .filter(word => 
-          word.length > 2 && 
+        .filter(word =>
+          word.length > 2 &&
           !stopWords.has(word) &&
           !/^\d+$/.test(word) && // Sayıları filtrele
           !word.includes("line") && // Line 42 gibi teknik detayları filtrele
           !word.includes("error") &&
           !word.includes("bug")
         );
-      
+
       importantWords.push(...words);
     });
 
@@ -2112,7 +2386,7 @@ function ChatPage() {
     // Strateji 4: İlk cümleden ana konuyu çıkar
     if (sentences.length > 0) {
       const firstSentence = sentences[0].trim();
-      
+
       // Uzun cümleleri kısalt
       if (firstSentence.length > 50) {
         // Önemli kelimeleri bul ve başlık oluştur
@@ -2121,7 +2395,7 @@ function ChatPage() {
           title = keyWords
             .map(w => w.charAt(0).toUpperCase() + w.slice(1))
             .join(" ");
-          
+
           // Niyet ekle
           if (detectedIntent === "learning") {
             title = title + " Öğrenme";
@@ -2132,7 +2406,7 @@ function ChatPage() {
           } else if (detectedIntent === "design") {
             title = title + " Tasarım";
           }
-          
+
           if (title.length > 50) {
             title = title.substring(0, 50) + "...";
           }
@@ -2153,7 +2427,7 @@ function ChatPage() {
     if (message.length > 40) {
       title += "...";
     }
-    
+
     return title;
   };
 
@@ -2173,104 +2447,227 @@ function ChatPage() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
+
+    // CRITICAL: Auto-focus input after clearing (for seamless typing experience)
+    // Use multiple attempts to ensure focus works reliably
+    const focusInput = () => {
+      if (inputRef.current) {
+        try {
+          inputRef.current.focus();
+          return document.activeElement === inputRef.current;
+        } catch (error) {
+          return false;
+        }
+      }
+      return false;
+    };
+
+    // Try immediately, then retry if needed
+    setTimeout(() => {
+      if (!focusInput()) {
+        setTimeout(() => {
+          focusInput();
+        }, 100);
+      }
+    }, 50);
   };
 
   // Stream message with throttle and duplicate chunk prevention
   // NEW ARCHITECTURE: Uses runId to update store, seq for duplicate prevention
   const streamMessage = async (
-    fullMessage: string, 
+    fullMessage: string,
     runId: string,
     sources?: SourceInfo[],
-    abortSignal?: AbortSignal
+    abortSignal?: AbortSignal,
+    activeChatId?: string,  // Optional: explicitly pass chatId to ensure UI updates
+    used_documents?: boolean  // Whether documents were actually used (relevance gate passed)
   ) => {
     // Get run and assistant message
     const run = getRun(runId);
-    if (!run || run.status !== "running") {
-      console.warn("[STREAM] Run not found or not running:", runId);
+    if (!run) {
       return;
+    }
+
+    if (run.status !== "running") {
+      // Still update message even if run is not running
     }
 
     const assistantMessage = getMessage(run.assistantMessageId);
     if (!assistantMessage) {
-      console.warn("[STREAM] Assistant message not found:", run.assistantMessageId);
+      return;
+    }
+
+    // CRITICAL: Check if tab is hidden - if so, show message immediately without animation
+    const isTabVisible = typeof document !== 'undefined' && !document.hidden;
+
+    // If tab is hidden, show full message immediately and return
+    if (!isTabVisible) {
+      updateMessage(run.assistantMessageId, {
+        content: fullMessage,
+        status: "streaming",
+        sources: sources,
+        used_documents: used_documents,
+      });
+      updateRun(runId, { lastSeq: fullMessage.length });
+      const chatIdToCheck = activeChatId || currentChatId;
+      if (run.chatId === chatIdToCheck) {
+        syncStoreToLocalState(run.chatId);
+      }
       return;
     }
 
     let accumulatedText = "";
-    let lastUpdateTime = 0;
     let currentSeq = 0;
-    const THROTTLE_MS = 50;
+    const CHAR_DELAY_MS = 15; // Delay between batches (15ms = slower, allows KaTeX to render)
+    const BATCH_SIZE = 5; // Show 5 characters at a time for slower, smoother streaming with KaTeX
 
-    for (let i = 0; i < fullMessage.length; i++) {
+    // Start from beginning - message is already visible, we're just animating it
+    // Stream in batches for faster visual effect
+    // CRITICAL: Continue streaming even when tab is hidden (but check visibility in loop)
+    for (let i = 0; i < fullMessage.length; i += BATCH_SIZE) {
+      // Check if tab became hidden during streaming - if so, show rest immediately
+      const stillVisible = typeof document !== 'undefined' && !document.hidden;
+      if (!stillVisible && i < fullMessage.length - BATCH_SIZE) {
+        // Tab became hidden, show remaining message immediately
+        accumulatedText = fullMessage;
+        currentSeq = fullMessage.length;
+        updateMessage(run.assistantMessageId, {
+          content: accumulatedText,
+          status: "streaming",
+          sources: sources,
+          used_documents: used_documents,
+        });
+        updateRun(runId, { lastSeq: currentSeq });
+        const chatIdToCheck = activeChatId || currentChatId;
+        if (run.chatId === chatIdToCheck) {
+          syncStoreToLocalState(run.chatId);
+        }
+        return;
+      }
       // Check if run is still active
       const currentRun = getRun(runId);
-      if (!currentRun || currentRun.status !== "running") {
+      if (!currentRun) {
+        return;
+      }
+
+      if (currentRun.status !== "running") {
         // Run was cancelled or completed
         accumulatedText = fullMessage.substring(0, i);
         updateMessage(run.assistantMessageId, {
           content: accumulatedText,
           status: "cancelled",
           sources: sources,
+          used_documents: used_documents,
         });
-        updateRun(runId, { status: "cancelled" });
+        removeRun(runId);
+        // CRITICAL: Finalize interaction when cancelled
+        finalizeInteraction();
         syncStoreToLocalState(run.chatId);
         return;
       }
 
-      // Check if aborted
+      // Check if aborted (only abort if user explicitly cancelled, not on tab switch)
       if (abortSignal?.aborted) {
         accumulatedText = fullMessage.substring(0, i);
         updateMessage(run.assistantMessageId, {
           content: accumulatedText,
           status: "cancelled",
           sources: sources,
+          used_documents: used_documents,
         });
-        updateRun(runId, { status: "cancelled" });
+        removeRun(runId);
+        // CRITICAL: Finalize interaction when aborted
+        finalizeInteraction();
         syncStoreToLocalState(run.chatId);
         return;
       }
 
-      // Update with throttle and seq (duplicate chunk prevention)
-      const now = Date.now();
-      accumulatedText = fullMessage.substring(0, i + 1);
-      currentSeq = i + 1;
+      // Show batch of characters at a time for faster streaming
+      const endIndex = Math.min(i + BATCH_SIZE, fullMessage.length);
+      accumulatedText = fullMessage.substring(0, endIndex);
+      currentSeq = endIndex;
 
-      // Only update if seq is greater than lastSeq (duplicate prevention)
+      // Update message content and run seq immediately (no throttle for better UX)
       if (currentSeq > currentRun.lastSeq) {
-        if (now - lastUpdateTime >= THROTTLE_MS) {
-          if (abortSignal?.aborted) {
-            accumulatedText = fullMessage.substring(0, i);
-            updateMessage(run.assistantMessageId, {
-              content: accumulatedText,
-              status: "cancelled",
-              sources: sources,
-            });
-            updateRun(runId, { status: "cancelled" });
-            syncStoreToLocalState(run.chatId);
-            return;
-          }
-
-          // Update message content and run seq
+        if (abortSignal?.aborted) {
+          accumulatedText = fullMessage.substring(0, i);
           updateMessage(run.assistantMessageId, {
             content: accumulatedText,
-            status: "streaming",
+            status: "cancelled",
+            sources: sources,
+            used_documents: used_documents,
           });
-          updateRun(runId, { lastSeq: currentSeq });
-
-          // CRITICAL: Always update store, but only sync to local state if this is active chat
-          // This ensures background streaming continues and updates are saved
-          // When user returns to this chat, syncStoreToLocalState will load the latest content
-          if (run.chatId === currentChatId) {
-            syncStoreToLocalState(currentChatId);
-          }
-          // Note: If chatId !== currentChatId, streaming continues in background
-          // Store is updated, and will be synced when user returns to this chat
-
-          lastUpdateTime = now;
+          removeRun(runId);
+          // CRITICAL: Finalize run state when aborted
+          finalizeRun(run.chatId, true);
+          syncStoreToLocalState(run.chatId);
+          return;
         }
+
+        // CRITICAL: Update message content during streaming (plain text only, no KaTeX)
+        // Message status remains "streaming" until stream fully completes
+        // DO NOT finalize or render KaTeX until streaming is 100% complete
+        updateMessage(run.assistantMessageId, {
+          content: accumulatedText,
+          status: "streaming", // Keep as streaming until fully complete
+        });
+        updateRun(runId, { lastSeq: currentSeq });
+
+        // CRITICAL: Sync to local state immediately for every character update
+        // Use activeChatId if provided (for new chats), otherwise use currentChatId
+        const chatIdToCheck = activeChatId || currentChatId;
+        if (run.chatId === chatIdToCheck) {
+          // Sync immediately for smooth UI updates (plain text only during streaming)
+          // DO NOT render KaTeX during streaming - only after completion
+          syncStoreToLocalState(run.chatId);
+        }
+        // Note: If chatId !== chatIdToCheck, streaming continues in background
+        // Store is updated, and will be synced when user returns to this chat
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      // Wait before showing next character (smooth typing effect)
+      // CRITICAL: Check visibility again - if tab became hidden, skip remaining animation
+      const stillVisibleInLoop = typeof document !== 'undefined' && !document.hidden;
+      if (!stillVisibleInLoop) {
+        // Tab became hidden during loop - show rest immediately
+        accumulatedText = fullMessage;
+        currentSeq = fullMessage.length;
+        updateMessage(run.assistantMessageId, {
+          content: accumulatedText,
+          status: "streaming",
+          sources: sources,
+          used_documents: used_documents,
+        });
+        updateRun(runId, { lastSeq: currentSeq });
+        const chatIdToCheck = activeChatId || currentChatId;
+        if (run.chatId === chatIdToCheck) {
+          syncStoreToLocalState(run.chatId);
+        }
+        return;
+      }
+
+      // Use setTimeout - browsers may throttle in background but it still works
+      await new Promise((resolve) => setTimeout(resolve, CHAR_DELAY_MS));
+    }
+
+    // CRITICAL: Ensure full message is displayed even if loop ended early
+    if (accumulatedText.length < fullMessage.length) {
+      accumulatedText = fullMessage;
+      currentSeq = fullMessage.length;
+      updateMessage(run.assistantMessageId, {
+        content: accumulatedText,
+        status: "streaming",
+        sources: sources,
+        used_documents: used_documents,
+      });
+      updateRun(runId, { lastSeq: currentSeq });
+      const chatIdToCheck = activeChatId || currentChatId;
+      if (run.chatId === chatIdToCheck) {
+        syncStoreToLocalState(run.chatId);
+      }
     }
 
     // Final check for abort
@@ -2279,22 +2676,41 @@ function ChatPage() {
         content: fullMessage,
         status: "cancelled",
         sources: sources,
+        used_documents: used_documents,
       });
-      updateRun(runId, { status: "cancelled" });
+      removeRun(runId);
+      // CRITICAL: Finalize run state when aborted
+      finalizeRun(run.chatId, true);
       syncStoreToLocalState(run.chatId);
       return;
     }
 
-    // Finalize: Update message to completed
+    // CRITICAL: Streaming lifecycle - stream has fully completed
+    // IMPORTANT: Backend has already saved message to DB before run is marked as completed
+    // So we can safely mark message as completed here
+
+    // Step 1: Update message to completed status (this stops typing indicator and triggers KaTeX render)
     updateMessage(run.assistantMessageId, {
       content: fullMessage,
-      status: "completed",
+      status: "completed", // CRITICAL: Status change from "streaming" to "completed" stops typing indicator and triggers KaTeX render
       sources: sources,
+      used_documents: used_documents,
     });
-    updateRun(runId, { status: "completed", lastSeq: fullMessage.length });
 
-    // Sync to local state
+    // Step 2: Remove run from store (runs are temporary, messages persist independently)
+    removeRun(runId);
+
+    // Step 3: Finalize interaction to ensure UI state is reset (isLoading, isStreaming, etc.)
+    finalizeInteraction(run.chatId, false);
+
+    // Step 4: Sync to local state and save to localStorage (message persists independently of run)
     syncStoreToLocalState(run.chatId);
+
+    // Step 5: Force KaTeX render after message is completed (not during streaming)
+    // This is the ONLY place KaTeX should be rendered
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("forceKatexRender"));
+    }, 100);
 
     // Cleanup: Remove from inflight requests
     inflightRequestsRef.current.delete(run.requestId);
@@ -2311,66 +2727,40 @@ function ChatPage() {
 
     // CRITICAL: Double-trigger guard - check BEFORE any async operations
     if (sendLockRef.current) {
-      console.warn("[SEND] Duplicate trigger ignored (lock active)");
       return;
     }
-    
-      // CRITICAL: Check for active run BEFORE creating requestId (prevent duplicate on rapid clicks)
-      let tempChatId = currentChatId || getChatId();
-      if (!tempChatId) {
-        // No valid chatId, create new chat and update state immediately
-        console.log("[CHATDBG] handleSend createChat chatId=null userId=unknown status=creating");
-        const newChat = await createChat();
-        console.log("[CHATDBG] handleSend createChat chatId=" + newChat.id + " userId=unknown status=created");
-        // CRITICAL FIX: Update state immediately so subsequent calls use the new chatId
-        setCurrentChatId(newChat.id);
-        tempChatId = newChat.id; // Update tempChatId for activeRun check
-        // Update URL in background (non-blocking)
-        router.push(`/chat/${newChat.id}`);
-        // Continue with the new chatId instead of returning
-        // This prevents duplicate chat creation on rapid sends
-      }
-    // Use tempChatId (which may have been updated above) or currentChatId
-    const finalChatIdForRunCheck = tempChatId || currentChatId || getChatId();
-    const activeRun = Array.from(storeRef.current.runs.values()).find(
-      r => r.chatId === finalChatIdForRunCheck && r.status === "running"
-    );
-    if (activeRun) {
-      console.warn("[IDEMPOTENCY] Chat already has active run:", activeRun.runId);
-      return;
-    }
-    
+
     // Set lock IMMEDIATELY to prevent double-invoke
     sendLockRef.current = true;
 
     let requestId: string | null = null;
     let runId: string | null = null;
-    let chatId: string | null = null;
     let wasAborted = false;
     const abortController = new AbortController();
+    let finalChatId: string = "";  // Declare outside try block
+    let skipFinalize = false; // CRITICAL: Flag to skip cleanup if streaming continues
+
+    setIsLoading(true);
+    setIsStreaming(true);
+    setCanSendMessage(false);
 
     try {
-      // Get chat ID from URL params or use currentChatId (which may have been set above)
-      chatId = getChatId() || currentChatId;
-      if (!chatId) {
-        // No valid chatId, create new chat and update state immediately
-        // CRITICAL FIX: Prevent duplicate chat creation - check if we already created one
-        console.log("[CHATDBG] handleSend createChat chatId=null userId=unknown status=creating");
-        const newChat = await createChat();
-        console.log("[CHATDBG] handleSend createChat chatId=" + newChat.id + " userId=unknown status=created");
-        // CRITICAL FIX: Update state immediately so subsequent calls use the new chatId
-        setCurrentChatId(newChat.id);
-        chatId = newChat.id;
-        // Update URL in background (non-blocking)
-        router.push(`/chat/${newChat.id}`);
-        // Continue with the new chatId instead of returning
-        // This prevents duplicate chat creation on rapid sends
+      // Get current chatId
+      let chatId = currentChatId || getChatId() || "";
+
+      // Use chatId for activeRun check
+      if (chatId) {
+        const activeRun = Array.from(storeRef.current.runs.values()).find(
+          r => r.chatId === chatId && r.status === "running"
+        );
+        if (activeRun) {
+          sendLockRef.current = false;
+          return;
+        }
       }
 
-      // CRITICAL: Set currentChatId immediately if not already set
-      if (chatId && chatId !== currentChatId) {
-        setCurrentChatId(chatId);
-      }
+      // Initialize finalChatId
+      finalChatId = chatId;
 
       // Generate requestId (UUID) for idempotency
       const generateUUID = () => {
@@ -2384,7 +2774,6 @@ function ChatPage() {
 
       // IDEMPOTENCY CHECK: Prevent duplicate sends with same requestId (strict mode double-invoke guard)
       if (inflightRequestsRef.current.has(requestId)) {
-        console.warn("[IDEMPOTENCY] Request already in flight:", requestId);
         sendLockRef.current = false;
         return;
       }
@@ -2426,60 +2815,82 @@ function ChatPage() {
         return;
       }
 
+      // CHAT SAVING ENABLED: Create chat if needed
+      if (!finalChatId || !isValidObjectId(finalChatId)) {
+        try {
+          const newChat = await createChat(undefined, selectedModule);
+          finalChatId = newChat.id;
+          setCurrentChatId(finalChatId);
+
+          // Update URL without navigation
+          const newUrl = `/chat/${finalChatId}`;
+          window.history.replaceState({}, "", newUrl);
+
+        } catch (error: any) {
+          console.error("[SEND] Error creating chat:", error);
+          toast({
+            title: "Hata",
+            description: error.detail || "Chat oluşturulamadı",
+            status: "error",
+            duration: 2000,
+          });
+          sendLockRef.current = false;
+          inflightRequestsRef.current.delete(requestId);
+          return;
+        }
+      }
+
       // Mark request as in-flight
       inflightRequestsRef.current.add(requestId);
 
       // userMessageText: use userInput
       const userMessageText = userInput;
-    
+
       // Dosyaları kopyala (clearComposer'dan önce - çünkü clearComposer attachedFiles'ı temizler)
       const filesToUse = [...attachedFilesRef.current];
-      
+
       // Generate client_message_id (same as requestId for consistency)
       const clientMessageId = requestId;
-      
+
       // CRITICAL: Check if assistant message already exists for this requestId (prevent duplicate)
       const existingRunForRequest = getRunByRequestId(requestId);
       if (existingRunForRequest) {
-        console.warn("[DUPLICATE_PREVENTION] Run already exists for requestId:", requestId);
         inflightRequestsRef.current.delete(requestId);
         sendLockRef.current = false;
         return;
       }
-      
+
       // DUPLICATE PREVENTION: Check if same message content already exists in recent messages
-      const chatMessages = getChatMessagesFromStore(chatId);
-      
+      const chatMessages = getChatMessagesFromStore(finalChatId);
+
       // Check if there's already a streaming assistant message in this chat (prevent duplicate)
       const existingStreamingMessage = chatMessages.find(
         m => m.role === "assistant" && m.status === "streaming"
       );
       if (existingStreamingMessage) {
-        console.warn("[DUPLICATE_PREVENTION] Streaming assistant message already exists:", existingStreamingMessage.id);
         inflightRequestsRef.current.delete(requestId);
         sendLockRef.current = false;
         return;
       }
-      
+
       // Check for duplicate user message content (rapid double-submit prevention)
       const recentUserMessages = chatMessages.filter(m => m.role === "user").slice(-5);
-      const isDuplicateContent = recentUserMessages.some(m => 
-        m.content.trim() === userMessageText.trim() && 
+      const isDuplicateContent = recentUserMessages.some(m =>
+        m.content.trim() === userMessageText.trim() &&
         Date.now() - m.createdAt.getTime() < 5000 // Within 5 seconds
       );
-      
+
       if (isDuplicateContent) {
-        console.warn("[DUPLICATE_PREVENTION] Duplicate user message content detected");
         inflightRequestsRef.current.delete(requestId);
         sendLockRef.current = false;
         return;
       }
-      
+
       // Create user message and add to store
       const userMessageId = `msg_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
       const userMessage: NormalizedMessage = {
         id: userMessageId,
-        chatId: chatId,
+        chatId: finalChatId,
         role: "user",
         content: userMessageText || "",
         createdAt: new Date(),
@@ -2496,52 +2907,53 @@ function ChatPage() {
           })) : undefined,
       };
       addMessage(userMessage);
-      
+
       // Create placeholder assistant message (will be updated during streaming)
       // CRITICAL: Only ONE assistant message per user message
       // Double-check before creating (race condition prevention)
-      const finalCheckMessages = getChatMessagesFromStore(chatId);
+      const finalCheckMessages = getChatMessagesFromStore(finalChatId);
       const finalCheckStreaming = finalCheckMessages.find(
         m => m.role === "assistant" && m.status === "streaming"
       );
       if (finalCheckStreaming) {
-        console.warn("[DUPLICATE_PREVENTION] Final check: Streaming message exists, aborting");
         inflightRequestsRef.current.delete(requestId);
         sendLockRef.current = false;
         return;
       }
-      
+
       const assistantMessageId = `msg_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
       const assistantMessage: NormalizedMessage = {
         id: assistantMessageId,
-        chatId: chatId,
+        chatId: finalChatId,
         role: "assistant",
         content: "",
         createdAt: new Date(),
         status: "streaming",
         sources: undefined,
+        module: selectedModule, // Set module immediately for premium rendering
       };
       addMessage(assistantMessage);
-      
+
       // Create run record
       runId = `run_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
       const run: Run = {
         runId: runId,
         requestId: requestId,
-        chatId: chatId,
+        chatId: finalChatId,
         assistantMessageId: assistantMessageId,
         status: "running",
         startedAt: new Date(),
         lastSeq: 0,
         abortController: abortController,
+        module: selectedModule,
       };
       addRun(run);
-      
+
       // Sync store to local state
-      syncStoreToLocalState(chatId);
-      
+      syncStoreToLocalState(finalChatId);
+
       // Check if this is the first message in this chat
-      const allChatMessages = getChatMessagesFromStore(chatId);
+      const allChatMessages = getChatMessagesFromStore(finalChatId);
       const userMessageCount = allChatMessages.filter(m => m.role === "user").length;
       if (userMessageCount === 1) {
         // First message - notify sidebar
@@ -2552,7 +2964,7 @@ function ChatPage() {
       } else {
         setTimeout(() => window.dispatchEvent(new CustomEvent("chatHistoryUpdated")), 1000);
       }
-      
+
       // Scroll to bottom and clear composer
       setTimeout(() => maybeScrollToBottom("user-send", true), 0);
       clearComposer();
@@ -2563,12 +2975,12 @@ function ChatPage() {
         .filter((doc) => filesToUse.some((f) => f.name === doc.name || f.id === doc.id))
         .map((doc) => doc.id);
       const uploadedDocumentIds = [...new Set([...uploadedDocumentIdsFromFiles, ...uploadedDocumentIdsFromState])];
-      
+
       // Determine which documentIds to use
       let documentIdsToUse: string[] = [];
       let savedDocumentIds: string[] = [];
       try {
-        const stored = localStorage.getItem(`chat_settings_${chatId}`);
+        const stored = localStorage.getItem(`chat_settings_${finalChatId}`);
         if (stored) {
           const settings = JSON.parse(stored);
           savedDocumentIds = settings.selectedDocumentIds || [];
@@ -2576,59 +2988,120 @@ function ChatPage() {
       } catch (error) {
         console.error("Failed to load chat settings:", error);
       }
-      
+
       if (selectedDocumentIds.length > 0) {
         documentIdsToUse = selectedDocumentIds;
       } else if (uploadedDocumentIds.length > 0) {
         documentIdsToUse = uploadedDocumentIds;
         setSelectedDocumentIds(uploadedDocumentIds);
-        saveChatSettings(chatId);
+        saveChatSettings(finalChatId);
       } else if (savedDocumentIds.length > 0) {
         documentIdsToUse = savedDocumentIds;
       }
-      
-      // API call
-      const requestBody: { message: string; documentIds?: string[]; chatId?: string; client_message_id: string; mode?: string } = {
-        message: userMessageText || "",
-        client_message_id: clientMessageId,
-        mode: "qa",
-      };
-      
-      if (documentIdsToUse.length > 0) {
-        requestBody.documentIds = documentIdsToUse;
-      }
-      
-      if (chatId) {
-        requestBody.chatId = chatId;
-      }
-      
+
       setLastDocumentIdsUsed(documentIdsToUse);
-      
-      if (chatId) {
-        console.log(`[SEND] Sending message to chat ${chatId}`);
-      } else {
-        console.log(`[SEND] Creating new chat for message`);
-      }
-      
-      // Use new endpoint: POST /api/chats/{chat_id}/messages
+
+
+      // Use /api/chat endpoint (chat saving enabled)
+      // CRITICAL: Get current module from localStorage to ensure it's always up-to-date
+      const currentModule = typeof window !== 'undefined'
+        ? (localStorage.getItem('selectedModule') === 'lgs_karekok' ? 'lgs_karekok' as const : 'none' as const)
+        : 'none' as const;
+
       const sendRequest: SendChatMessageRequest = {
         message: userMessageText || "",
         client_message_id: clientMessageId,
         mode: "qa",
         documentIds: documentIdsToUse.length > 0 ? documentIdsToUse : undefined,
         useDocuments: documentIdsToUse.length > 0,
+        chatId: finalChatId,  // Include chatId for saving
+        response_style: responseStyle !== "auto" ? responseStyle as "short" | "medium" | "long" | "detailed" : undefined,
+        prompt_module: currentModule,  // Always get from localStorage to ensure it's current
       };
-      
-      const response = await sendChatMessage(chatId, sendRequest);
-      
-      console.log(`[SEND] Response received for chat ${chatId}`, {
-        message_id: response.message_id,
-        content_length: response.content?.length || 0,
-        content_preview: response.content?.substring(0, 100) || "(empty)",
-        has_sources: !!response.sources,
-        role: response.role
-      });
 
+      // CRITICAL: Send message with keepalive to continue even when tab is hidden
+      // The request itself continues in background, backend processes it independently
+      const response = await sendChatMessage(finalChatId, sendRequest);
+
+      // STREAMING: Check if backend returned run_id and message_id for polling
+      // Backend returns debug_info with run_id, message_id, and streaming flag
+      const debugInfo = (response as any).debug_info || {};
+      const backendRunId = debugInfo.run_id;
+      const backendMessageId = debugInfo.message_id;
+      const isStreaming = debugInfo.streaming === true;
+
+      // CRITICAL: Check for streaming mode FIRST before validating message content
+      if (isStreaming && backendRunId && backendMessageId) {
+        // STREAMING MODE: Personal Assistant (Gemini) - Backend is streaming, use polling
+        // Update assistant message ID to backend's message_id
+        updateMessage(assistantMessageId, {
+          id: backendMessageId,  // Use backend message_id
+          status: "streaming",
+          is_partial: true,
+        });
+
+        // Update run with backend run_id
+        if (runId) {
+          updateRun(runId, {
+            runId: backendRunId,  // Use backend run_id
+            status: "running",
+          });
+        }
+
+        // Store run_id for polling
+        localStorage.setItem(`pending_run_${finalChatId}`, backendRunId);
+
+        // Start polling (already handled by useEffect for pending runs)
+        syncStoreToLocalState(finalChatId);
+        inflightRequestsRef.current.delete(requestId);
+        sendLockRef.current = false;
+        skipFinalize = true; // DO NOT reset UI states in finally block
+
+        // Auto-focus input after sending message (for seamless typing experience)
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        }, 100);
+
+        return; // Exit early - polling will update content
+      } else if (!isStreaming && backendRunId && backendMessageId) {
+        // NON-STREAMING MODE: LGS Module (DeepSeek R1) - Wait for complete response via polling
+        // Update assistant message ID to backend's message_id
+        updateMessage(assistantMessageId, {
+          id: backendMessageId,  // Use backend message_id
+          status: "streaming",  // Still "streaming" until polling confirms completion
+          is_partial: true,
+        });
+
+        // Update run with backend run_id
+        if (runId) {
+          updateRun(runId, {
+            runId: backendRunId,  // Use backend run_id
+            status: "running",
+          });
+        }
+
+        // Store run_id for polling (non-streaming still uses polling to check completion)
+        localStorage.setItem(`pending_run_${finalChatId}`, backendRunId);
+
+        // Start polling (will detect when run is completed)
+        syncStoreToLocalState(finalChatId);
+        inflightRequestsRef.current.delete(requestId);
+        sendLockRef.current = false;
+        skipFinalize = true; // DO NOT reset UI states in finally block
+
+        // Auto-focus input after sending message
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        }, 100);
+
+        return; // Exit early - polling will update content when complete
+      }
+
+      // FALLBACK: Non-streaming response (legacy support)
       // Validate response
       if (response.role !== "assistant") {
         console.error(`[SEND] Invalid response role from backend: ${response.role} (expected: assistant)`, response);
@@ -2637,31 +3110,70 @@ function ChatPage() {
           content: "Cevap oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
           status: "completed",
         });
-        if (chatId) {
-          syncStoreToLocalState(chatId);
-        }
+
+        // CRITICAL: Remove run from store (not just update status)
         if (runId) {
-          updateRun(runId, { status: "failed" });
+          removeRun(runId);
+          // CRITICAL: Force finalize run state IMMEDIATELY
+          if (finalChatId) {
+            finalizeRun(finalChatId, true);
+          }
         }
+
+        if (finalChatId) {
+          syncStoreToLocalState(finalChatId);
+        }
+
         inflightRequestsRef.current.delete(requestId);
         sendLockRef.current = false;
         return;
       }
 
-      // Validate response content
-      if (!response.content || response.content.trim().length === 0) {
-        console.warn(`[SEND] Empty response content from backend for chat ${chatId}`);
+      // Validate response content - but only if NOT in streaming mode
+      // (Streaming mode already handled above)
+      if (!response.message || response.message.trim().length === 0) {
+        // Check if this is actually a streaming response that we missed
+        if (backendRunId || backendMessageId) {
+          // This might be a streaming response - try to use polling
+          if (backendRunId) {
+            localStorage.setItem(`pending_run_${finalChatId}`, backendRunId);
+            updateMessage(assistantMessageId, {
+              status: "streaming",
+              is_partial: true,
+            });
+            if (runId) {
+              updateRun(runId, {
+                runId: backendRunId,
+                status: "running",
+              });
+            }
+            syncStoreToLocalState(finalChatId);
+            inflightRequestsRef.current.delete(requestId);
+            sendLockRef.current = false;
+            skipFinalize = true; // DO NOT reset UI states in finally block
+            return;
+          }
+        }
+
         // Still update message to show error state
         updateMessage(assistantMessageId, {
           content: "Cevap alınamadı. Lütfen tekrar deneyin.",
           status: "completed",
         });
-        if (chatId) {
-          syncStoreToLocalState(chatId);
-        }
+
+        // CRITICAL: Remove run from store (not just update status)
         if (runId) {
-          updateRun(runId, { status: "failed" });
+          removeRun(runId);
+          // CRITICAL: Force finalize run state IMMEDIATELY
+          if (finalChatId) {
+            finalizeRun(finalChatId, true);
+          }
         }
+
+        if (finalChatId) {
+          syncStoreToLocalState(finalChatId);
+        }
+
         inflightRequestsRef.current.delete(requestId);
         sendLockRef.current = false;
         return;
@@ -2671,80 +3183,116 @@ function ChatPage() {
       const currentRun = getRunByRequestId(requestId);
       if (!currentRun || currentRun.status !== "running" || abortController.signal.aborted) {
         if (currentRun) {
-          updateRun(currentRun.runId, { status: "cancelled" });
           updateMessage(currentRun.assistantMessageId, { status: "cancelled" });
+          removeRun(currentRun.runId);
+          // CRITICAL: Finalize run state when aborted
+          finalizeRun(finalChatId, true);
         }
         inflightRequestsRef.current.delete(requestId);
-        if (chatId) {
-          syncStoreToLocalState(chatId);
+        if (finalChatId) {
+          syncStoreToLocalState(finalChatId);
         }
         return;
       }
 
-      // Update assistant message with response
-      // CRITICAL: Update message ID if backend returned a different one
-      if (response.message_id !== assistantMessageId) {
-        // Backend returned a different message_id, need to update the message
-        const existingMessage = getMessage(assistantMessageId);
-        if (existingMessage) {
-          // Remove old message and add new one with backend ID
-          storeRef.current.messages.delete(assistantMessageId);
-          const chat = storeRef.current.chats.get(chatId);
-          if (chat) {
-            chat.messageIds = chat.messageIds.filter(id => id !== assistantMessageId);
+      // CRITICAL: Get runId and assistantMessageId from currentRun (they might not be in scope)
+      const activeRunId = currentRun.runId;
+      const activeAssistantMessageId = currentRun.assistantMessageId;
+
+
+      // Stream the response message character by character for better UX
+      // CHAT SAVING ENABLED: Stream the response instead of showing it all at once
+      // CRITICAL: Pass finalChatId explicitly to ensure UI updates even if currentChatId state hasn't updated yet
+      // Show message immediately, then stream for visual effect
+      if (activeRunId && activeAssistantMessageId) {
+        // CRITICAL: Show full message immediately so user sees response right away
+        updateMessage(activeAssistantMessageId, {
+          content: response.message || "",
+          status: "streaming",
+          sources: response.sources,
+          used_documents: response.used_documents,
+        });
+
+        // Force immediate sync to show message
+        syncStoreToLocalState(finalChatId);
+        // Also force React state update directly
+        const initialMessages = getChatMessagesFromStore(finalChatId);
+        const initialLegacyMessages: (Message & { _isStreaming?: boolean })[] = initialMessages.map(msg => ({
+          id: msg.id,
+          role: msg.role,
+          content: msg.content,
+          timestamp: msg.createdAt,
+          status: msg.status === "cancelled" ? "cancelled" : msg.status === "completed" ? "completed" : undefined,
+          sources: msg.sources,
+          used_documents: msg.used_documents,
+          document_ids: msg.document_ids,  // Include document_ids for rendering
+          client_message_id: msg.client_message_id,
+          attachments: msg.attachments,
+          // CRITICAL: Typing indicator shows ONLY when message is NOT completed
+          _isStreaming: msg.status !== "completed" && msg.status !== "cancelled",
+        }));
+        setMessages(initialLegacyMessages);
+      }
+
+      // Stream message for visual effect (but message is already visible)
+      // CRITICAL: If tab is hidden, skip animation and show message immediately
+      const isTabVisible = typeof document !== 'undefined' && !document.hidden;
+      if (activeRunId && response.message && isTabVisible) {
+        // Only animate if tab is visible
+        await streamMessage(
+          response.message,
+          activeRunId,
+          response.sources,
+          abortController.signal,
+          finalChatId,
+          response.used_documents
+        );
+        // streamMessage already removes the run from store, just sync state
+        syncStoreToLocalState(finalChatId);
+      } else if (activeRunId && response.message && !isTabVisible) {
+        // Tab is hidden - just mark as completed without animation
+        updateMessage(activeAssistantMessageId, {
+          content: response.message,
+          status: "completed",
+          sources: response.sources,
+          used_documents: response.used_documents,
+        });
+
+        // CRITICAL: Remove run from store (not just update status)
+        removeRun(activeRunId);
+
+        // CRITICAL: Force finalize run state IMMEDIATELY
+        finalizeRun(finalChatId, true);
+
+        // Sync state after removing run
+        syncStoreToLocalState(finalChatId);
+      } else {
+        // No active run or no message - ensure run is removed
+        if (activeRunId) {
+          const finalRun = getRun(activeRunId);
+          if (finalRun) {
+            removeRun(activeRunId);
           }
         }
-        // Add new message with backend ID
-        const newAssistantMessage: NormalizedMessage = {
-          id: response.message_id,
-          chatId: chatId,
-          role: "assistant",
-          content: response.content || "",
-          createdAt: new Date(),
-          status: "completed",
-          sources: response.sources,
-        };
-        addMessage(newAssistantMessage);
-        // Update run to use new message ID
-        updateRun(runId, { 
-          status: "completed",
-          assistantMessageId: response.message_id 
-        });
-      } else {
-        // Same message ID, just update content
-        updateMessage(assistantMessageId, {
-          content: response.content || "",
-          sources: response.sources,
-          status: "completed",
-        });
-        // Finalize run
-        const finalRun = getRun(runId);
-        if (finalRun && finalRun.status === "running") {
-          updateRun(runId, { status: "completed" });
-        }
+
+        // CRITICAL: Force finalize run state IMMEDIATELY
+        finalizeRun(finalChatId, true);
+
+        syncStoreToLocalState(finalChatId);
       }
-      
-      // CRITICAL: Sync store to local state immediately so UI updates
-      if (chatId) {
-        syncStoreToLocalState(chatId);
-      }
-      
+
       // Note: For now, we're using the simple response. Full streaming support would require
       // additional backend changes to support SSE/WebSocket for the new endpoint.
-      
+
       // CRITICAL FIX: Reload messages from backend after streaming completes
       // This ensures backend-saved messages are loaded into frontend
       // Wait a bit for backend to finish saving messages (increased delay for reliability)
-      if (chatId) {
-        const chatIdToReload = chatId; // Capture for closure
-        setTimeout(async () => {
-          console.log(`[SEND] Reloading messages for chat ${chatIdToReload} after completion`);
-          await loadChatMessages(chatIdToReload);
-        }, 1000); // Increased from 500ms to 1000ms for backend to finish saving
+      if (finalChatId) {
+        // CHAT SAVING ENABLED: Messages are saved, no need to reload (they're already in store)
       }
-      
+
       // Check if first message for sidebar update
-      const finalChatMessages = getChatMessagesFromStore(chatId);
+      const finalChatMessages = getChatMessagesFromStore(finalChatId);
       const finalUserMessageCount = finalChatMessages.filter(m => m.role === "user").length;
       if (finalUserMessageCount === 1) {
         // Backend automatically generates title and sets has_messages: true
@@ -2752,17 +3300,17 @@ function ChatPage() {
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent("chatHistoryUpdated"));
         }, 500); // First update after 500ms
-        
+
         // Poll again after 2 seconds for title update
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent("chatHistoryUpdated"));
         }, 2000);
-        
+
         // Poll once more after 4 seconds to ensure title is updated
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent("chatHistoryUpdated"));
         }, 4000);
-        
+
         // Poll once more after 6 seconds to ensure chat appears in history
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent("chatHistoryUpdated"));
@@ -2774,10 +3322,10 @@ function ChatPage() {
         }, 1000);
       }
     } catch (error: any) {
-      const currentChatStateError = getCurrentChatState(chatId);
+      const currentChatStateError = getCurrentChatState(finalChatId);
       if (error?.name === 'AbortError' || abortController.signal.aborted || currentChatStateError.requestId !== requestId) {
         wasAborted = true;
-        updateCurrentChatState(chatId, {
+        updateCurrentChatState(finalChatId, {
           isLoading: false,
           abortController: null,
           requestId: null,
@@ -2785,7 +3333,7 @@ function ChatPage() {
           isStreaming: false,
         });
 
-        if (chatId === currentChatId) {
+        if (finalChatId === currentChatId) {
           setIsLoading(false);
           setAbortController(null);
           setStreamingContent("");
@@ -2796,7 +3344,7 @@ function ChatPage() {
       // Duplicate request error → no retry
       if (error?.code === 'DUPLICATE_REQUEST' || (error?.detail && error.detail.includes('zaten işlendi'))) {
         wasAborted = true;
-        updateCurrentChatState(chatId, {
+        updateCurrentChatState(finalChatId, {
           isLoading: false,
           abortController: null,
           requestId: null,
@@ -2804,7 +3352,7 @@ function ChatPage() {
           isStreaming: false,
         });
 
-        if (chatId === currentChatId) {
+        if (finalChatId === currentChatId) {
           setIsLoading(false);
           setAbortController(null);
           setStreamingContent("");
@@ -2815,40 +3363,64 @@ function ChatPage() {
       // Real error: mark run failed and surface a minimal message
       const runForError = requestId ? getRunByRequestId(requestId) : undefined;
       if (runForError) {
-        updateRun(runForError.runId, { status: "failed" });
         updateMessage(runForError.assistantMessageId, {
           content: `Hata: ${error?.detail || "Mesaj gönderilemedi"}`,
           status: "completed",
         });
+
+        // CRITICAL: Remove run from store (not just update status)
+        removeRun(runForError.runId);
+
+        // CRITICAL: Force finalize run state IMMEDIATELY
+        finalizeRun(runForError.chatId, true);
+
         syncStoreToLocalState(runForError.chatId);
       }
     } finally {
-      const finalChatState = getCurrentChatState(chatId);
+      const finalChatState = getCurrentChatState(finalChatId);
       const finalAbortState = abortController.signal.aborted || wasAborted || finalChatState.requestId !== requestId;
 
+      // CRITICAL: Use finalizeRun to ensure consistent state reset
+      // This will check store for active runs and reset state accordingly
+      finalizeRun(finalChatId, false);
+
+      // CRITICAL: Always focus input after sending message (unless aborted)
       if (!finalAbortState && finalChatState.requestId === requestId) {
-        setIsLoading(false);
         setInput("");
-        setTimeout(() => {
+
+        // Focus input with multiple attempts to ensure it works
+        const focusInput = () => {
           if (inputRef.current) {
-            inputRef.current.focus();
+            try {
+              inputRef.current.focus();
+              return document.activeElement === inputRef.current;
+            } catch (error) {
+              return false;
+            }
+          }
+          return false;
+        };
+
+        // Try to focus after a short delay
+        setTimeout(() => {
+          if (!focusInput()) {
+            setTimeout(() => {
+              focusInput();
+            }, 100);
           }
         }, 100);
       } else {
-        if (chatId === currentChatId) {
-          setIsLoading(false);
-        }
         setStreamingContent("");
       }
 
       // Clear active stream bindings for this chat
       if (finalChatState.requestId === requestId) {
-        updateCurrentChatState(chatId, {
+        updateCurrentChatState(finalChatId, {
           abortController: null,
           requestId: null,
         });
 
-        if (chatId === currentChatId) {
+        if (finalChatId === currentChatId) {
           setAbortController(null);
         }
       }
@@ -2858,31 +3430,50 @@ function ChatPage() {
         inflightRequestsRef.current.delete(requestId);
       }
       sendLockRef.current = false;
+
+      // CRITICAL: Finalize interaction to ensure UI state is correct
+      if (finalChatId && !skipFinalize) {
+        finalizeInteraction(finalChatId, true);
+        syncStoreToLocalState(finalChatId);
+      } else if (skipFinalize) {
+        // Ensure UI stays in streaming mode
+        setIsStreaming(true);
+        setCanSendMessage(false);
+      }
     }
   };
 
   // REMOVED handleKeyDown - form onSubmit handles everything
   // This prevents duplicate calls when Enter is pressed
 
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>, isImage: boolean = false) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    const allowedExtensions = [".pdf", ".docx", ".txt"];
-    const allowedMimeTypes = [
-      "application/pdf",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "text/plain"
-    ];
-    
+    // Determine allowed types based on file type
+    let allowedExtensions: string[];
+    let allowedMimeTypes: string[];
+
+    if (isImage) {
+      allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
+      allowedMimeTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+    } else {
+      allowedExtensions = [".pdf", ".docx", ".txt"];
+      allowedMimeTypes = [
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/plain"
+      ];
+    }
+
     const validFiles: AttachedFile[] = [];
     const invalidFiles: string[] = [];
-    
+
     Array.from(files).forEach((file) => {
       const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf("."));
       const isValidExtension = allowedExtensions.includes(fileExtension);
       const isValidMime = !file.type || allowedMimeTypes.includes(file.type);
-      
+
       if (isValidExtension && isValidMime) {
         const fileId = `${Date.now()}_${Math.random()}`;
         const abortController = new AbortController();
@@ -2899,17 +3490,17 @@ function ChatPage() {
         invalidFiles.push(file.name);
       }
     });
-    
+
     if (invalidFiles.length > 0) {
       const errorMsg = `Şu dosyalar desteklenmiyor: ${invalidFiles.join(", ")}. İzin verilen: ${allowedExtensions.join(", ")}`;
       toast({
         title: "Hata",
         description: errorMsg,
         status: "error",
-        duration: 5000,
+        duration: 2000,
       });
     }
-    
+
     if (validFiles.length > 0) {
       // Dosyaları state'e ekle (yükleniyor olarak)
       // CRITICAL: Use sync updater to update both state and ref
@@ -2917,10 +3508,21 @@ function ChatPage() {
         return [...prev, ...validFiles];
       });
       setIsUploading(true);
-      
+
       // Chat ID'yi önce al (tüm dosyalar için aynı)
       const chatId = await getOrCreateChatId();
-      
+
+      // Get chat title if chatId exists
+      let chatTitle: string | undefined = undefined;
+      if (chatId) {
+        try {
+          const chat = await getChat(chatId);
+          chatTitle = chat.title;
+        } catch (error) {
+          // Continue without title - backend will use default
+        }
+      }
+
       // Her dosyayı hemen yükle
       const uploadPromises = validFiles.map(async (attachedFile) => {
         try {
@@ -2928,14 +3530,78 @@ function ChatPage() {
           if (attachedFile.abortController?.signal.aborted) {
             throw new Error("Yükleme iptal edildi");
           }
-          
-          const uploadResponse = await uploadDocument(
-            attachedFile.file,
-            chatId,
-            undefined, // chatTitle - not needed for global document pool
-            attachedFile.abortController?.signal
-          );
-          
+
+          // Upload with progress tracking using XMLHttpRequest
+          const uploadResponse = await new Promise<{ documentId: string; truncated: boolean; indexing_success: boolean }>((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append("file", attachedFile.file);
+            if (chatId) formData.append("chat_id", chatId);
+            if (chatTitle) formData.append("chat_title", chatTitle);
+            if (selectedModule) formData.append("prompt_module", selectedModule);
+
+            // Progress event
+            xhr.upload.onprogress = (event) => {
+              if (event.lengthComputable) {
+                const percentComplete = Math.round((event.loaded / event.total) * 100);
+                // Update progress in state
+                setAttachedFilesSync((prev) =>
+                  prev.map((f) =>
+                    f.id === attachedFile.id
+                      ? { ...f, uploadProgress: percentComplete }
+                      : f
+                  )
+                );
+              }
+            };
+
+            // Success
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                  const response = JSON.parse(xhr.responseText);
+                  resolve({
+                    documentId: response.documentId || response.document_id || response.doc_id || response.id,
+                    truncated: response.truncated || false,
+                    indexing_success: response.indexing_success || false,
+                  });
+                } catch (e) {
+                  reject(new Error("Geçersiz sunucu yanıtı"));
+                }
+              } else {
+                try {
+                  const errorResponse = JSON.parse(xhr.responseText);
+                  reject(new Error(errorResponse.detail || `Yükleme hatası: ${xhr.status}`));
+                } catch (e) {
+                  reject(new Error(`Yükleme hatası: ${xhr.status}`));
+                }
+              }
+            };
+
+            // Error
+            xhr.onerror = () => {
+              reject(new Error("Ağ hatası"));
+            };
+
+            // Abort handling
+            if (attachedFile.abortController) {
+              attachedFile.abortController.signal.addEventListener("abort", () => {
+                xhr.abort();
+                reject(new Error("Yükleme iptal edildi"));
+              });
+            }
+
+            // Get auth token
+            const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+            // Send request
+            xhr.open("POST", `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/documents/upload`);
+            if (token) {
+              xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+            }
+            xhr.send(formData);
+          });
+
           // AbortController tekrar kontrol et (yükleme sırasında iptal edilmiş olabilir)
           // CRITICAL: Use sync updater to update both state and ref
           setAttachedFilesSync((prev) => {
@@ -2945,47 +3611,16 @@ function ChatPage() {
               return prev.filter((f) => f.id !== attachedFile.id);
             }
             // Dosya yükleme başarılı, documentId'yi güncelle
-            return prev.map((f) => 
-              f.id === attachedFile.id 
-                ? { ...f, documentId: uploadResponse.documentId, isUploading: false, abortController: undefined }
+            return prev.map((f) =>
+              f.id === attachedFile.id
+                ? { ...f, documentId: uploadResponse.documentId, isUploading: false, uploadProgress: 100, abortController: undefined }
                 : f
             );
           });
-          
-          // Show warning if truncated
-          if (uploadResponse.truncated) {
-            toast({
-              title: "Uyarı",
-              description: `${attachedFile.name} metni çok büyük, kısaltılarak kaydedildi.`,
-              status: "warning",
-              duration: 5000,
-            });
-          }
-          
-          // Show indexing status
-          if (uploadResponse.indexing_success !== undefined) {
-            if (uploadResponse.indexing_success && uploadResponse.indexing_chunks && uploadResponse.indexing_chunks > 0) {
-              // Indexing successful - show brief info
-              const duration = uploadResponse.indexing_duration_ms 
-                ? `${(uploadResponse.indexing_duration_ms / 1000).toFixed(1)}s` 
-                : "tamamlandı";
-              toast({
-                title: "Belge hazır",
-                description: `${attachedFile.name} işlendi (${uploadResponse.indexing_chunks} bölüm, ${duration})`,
-                status: "success",
-                duration: 3000,
-              });
-            } else {
-              // Indexing failed or no chunks
-              toast({
-                title: "Uyarı",
-                description: `${attachedFile.name} işlenirken sorun oluştu. Belge yine de kaydedildi.`,
-                status: "warning",
-                duration: 5000,
-              });
-            }
-          }
-          
+
+          // REMOVED: Toast notifications for file uploads (user requested no notifications)
+          // Files are shown as chips in the input box, no need for toast
+
           // Wait a bit for indexing to complete (if it's still running)
           // This ensures the document is ready before user asks questions
           if (uploadResponse.indexing_success === true) {
@@ -2995,10 +3630,10 @@ function ChatPage() {
             // Indexing might still be running, wait a bit longer
             await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second wait
           }
-          
+
           // Yüklenen dosya bilgisini döndür (tüm dosyalar yüklendikten sonra state'e eklenecek)
-          return { 
-            documentId: uploadResponse.documentId, 
+          return {
+            documentId: uploadResponse.documentId,
             filename: attachedFile.name,
             type: attachedFile.type || "unknown",
           };
@@ -3009,7 +3644,7 @@ function ChatPage() {
             setAttachedFilesSync((prev) => prev.filter((f) => f.id !== attachedFile.id));
             return null;
           }
-          
+
           // Hata durumunda dosyayı listeden kaldır
           setAttachedFilesSync((prev) => {
             const fileStillExists = prev.find((f) => f.id === attachedFile.id);
@@ -3018,34 +3653,34 @@ function ChatPage() {
             }
             return prev;
           });
-          
+
           // Sadece abort edilmemiş hatalar için toast göster
           if (error.code !== "ABORTED" && error.message !== "Yükleme iptal edildi" && error.name !== "AbortError") {
             toast({
               title: "Hata",
               description: `${attachedFile.name} yüklenirken hata oluştu: ${error.detail || "Bilinmeyen hata"}`,
               status: "error",
-              duration: 5000,
+              duration: 2000,
             });
           }
           return null; // Return null instead of throwing to allow other files to continue
         }
       });
-      
+
       // Tüm yüklemeleri bekle
       try {
         const uploadResults = await Promise.all(uploadPromises);
         const successfulUploads = uploadResults.filter((result): result is { documentId: string; filename: string; type: string } => result !== null);
         const successfulIds = successfulUploads.map(u => u.documentId);
-        
+
         // availableDocuments listesini güncelle (tüm dosyalar yüklendikten sonra bir kez)
         try {
-          const updatedDocs = await listDocuments();
+          const updatedDocs = await listDocuments(selectedModule);
           setAvailableDocuments(updatedDocs);
         } catch (error) {
           console.error("Failed to refresh documents list:", error);
         }
-        
+
         // Tüm başarılı yüklenen dosyaları uploadedDocuments state'ine ekle (bir kerede)
         if (successfulUploads.length > 0) {
           const newUploadedDocs: UploadedDocument[] = successfulUploads.map(upload => ({
@@ -3055,35 +3690,18 @@ function ChatPage() {
             source: "upload",
             uploadedAt: new Date().toISOString(),
           }));
-          
+
           // Mevcut state ile birleştir
           setUploadedDocuments((prev) => {
             const existingIds = new Set(prev.map(doc => doc.id));
             const uniqueNewDocs = newUploadedDocs.filter(doc => !existingIds.has(doc.id));
             return [...prev, ...uniqueNewDocs];
           });
-          
+
         }
-        
-        // Başarılı yükleme mesajı göster
-        if (successfulUploads.length > 0) {
-          if (successfulUploads.length === 1) {
-            toast({
-              title: "Başarılı",
-              description: `${successfulUploads[0].filename} başarıyla yüklendi.`,
-              status: "success",
-              duration: 2000,
-            });
-          } else {
-            toast({
-              title: "Başarılı",
-              description: `${successfulUploads.length} dosya başarıyla yüklendi.`,
-              status: "success",
-              duration: 2000,
-            });
-          }
-        }
-        
+
+        // REMOVED: Toast notifications for file uploads (user requested no notifications)
+
         // Dosyalar yüklendiğinde documentIds'yi ve uploadedDocuments'ı chat settings'e kaydet
         if (successfulIds.length > 0) {
           // Mevcut chat settings'i yükle ve yeni documentIds'yi ekle
@@ -3096,11 +3714,11 @@ function ChatPage() {
               existingIds = settings.selectedDocumentIds || [];
               existingDocs = settings.uploadedDocuments || [];
             }
-            
+
             // Yeni documentIds'yi ekle (duplicate'leri önle)
             const combinedIds = [...new Set([...existingIds, ...successfulIds])];
             setSelectedDocumentIds(combinedIds);
-            
+
             // Yeni uploadedDocuments'ı ekle (duplicate'leri önle)
             const existingDocIds = new Set(existingDocs.map(doc => doc.id));
             const newDocs = successfulUploads.map(upload => ({
@@ -3112,10 +3730,10 @@ function ChatPage() {
             }));
             const uniqueNewDocs = newDocs.filter(doc => !existingDocIds.has(doc.id));
             const combinedDocs = [...existingDocs, ...uniqueNewDocs];
-            
+
             // State'i güncelle (hemen görünsün)
             setUploadedDocuments(combinedDocs);
-            
+
             // Chat settings'e kaydet
             localStorage.setItem(`chat_settings_${chatId}`, JSON.stringify({
               selectedDocumentIds: combinedIds,
@@ -3146,17 +3764,20 @@ function ChatPage() {
         });
       }
     }
-    
+
     // Reset input to allow selecting same file again
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
     }
   };
 
   const handleRemoveFile = (fileId: string) => {
     setAttachedFilesSync((prev) => {
       const fileToRemove = prev.find((f) => f.id === fileId);
-      
+
       // Eğer dosya yükleniyorsa, yüklemeyi iptal et
       if (fileToRemove?.isUploading && fileToRemove.abortController) {
         fileToRemove.abortController.abort();
@@ -3167,7 +3788,7 @@ function ChatPage() {
           duration: 2000,
         });
       }
-      
+
       // Eğer bu bir DocumentPicker'dan seçilen dosya ise (id starts with 'doc_'), selectedDocumentIds'den de kaldır
       if (fileToRemove?.id.startsWith('doc_') && fileToRemove.documentId) {
         setSelectedDocumentIds((prevIds) => {
@@ -3189,16 +3810,16 @@ function ChatPage() {
           return newIds;
         });
       }
-      
+
       // Dosyayı listeden kaldır
       const updated = prev.filter((f) => f.id !== fileId);
-      
+
       // Tüm dosyalar yüklendi mi kontrol et
       const allUploaded = updated.every((f) => !f.isUploading && f.documentId);
       if (allUploaded) {
         setIsUploading(false);
       }
-      
+
       return updated;
     });
   };
@@ -3214,19 +3835,19 @@ function ChatPage() {
 
   return (
     <AuthGuard>
-      <Box 
-        display="flex" 
-        h="100vh" 
-        overflow="hidden" 
-        flexDirection="column" 
+      <Box
+        display="flex"
+        h="100vh"
+        overflow="hidden"
+        flexDirection="column"
         bg={bgColor}
         position="relative"
       >
         <Sidebar />
-        <Box 
-          flex={1} 
-          ml={isOpen ? "260px" : "0"} 
-          display="flex" 
+        <Box
+          flex={1}
+          ml={isOpen ? "260px" : "0"}
+          display="flex"
           flexDirection="column"
           transition="margin-left 0.3s ease"
           h="100vh"
@@ -3237,11 +3858,11 @@ function ChatPage() {
           </Box>
           <Box flex={1} display="flex" flexDirection="column" overflow="hidden" minH={0} pt="60px">
             {/* Messages Area */}
-            <Box 
-              flex={1} 
-              overflowY="auto" 
-              p={6} 
-              ref={messagesContainerRef} 
+            <Box
+              flex={1}
+              overflowY="auto"
+              p={6}
+              ref={messagesContainerRef}
               minH={0}
               position="relative"
               zIndex={1}
@@ -3291,7 +3912,7 @@ function ChatPage() {
                           }
                           return <FaFileAlt size={20} color={textSecondary} />;
                         };
-                        
+
                         const getFileTypeLabel = (type: string, name: string) => {
                           const ext = name.split('.').pop()?.toUpperCase();
                           if (type.includes('pdf') || ext === 'PDF') return 'PDF';
@@ -3300,7 +3921,7 @@ function ChatPage() {
                           if (type.includes('mail') || ext === 'EML' || doc.source === 'email') return 'Mail';
                           return ext || 'Dosya';
                         };
-                        
+
                         return (
                           <Box
                             key={doc.id}
@@ -3343,8 +3964,8 @@ function ChatPage() {
                 )}
 
                 {messages.length === 0 && (
-                  <Box 
-                    textAlign="center" 
+                  <Box
+                    textAlign="center"
                     py={20}
                     sx={{
                       animation: "fadeInUp 0.6s ease-out",
@@ -3360,42 +3981,43 @@ function ChatPage() {
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
-                      border="2px solid"
+                      border="1px solid"
                       borderColor={accentBorder}
-                      transition="all 0.3s ease"
+                      transition="all-round 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+                      overflow="hidden"
+                      p={4}
                       sx={{
-                        animation: "pulseScale 2s ease-in-out infinite",
+                        boxShadow: `0 8px 32px ${accentSoft}`,
                         "&:hover": {
-                          transform: "scale(1.1) rotate(5deg)",
-                          boxShadow: `0 0 30px ${accentSoft}`,
+                          transform: "scale(1.15) rotate(5deg)",
+                          boxShadow: `0 12px 40px ${accentSoft}`,
+                          borderColor: accentPrimary,
                         },
                       }}
                     >
-                      <Box
-                        as="img"
-                        src="/hace-logo.svg"
-                        alt="HACE"
-                        w="48px"
-                        h="48px"
-                        opacity={0.9}
-                        sx={{
-                          animation: "rotate 3s linear infinite",
-                        }}
+                      <Image
+                        src={selectedModule === 'lgs_karekok' ? '/square-root.png' : '/chat.png'}
+                        alt="Assistant Logo"
+                        width={48}
+                        height={48}
+                        style={{ objectFit: 'contain' }}
                       />
                     </Box>
-                    <Text 
-                      fontSize="2xl" 
-                      fontWeight="bold" 
+                    <Text
+                      fontSize="2xl"
+                      fontWeight="bold"
                       mb={2}
                       color={textPrimary}
                     >
-                      Sohbete başlayın
+                      {selectedModule === 'lgs_karekok' ? 'LGS Karekök Asistanı' : 'Kişisel Asistan'}
                     </Text>
-                    <Text 
+                    <Text
                       color={textSecondary}
                       fontSize="md"
                     >
-                      HACE asistanınıza bir soru sorun
+                      {selectedModule === 'lgs_karekok'
+                        ? 'Matematik ve kareköklü ifadeler konusunda size yardımcı olabilirim.'
+                        : 'Size nasıl yardımcı olabilirim?'}
                     </Text>
                   </Box>
                 )}
@@ -3403,12 +4025,14 @@ function ChatPage() {
                 {messages.map((message) => {
                   // Render MessageContent for this message
                   const messageContentNode = message.content ? (
-                    <MessageContent 
-                      content={message.content} 
-                      isStreaming={(message as any)._isStreaming === true} 
+                    <MessageContent
+                      content={message.content}
+                      isStreaming={(message as any)._isStreaming === true}
+                      isPartial={message.is_partial === true}
+                      module={message.module}
                     />
                   ) : null;
-                  
+
                   return (
                     <MessageItem
                       key={message.id}
@@ -3434,7 +4058,7 @@ function ChatPage() {
               borderColor={borderColor}
               bg={bgColor}
             >
-              <form 
+              <form
                 onSubmit={(e) => {
                   e.preventDefault(); // Her zaman prevent default
                   e.stopPropagation(); // Event propagation'ı durdur
@@ -3511,7 +4135,7 @@ function ChatPage() {
                             }
                             return <FaFileAlt size={18} color={textSecondary} />;
                           };
-                          
+
                           const getFileTypeLabel = (type: string, name: string) => {
                             const ext = name.split('.').pop()?.toUpperCase();
                             if (type.includes('pdf') || ext === 'PDF') return 'PDF';
@@ -3520,7 +4144,7 @@ function ChatPage() {
                             if (type.includes('mail') || ext === 'EML' || doc.source === 'email') return 'Mail';
                             return ext || 'Dosya';
                           };
-                          
+
                           return (
                             <Box
                               key={doc.id}
@@ -3581,6 +4205,7 @@ function ChatPage() {
                           file={file}
                           onRemove={() => handleRemoveFile(file.id)}
                           isUploading={file.isUploading}
+                          uploadProgress={file.uploadProgress}
                         />
                       ))}
                     </Box>
@@ -3588,14 +4213,22 @@ function ChatPage() {
 
                   {/* Input Row - Inside container, bottom section */}
                   <HStack spacing={2} px={2} py={1.5} align="center">
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        onChange={handleFileSelect}
-                        style={{ display: "none" }}
-                        accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
-                        multiple
-                      />
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      onChange={(e) => handleFileSelect(e, false)}
+                      style={{ display: "none" }}
+                      accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+                      multiple
+                    />
+                    <input
+                      ref={imageInputRef}
+                      type="file"
+                      onChange={(e) => handleFileSelect(e, true)}
+                      style={{ display: "none" }}
+                      accept="image/jpeg,image/jpg,image/png,image/webp"
+                      multiple
+                    />
                     <IconButton
                       icon={<AttachmentIcon />}
                       aria-label="Dosya ekle"
@@ -3619,6 +4252,44 @@ function ChatPage() {
                         transform: "scale(0.95)",
                       }}
                     />
+                    <IconButton
+                      icon={
+                        <Box
+                          as="svg"
+                          w="20px"
+                          h="20px"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                          <circle cx="12" cy="13" r="4" />
+                        </Box>
+                      }
+                      aria-label="Fotoğraf ekle"
+                      variant="ghost"
+                      onClick={() => imageInputRef.current?.click()}
+                      size="md"
+                      color={textSecondary}
+                      bg="transparent"
+                      borderRadius="md"
+                      minW="40px"
+                      h="40px"
+                      title="Fotoğraf ekle"
+                      transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                      _hover={{
+                        transform: "scale(1.1)",
+                        bg: hoverBg,
+                        color: textPrimary,
+                        animation: "pulseScale 0.6s ease-in-out",
+                      }}
+                      _active={{
+                        transform: "scale(0.95)",
+                      }}
+                    />
                     <Input
                       ref={inputRef}
                       value={input}
@@ -3636,7 +4307,11 @@ function ChatPage() {
                           e.stopPropagation();
                         }
                       }}
-                      placeholder="Herhangi bir şey sor..."
+                      placeholder={
+                        selectedModule === "lgs_karekok"
+                          ? "LGS Karekök Asistanı'na bir soru yaz..."
+                          : "Kişisel Asistan'a bir soru yaz..."
+                      }
                       disabled={isUploading}
                       bg="transparent"
                       border="none"
@@ -3644,11 +4319,11 @@ function ChatPage() {
                       borderRadius="lg"
                       h="40px"
                       fontSize="15px"
-                      _placeholder={{ 
+                      _placeholder={{
                         color: textPlaceholder,
                       }}
-                      _focus={{ 
-                        borderColor: "transparent", 
+                      _focus={{
+                        borderColor: "transparent",
                         boxShadow: `0 0 0 2px ${accentSoft}`,
                         outline: "none",
                         color: textPrimary,
@@ -3664,6 +4339,89 @@ function ChatPage() {
                       flex={1}
                       type="text"
                     />
+                    {/* Premium Detaylı Toggle */}
+                    <Tooltip label={responseStyle === "detailed" ? "Detaylı açıklama aktif" : "Normal cevap modu"} placement="top" hasArrow>
+                      <Button
+                        size="sm"
+                        h="36px"
+                        px={4}
+                        fontSize="12px"
+                        fontWeight="700"
+                        variant="unstyled"
+                        display="flex"
+                        alignItems="center"
+                        gap={2}
+                        position="relative"
+                        overflow="hidden"
+                        transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+                        bg={responseStyle === "detailed" ? "rgba(16, 185, 129, 0.15)" : "transparent"}
+                        border="1px solid"
+                        borderColor={responseStyle === "detailed" ? accentPrimary : borderColor}
+                        color={responseStyle === "detailed" ? accentPrimary : textSecondary}
+                        borderRadius="full"
+                        onClick={() => setResponseStyle(prev => prev === "detailed" ? "auto" : "detailed")}
+                        _hover={{
+                          borderColor: accentPrimary,
+                          bg: "rgba(16, 185, 129, 0.1)",
+                          color: accentPrimary,
+                          transform: "translateY(-1px)",
+                          boxShadow: responseStyle === "detailed"
+                            ? `0 0 15px ${accentPrimary}40`
+                            : "none"
+                        }}
+                        _active={{
+                          transform: "translateY(0) scale(0.98)",
+                        }}
+                        mr={2}
+                      >
+                        {/* Pulse effect for detailed mode */}
+                        {responseStyle === "detailed" && (
+                          <Box
+                            position="absolute"
+                            top="50%"
+                            left="12px"
+                            transform="translate(-50%, -50%)"
+                            w="8px"
+                            h="8px"
+                            bg={accentPrimary}
+                            borderRadius="full"
+                            sx={{
+                              animation: "pulseGlow 2s infinite",
+                              "@keyframes pulseGlow": {
+                                "0%": { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+                                "50%": { transform: "translate(-50%, -50%) scale(2.5)", opacity: 0 },
+                                "100%": { transform: "translate(-50%, -50%) scale(1)", opacity: 0 },
+                              }
+                            }}
+                          />
+                        )}
+
+                        <Box
+                          transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+                          transform={responseStyle === "detailed" ? "translateX(4px)" : "none"}
+                        >
+                          <Box as="svg" w="14px" h="14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                            <path d="M8 6h10" />
+                            <path d="M8 10h10" />
+                            <path d="M8 14h10" />
+                          </Box>
+                        </Box>
+
+                        <Text
+                          ml={responseStyle === "detailed" ? 1 : 0}
+                          transition="all 0.3s ease"
+                        >
+                          Detaylı
+                        </Text>
+                      </Button>
+                    </Tooltip>
+
+
+
+
+                    {/* Send Button */}
                     <Box
                       position="relative"
                       minW="40px"
@@ -3678,7 +4436,7 @@ function ChatPage() {
                         },
                       }}
                     >
-                      {isLoading && abortController ? (
+                      {isStreaming ? (
                         <IconButton
                           aria-label="Durdur"
                           icon={
@@ -3698,37 +4456,7 @@ function ChatPage() {
                           }
                           onClick={() => {
                             // ChatGPT style: Abort the active stream
-                            // NOTE: Don't save message here - streamMessage() will save it when it detects abort
-                            
-                            // Abort the active stream
-                            // Abort the active stream for this chat
-                            if (currentChatId) {
-                              const chatState = getCurrentChatState(currentChatId);
-                              if (chatState.abortController) {
-                                chatState.abortController.abort();
-                              }
-                              
-                              // streamingContent'i temizleme - streamMessage() yarım mesajı bırakacak
-                              updateCurrentChatState(currentChatId, {
-                                abortController: null,
-                                requestId: null,
-                                isStreaming: false,
-                                isLoading: false,
-                                // streamingContent'i güncelleme - streamMessage() zaten güncelleyecek
-                              });
-                              
-                              // Update local state - streamingContent'i temizleme, yarım mesaj kalacak
-                              setIsLoading(false);
-                              setAbortController(null);
-                              // setStreamingContent("") - TEMİZLEME, yarım mesaj görünür kalacak
-                            } else if (abortController) {
-                              // Fallback: abort local controller if no chatId
-                              abortController.abort();
-                              console.log("[STREAM ABORT] AbortController aborted (no chatId)");
-                              setIsLoading(false);
-                              setAbortController(null);
-                              // setStreamingContent("") - TEMİZLEME, yarım mesaj görünür kalacak
-                            }
+                            finalizeInteraction();
                           }}
                           size="md"
                           bg="red.500"
@@ -3736,7 +4464,7 @@ function ChatPage() {
                           borderRadius="lg"
                           minW="40px"
                           h="40px"
-                          _hover={{ 
+                          _hover={{
                             bg: "red.600",
                             transform: "scale(1.05)",
                           }}
@@ -3799,8 +4527,8 @@ function ChatPage() {
                             "&:active": {
                               animation: "scaleOut 0.2s ease-out",
                             },
-                            animation: isLoading && abortController 
-                              ? "buttonTransitionOut 0.3s cubic-bezier(0.4, 0, 0.2, 1)" 
+                            animation: isLoading && abortController
+                              ? "buttonTransitionOut 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                               : "none",
                             "@keyframes buttonTransitionOut": {
                               "0%": {
@@ -3813,12 +4541,12 @@ function ChatPage() {
                               },
                             },
                           }}
-                        _disabled={{
-                          opacity: 0.5,
-                          cursor: "not-allowed",
-                          bg: accentActive,
-                        }}
-                      />
+                          _disabled={{
+                            opacity: 0.5,
+                            cursor: "not-allowed",
+                            bg: accentActive,
+                          }}
+                        />
                       )}
                     </Box>
                   </HStack>
@@ -3827,17 +4555,18 @@ function ChatPage() {
             </Box>
           </Box>
         </Box>
-      </Box>
+      </Box >
 
       {/* Document Picker Modal - Global Document Pool */}
       <DocumentPicker
         isOpen={isDocModalOpen}
         onClose={onDocModalClose}
         chatId={currentChatId || undefined}
+        promptModule={selectedModule}
         onSelect={async (documentIds) => {
           // Update selected document IDs
           setSelectedDocumentIds(documentIds);
-          
+
           // CRITICAL FIX: Also add selected documents to attachedFiles
           // This ensures they appear in chips and are included in handleSend
           if (documentIds.length > 0) {
@@ -3846,16 +4575,17 @@ function ChatPage() {
             const missingDocIds = documentIds.filter(
               (docId) => !availableDocuments.find((d) => d.id === docId)
             );
-            
+
             if (missingDocIds.length > 0 || availableDocuments.length === 0) {
               try {
-                docsToUse = await listDocuments();
+                // PASS the current module to listDocuments to find LGS-specific documents
+                docsToUse = await listDocuments(selectedModule);
                 setAvailableDocuments(docsToUse);
               } catch (error) {
                 console.error("Failed to reload documents:", error);
               }
             }
-            
+
             // Convert selected document IDs to AttachedFile format
             const newAttachedFiles: AttachedFile[] = documentIds
               .map((docId) => {
@@ -3876,7 +4606,7 @@ function ChatPage() {
                 } as AttachedFile;
               })
               .filter((f): f is AttachedFile => f !== null);
-            
+
             // Upsert to attachedFiles (don't duplicate if already exists)
             setAttachedFilesSync((prev) => {
               const existingIds = new Set(prev.map(f => f.documentId));
@@ -3888,7 +4618,7 @@ function ChatPage() {
             // (keep only newly uploaded files)
             setAttachedFilesSync((prev) => prev.filter(f => !f.id.startsWith('doc_')));
           }
-          
+
           // Save to chat settings (persist selection)
           const chatId = searchParams.get("chatId");
           if (chatId) {
@@ -3903,7 +4633,7 @@ function ChatPage() {
               console.error("Failed to save document selection:", error);
             }
           }
-          
+
           // Input'a otomatik focus yap (kullanıcı fareyle tıklamak zorunda kalmasın)
           setTimeout(() => {
             if (inputRef.current) {
@@ -3913,7 +4643,7 @@ function ChatPage() {
         }}
         selectedDocumentIds={selectedDocumentIds}
       />
-    </AuthGuard>
+    </AuthGuard >
   );
 }
 

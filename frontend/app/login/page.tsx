@@ -24,6 +24,7 @@ import {
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { apiFetch, exchangeGoogleToken } from "@/lib/api";
 import { setToken } from "@/lib/auth";
+import LalaAILogo from "@/components/icons/LalaAILogo";
 
 interface LoginResponse {
   access_token: string;
@@ -40,18 +41,18 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  
-  // Uygulama renk paleti
-  const bgColor = useColorModeValue("#FFFFFF", "#0D1117");
-  const cardBg = useColorModeValue("#F6F8FA", "#161B22");
-  const borderColor = useColorModeValue("#D1D9E0", "#30363D");
-  const textPrimary = useColorModeValue("#1F2328", "#E6EDF3");
-  const textSecondary = useColorModeValue("#656D76", "#8B949E");
-  const accentColor = useColorModeValue("#1A7F37", "#3FB950");
-  const accentHover = useColorModeValue("#2EA043", "#2EA043");
-  const inputBg = useColorModeValue("#FFFFFF", "#1C2128");
-  const inputBorder = useColorModeValue("#D1D9E0", "#30363D");
-  const hoverBg = useColorModeValue("#E7ECF0", "#22272E");
+
+  // Premium dark theme color palette
+  const bgColor = useColorModeValue("#F9FAFB", "#0B0F14");
+  const cardBg = useColorModeValue("#FFFFFF", "#111827");
+  const borderColor = useColorModeValue("#E5E7EB", "#1F2937");
+  const textPrimary = useColorModeValue("#111827", "#E5E7EB");
+  const textSecondary = useColorModeValue("#6B7280", "#9CA3AF");
+  const accentColor = useColorModeValue("#10B981", "#10B981");
+  const accentHover = useColorModeValue("#34D399", "#34D399");
+  const inputBg = useColorModeValue("#F9FAFB", "#1F2937");
+  const inputBorder = useColorModeValue("#E5E7EB", "#1F2937");
+  const hoverBg = useColorModeValue("#F3F4F6", "#1F2937");
 
   // Handle Google OAuth callback - check for session after redirect
   useEffect(() => {
@@ -63,7 +64,7 @@ export default function LoginPage() {
         try {
           // Wait a moment for NextAuth to process the callback
           await new Promise(resolve => setTimeout(resolve, 1000));
-          
+
           // Get the current session to access the ID token
           const response = await fetch("/api/auth/session");
           const currentSession: any = await response.json();
@@ -71,7 +72,7 @@ export default function LoginPage() {
           if (currentSession?.id_token) {
             // Exchange Google ID token for our JWT
             const jwtResponse = await exchangeGoogleToken(currentSession.id_token);
-            
+
             // Store our JWT token
             setToken(jwtResponse.access_token);
 
@@ -97,30 +98,30 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     setError(null);
-    
+
     try {
       // NextAuth v5: Provider sign-in requires POST request
       // First, get CSRF token from /api/auth/csrf
       const csrfResponse = await fetch("/api/auth/csrf");
       const { csrfToken } = await csrfResponse.json();
-      
+
       // Create a form and submit it via POST
       const form = document.createElement("form");
       form.method = "POST";
       form.action = "/api/auth/signin/google";
-      
+
       const csrfInput = document.createElement("input");
       csrfInput.type = "hidden";
       csrfInput.name = "csrfToken";
       csrfInput.value = csrfToken;
       form.appendChild(csrfInput);
-      
+
       const callbackInput = document.createElement("input");
       callbackInput.type = "hidden";
       callbackInput.name = "callbackUrl";
       callbackInput.value = "/login?callback=google";
       form.appendChild(callbackInput);
-      
+
       document.body.appendChild(form);
       form.submit();
     } catch (err: any) {
@@ -170,8 +171,8 @@ export default function LoginPage() {
           right: 0,
           bottom: 0,
           background: useColorModeValue(
-            "radial-gradient(circle at 20% 50%, rgba(26, 127, 55, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(26, 127, 55, 0.05) 0%, transparent 50%)",
-            "radial-gradient(circle at 20% 50%, rgba(63, 185, 80, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(63, 185, 80, 0.08) 0%, transparent 50%)"
+            "radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%)",
+            "radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%)"
           ),
           pointerEvents: "none",
           zIndex: 0,
@@ -196,23 +197,37 @@ export default function LoginPage() {
         <VStack spacing={8} align="stretch">
           {/* Logo ve Başlık */}
           <VStack spacing={4}>
-            <HStack spacing={3} justify="center">
+            <VStack spacing={3} align="center">
               <Box
-                as="img"
-                src="/hace-logo.svg"
-                alt="HACE Logo"
-                w="40px"
-                h="40px"
-              />
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  "@keyframes float": {
+                    "0%": { transform: "translateY(0px)" },
+                    "50%": { transform: "translateY(-10px)" },
+                    "100%": { transform: "translateY(0px)" },
+                  },
+                }}
+              >
+                <LalaAILogo
+                  size={32}
+                  sx={{
+                    animation: "float 4s ease-in-out infinite",
+                    filter: "drop-shadow(0 0 8px rgba(16, 185, 129, 0.3))",
+                  }}
+                />
+              </Box>
               <Heading
                 size="xl"
                 fontWeight="700"
                 color={textPrimary}
                 letterSpacing="tight"
+                textAlign="center"
               >
-                HACE
+                Lala
               </Heading>
-            </HStack>
+            </VStack>
             <Text
               fontSize="md"
               color={textSecondary}
@@ -392,7 +407,7 @@ export default function LoginPage() {
                 _hover={{
                   bg: accentHover,
                   transform: "translateY(-1px)",
-                  boxShadow: "0 4px 12px rgba(63, 185, 80, 0.3)",
+                  boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)",
                 }}
                 _active={{
                   transform: "translateY(0)",

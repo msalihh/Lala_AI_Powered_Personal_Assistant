@@ -23,7 +23,7 @@ import {
   Icon,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { AttachmentIcon, AddIcon } from "@chakra-ui/icons";
+import { AttachmentIcon, AddIcon, StarIcon } from "@chakra-ui/icons";
 import { listDocuments, DocumentListItem, uploadDocument } from "@/lib/api";
 
 interface DocumentPickerProps {
@@ -33,6 +33,7 @@ interface DocumentPickerProps {
   selectedDocumentIds?: string[]; // Pre-selected document IDs
   chatId?: string; // Optional chat ID to associate uploaded documents with a chat
   chatTitle?: string; // Optional chat title for document metadata
+  promptModule?: "none" | "lgs_karekok"; // Module filter for document list
 }
 
 /**
@@ -51,6 +52,7 @@ export default function DocumentPicker({
   selectedDocumentIds = [],
   chatId,
   chatTitle,
+  promptModule = "none",
 }: DocumentPickerProps) {
   const [documents, setDocuments] = useState<DocumentListItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -74,8 +76,14 @@ export default function DocumentPicker({
   const loadDocuments = async () => {
     setLoading(true);
     try {
-      const docs = await listDocuments();
-      setDocuments(docs);
+      const docs = await listDocuments(promptModule);
+      // Sort: Main docs first, then by date desc
+      const sortedDocs = [...docs].sort((a, b) => {
+        if (a.is_main && !b.is_main) return -1;
+        if (!a.is_main && b.is_main) return 1;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+      setDocuments(sortedDocs);
     } catch (error: any) {
       toast({
         title: "Hata",
@@ -130,7 +138,8 @@ export default function DocumentPicker({
       try {
         const uploadPromises = validFiles.map(async (file) => {
           // If chatId is provided, associate the document with the chat
-          const response = await uploadDocument(file, chatId, chatTitle);
+          // CRITICAL: Always pass promptModule to ensure correct module assignment
+          const response = await uploadDocument(file, chatId, chatTitle, promptModule);
           return { documentId: response.documentId, filename: file.name, file: file };
         });
 
@@ -143,9 +152,9 @@ export default function DocumentPicker({
         setSelectedIds(newSelectedIds);
 
         // Refresh documents list to get full document info
-        const refreshedDocs = await listDocuments();
+        const refreshedDocs = await listDocuments(promptModule);
         setDocuments(refreshedDocs);
-        
+
         // Get uploaded documents from the refreshed list to show in upload tab
         const newlyUploadedDocs = refreshedDocs.filter(doc => uploadedIds.includes(doc.id));
         // Add to uploadedDocuments state to show in upload tab
@@ -243,14 +252,14 @@ export default function DocumentPicker({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
-      <ModalOverlay 
-        bg="blackAlpha.700" 
+      <ModalOverlay
+        bg="blackAlpha.700"
         sx={{
           animation: "fadeIn 0.3s ease-out",
         }}
       />
-      <ModalContent 
-        bg={bgColor} 
+      <ModalContent
+        bg={bgColor}
         color={textColor}
         sx={{
           animation: "scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -416,8 +425,8 @@ export default function DocumentPicker({
                                       ? "#ef4444"
                                       : doc.mime_type ===
                                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                      ? "#3b82f6"
-                                      : "#6b7280"
+                                        ? "#3b82f6"
+                                        : "#6b7280"
                                   }
                                   color="white"
                                   fontSize="xs"
@@ -445,109 +454,141 @@ export default function DocumentPicker({
 
             {/* Select Tab */}
             {activeTab === "select" && (
-              <VStack
-                spacing={2}
-                align="stretch"
-                maxH="400px"
-                overflowY="auto"
-                sx={{
-                  "&::-webkit-scrollbar": {
-                    width: "8px",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    bg: bgColor,
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    bg: borderColor,
-                    borderRadius: "4px",
-                    _hover: {
-                      bg: textSecondary,
-                    },
-                  },
-                }}
-              >
-                {loading ? (
-                  <HStack justify="center" py={8}>
-                    <Spinner size="sm" color={accentColor} />
-                    <Text fontSize="sm" color={textSecondary}>
-                      Dokümanlar yükleniyor...
+              <VStack spacing={3} align="stretch">
+                {documents.length > 0 && (
+                  <HStack justify="space-between" px={1}>
+                    <Text fontSize="xs" color={textSecondary} fontWeight="medium">
+                      {selectedIds.size} döküman seçili
                     </Text>
-                  </HStack>
-                ) : documents.length === 0 ? (
-                  <Box textAlign="center" py={8}>
-                    <Text fontSize="sm" color={textSecondary}>
-                      Henüz doküman yüklenmemiş.
-                    </Text>
-                    <Text fontSize="xs" color={textSecondary} mt={2} opacity={0.7}>
-                      "Bilgisayardan Yükle" sekmesinden dosya yükleyebilirsiniz.
-                    </Text>
-                  </Box>
-                ) : (
-                  <List spacing={2}>
-                    {documents.map((doc) => (
-                      <ListItem
-                        key={doc.id}
-                        p={3}
-                        borderWidth={1}
-                        borderColor={
-                          selectedIds.has(doc.id) ? accentColor : borderColor
-                        }
-                        borderRadius="md"
-                        bg={selectedIds.has(doc.id) ? `${accentColor}20` : cardBg}
-                        cursor="pointer"
-                        transition="all 0.2s"
-                        _hover={{
-                          borderColor: accentColor,
-                          bg: selectedIds.has(doc.id) ? `${accentColor}30` : hoverBg,
+                    <HStack spacing={2}>
+                      <Button
+                        size="xs"
+                        variant="ghost"
+                        colorScheme="green"
+                        onClick={() => {
+                          const allIds = new Set(documents.map(d => d.id));
+                          setSelectedIds(allIds);
                         }}
-                        onClick={() => handleToggleSelect(doc.id)}
                       >
-                        <HStack spacing={3} align="start">
-                          <Checkbox
-                            isChecked={selectedIds.has(doc.id)}
-                            onChange={() => handleToggleSelect(doc.id)}
-                            mt={1}
-                            colorScheme="green"
-                            borderColor={borderColor}
-                            _checked={{
-                              bg: accentColor,
-                              borderColor: accentColor,
-                            }}
-                          />
-                          <VStack align="start" spacing={1} flex={1}>
-                            <HStack>
-                              <Text fontWeight="medium" fontSize="sm" color={textColor}>
-                                {doc.filename}
-                              </Text>
-                              <Badge
-                                bg={
-                                  doc.mime_type === "application/pdf"
-                                    ? "#ef4444"
-                                    : doc.mime_type ===
-                                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                    ? "#3b82f6"
-                                    : "#6b7280"
-                                }
-                                color="white"
-                                fontSize="xs"
-                                px={2}
-                                py={0.5}
-                                borderRadius="sm"
-                              >
-                                {getFileTypeLabel(doc.mime_type)}
-                              </Badge>
-                            </HStack>
-                            <HStack spacing={2} fontSize="xs" color={textSecondary}>
-                              <Text>{formatFileSize(doc.size)}</Text>
-                              <Text>•</Text>
-                              <Text>{formatDate(doc.created_at)}</Text>
-                            </HStack>
-                          </VStack>
-                        </HStack>
-                      </ListItem>
-                    ))}
-                  </List>
+                        Tümünü Seç
+                      </Button>
+                      <Button
+                        size="xs"
+                        variant="ghost"
+                        colorScheme="red"
+                        onClick={() => setSelectedIds(new Set())}
+                        isDisabled={selectedIds.size === 0}
+                      >
+                        Temizle
+                      </Button>
+                    </HStack>
+                  </HStack>
                 )}
+
+                <VStack
+                  spacing={2}
+                  align="stretch"
+                  maxH="350px"
+                  overflowY="auto"
+                  sx={{
+                    "&::-webkit-scrollbar": {
+                      width: "8px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      bg: bgColor,
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      bg: borderColor,
+                      borderRadius: "4px",
+                      _hover: {
+                        bg: textSecondary,
+                      },
+                    },
+                  }}
+                >
+                  {loading ? (
+                    <HStack justify="center" py={8}>
+                      <Spinner size="sm" color={accentColor} />
+                      <Text fontSize="sm" color={textSecondary}>
+                        Dokümanlar yükleniyor...
+                      </Text>
+                    </HStack>
+                  ) : documents.length === 0 ? (
+                    <Box textAlign="center" py={8}>
+                      <Text fontSize="sm" color={textSecondary}>
+                        Henüz doküman yüklenmemiş.
+                      </Text>
+                      <Text fontSize="xs" color={textSecondary} mt={2} opacity={0.7}>
+                        "Bilgisayardan Yükle" sekmesinden dosya yükleyebilirsiniz.
+                      </Text>
+                    </Box>
+                  ) : (
+                    <List spacing={2}>
+                      {documents.map((doc) => (
+                        <ListItem
+                          key={doc.id}
+                          p={3}
+                          borderWidth={1}
+                          borderColor={
+                            selectedIds.has(doc.id) ? accentColor : borderColor
+                          }
+                          borderRadius="md"
+                          bg={selectedIds.has(doc.id) ? `${accentColor}20` : cardBg}
+                          cursor="pointer"
+                          transition="all 0.2s"
+                          _hover={{
+                            borderColor: accentColor,
+                            bg: selectedIds.has(doc.id) ? `${accentColor}30` : hoverBg,
+                          }}
+                          onClick={() => handleToggleSelect(doc.id)}
+                        >
+                          <HStack spacing={3} align="start">
+                            <Checkbox
+                              isChecked={selectedIds.has(doc.id)}
+                              onChange={() => handleToggleSelect(doc.id)}
+                              mt={1}
+                              colorScheme="green"
+                              borderColor={borderColor}
+                              _checked={{
+                                bg: accentColor,
+                                borderColor: accentColor,
+                              }}
+                            />
+                            <VStack align="start" spacing={1} flex={1}>
+                              <HStack>
+                                <Text fontWeight="medium" fontSize="sm" color={textColor}>
+                                  {doc.filename}
+                                </Text>
+                                <Badge
+                                  bg={
+                                    doc.mime_type === "application/pdf"
+                                      ? "#ef4444"
+                                      : doc.mime_type ===
+                                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        ? "#3b82f6"
+                                        : "#6b7280"
+                                  }
+                                  color="white"
+                                  fontSize="xs"
+                                  px={2}
+                                  py={0.5}
+                                  borderRadius="sm"
+                                >
+                                  {getFileTypeLabel(doc.mime_type)}
+                                </Badge>
+                              </HStack>
+                              <HStack spacing={2} fontSize="xs" color={textSecondary}>
+                                <Text>{formatFileSize(doc.size)}</Text>
+                                <Text>•</Text>
+                                <Text>{formatDate(doc.created_at)}</Text>
+                              </HStack>
+                            </VStack>
+                          </HStack>
+                        </ListItem>
+                      ))}
+                    </List>
+                  )}
+                </VStack>
               </VStack>
             )}
 

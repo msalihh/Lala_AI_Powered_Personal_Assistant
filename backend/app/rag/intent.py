@@ -10,7 +10,7 @@ from app.rag.config import intent_config
 
 logger = logging.getLogger(__name__)
 
-IntentType = Literal["qa", "summarize", "extract", "general_chat"]
+IntentType = Literal["qa", "summarize", "extract", "general_chat", "general_assistant"]
 
 
 def classify_intent(
@@ -108,13 +108,14 @@ def classify_intent(
         "summarize": summarize_score,
         "extract": extract_score + analysis_score,  # Analysis counts as extract
         "qa": qa_score + (analysis_score * 0.5),  # Analysis also counts as QA
-        "general_chat": general_score
+        "general_chat": general_score,
+        "general_assistant": 0.1  # Base score for general assistant
     }
     
     max_score = max(scores.values())
-    if max_score == 0:
-        # Default to QA if no patterns match
-        intent = "qa"
+    if max_score <= 0.1:
+        # Default to general_assistant if no patterns match strongly
+        intent = "general_assistant"
         confidence = 0.3
     else:
         intent = max(scores, key=scores.get)
@@ -129,6 +130,9 @@ def classify_intent(
         rag_required = intent_config.extract_rag_required
     elif intent == "qa":
         rag_priority = intent_config.qa_rag_priority
+        rag_required = False
+    elif intent == "general_assistant":
+        rag_priority = 0.6  # Decent priority but not blocking
         rag_required = False
     else:  # general_chat
         rag_priority = intent_config.general_chat_rag_threshold

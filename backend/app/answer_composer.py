@@ -137,26 +137,28 @@ def _clean_raw_output(text: str) -> str:
     if not text:
         return ""
     
-    # Remove character-per-line patterns (vertical math artifacts)
+    # Join character-per-line patterns (vertical math artifacts) instead of deleting
     lines = text.split('\n')
-    cleaned_lines = []
+    joined_lines = []
+    buffer = []
     
     for i, line in enumerate(lines):
         stripped = line.strip()
         
-        # Skip empty lines (will handle spacing later)
-        if not stripped:
-            continue
-        
-        # Remove single-character lines that are likely artifacts
-        if len(stripped) == 1 and stripped not in ['$', '=', '+', '-', '*', '/', '^', '_', '\\']:
-            # Check if next line is also single char (pattern)
-            if i + 1 < len(lines) and len(lines[i + 1].strip()) == 1:
-                continue
-        
-        cleaned_lines.append(line)
+        # If line is a single character and part of a sequence, buffer it
+        if len(stripped) == 1 and not stripped.startswith('#'):
+            buffer.append(stripped)
+        else:
+            # If buffer exists, join it and add to joined_lines
+            if buffer:
+                joined_lines.append("".join(buffer))
+                buffer = []
+            joined_lines.append(line)
+            
+    if buffer:
+        joined_lines.append("".join(buffer))
     
-    text = '\n'.join(cleaned_lines)
+    text = '\n'.join(joined_lines)
     
     # Normalize whitespace
     text = re.sub(r'\n{4,}', '\n\n\n', text)  # Max 3 consecutive newlines
@@ -173,8 +175,8 @@ def _structure_math_answer(text: str) -> str:
     text = re.sub(r'^(İfade|Sadeleştir|Birleştir|Sonuç)\s*:\s*$', '', text, flags=re.MULTILINE | re.IGNORECASE)
     
     # Merge broken math expressions
-    # Pattern: Multiple $$ blocks that should be one expression
-    math_blocks = re.findall(r'\$\$[^\$]*\$\$', text)
+    # Pattern: Multiple math blocks ($$ or \[ \]) that should be one expression
+    math_blocks = re.findall(r'(\$\$[^\$]*\$\$|\\\[[\s\S]*?\\\])', text)
     if len(math_blocks) > 1:
         # Try to merge consecutive math blocks
         # Extract content and merge with = signs
@@ -185,12 +187,18 @@ def _structure_math_answer(text: str) -> str:
             # Replace all blocks with single merged block
             for block in math_blocks:
                 text = text.replace(block, '', 1)
+            
+            # Determine which delimiter to use (prefer \[ for LGS style if already present)
+            uses_bracket = any('\\[' in b for b in math_blocks)
+            start_delim = '\\[' if uses_bracket else '$$'
+            end_delim = '\\]' if uses_bracket else '$$'
+            
             # Insert merged block at first position
-            first_block_pos = text.find('$$')
+            first_block_pos = text.find('$$') if '$$' in text else text.find('\\[')
             if first_block_pos == -1:
-                text = f"$$ {merged} $$\n\n{text}"
+                text = f"{start_delim} {merged} {end_delim}\n\n{text}"
             else:
-                text = text[:first_block_pos] + f"$$ {merged} $$" + text[first_block_pos:]
+                text = text[:first_block_pos] + f"{start_delim} {merged} {end_delim}" + text[first_block_pos:]
     
     # Ensure headers (Adım 1, Adım 2, Sonuç) are at line start
     lines = text.split('\n')
@@ -228,10 +236,8 @@ def _structure_explanation_answer(text: str, question: str) -> str:
     
     # Check if answer is too short or flat
     if len(lines) < 3 or len(text) < 200:
-        # Add introduction and structure
-        structured = f"## {question}\n\n"
-        structured += text
-        return structured
+        # Return as-is, don't add question as heading
+        return text
     
     # Add introduction if missing
     if not text.startswith('#') and not text.startswith('**'):
@@ -294,59 +300,49 @@ def _structure_example_answer(text: str) -> str:
 def _structure_general_answer(text: str, question: str) -> str:
     """
     Structure general knowledge answers: introduction, headings, lists.
+    Preserves all content.
     """
     # Check if already has structure
-    has_headings = bool(re.search(r'^#{1,3}\s+', text, re.MULTILINE))
-    has_lists = bool(re.search(r'^[-*•]\s+', text, re.MULTILINE))
+    has_markdown_headings = bool(re.search(r'^#{1,3}\s+', text, re.MULTILINE))
+    has_bold_headings = bool(re.search(r'^\*\*.*?\*\*\s*[:]?\s*$', text, re.MULTILINE))
+    has_lists = bool(re.search(r'^[-*•\d]\s+', text, re.MULTILINE))
     
-    if has_headings and has_lists:
-        # Already well-structured
+    if has_markdown_headings or has_bold_headings or has_lists:
+        # Already has some form of structure, return as-is
         return text
     
-    lines = text.split('\n')
+    lines = [line.strip() for line in text.split('\n') if line.strip()]
     
-    # If answer is a single flat paragraph, add structure
-    if len(lines) <= 3 and len(text) < 300:
-        # Add introduction
-        structured = f"{text}\n\n"
-        return structured
+    # If answer is a single flat block, add spacing
+    if len(lines) <= 2 and len(text) < 300:
+        return text.strip() + "\n\n"
     
-    # If answer has multiple paragraphs but no headings, add them
-    if not has_headings and len(lines) > 5:
-        # Try to identify natural sections
-        paragraphs = [line.strip() for line in lines if line.strip() and not line.strip().startswith('-')]
+    # Identify paragraphs
+    paragraphs = []
+    current_para = []
+    
+    for line in text.split('\n'):
+        if line.strip():
+            current_para.append(line.strip())
+        elif current_para:
+            paragraphs.append("\n".join(current_para))
+            current_para = []
+    if current_para:
+        paragraphs.append("\n".join(current_para))
         
-        if len(paragraphs) >= 3:
-            # First paragraph as introduction
-            structured = f"{paragraphs[0]}\n\n"
-            
-            # Add headings to remaining paragraphs
-            structured += f"## {question}\n\n"
-            structured += "\n\n".join(paragraphs[1:3]) if len(paragraphs) > 1 else ""
-            
-            if len(paragraphs) > 3:
-                structured += f"\n\n### Ek Bilgiler\n\n"
-                structured += "\n\n".join(paragraphs[3:])
-            
-            return structured
-    
-    # If no structure at all, add basic structure
-    if not has_headings:
-        # Add introduction and heading
-        first_para = lines[0] if lines else text[:150]
-        structured = f"{first_para}\n\n## {question}\n\n"
-        if len(lines) > 1:
-            structured += "\n\n".join(lines[1:])
-        else:
-            structured += text[len(first_para):].strip()
+    if len(paragraphs) >= 3:
+        # First paragraph as introduction
+        structured = paragraphs[0] + "\n\n"
+        
+        # Middle paragraphs
+        structured += "\n\n".join(paragraphs[1:3])
+        
+        # Remaining under Ek Bilgiler if long
+        if len(paragraphs) > 3:
+            structured += "\n\n### Ek Bilgiler\n\n"
+            structured += "\n\n".join(paragraphs[3:])
+        
         return structured
-    
-    # Convert long paragraphs into lists if appropriate
-    if not has_lists:
-        # Check if text has enumeration patterns
-        if re.search(r'\d+[.)]\s+', text):
-            # Convert numbered list format
-            text = re.sub(r'(\d+)[.)]\s+', r'- ', text)
     
     return text
 
@@ -371,12 +367,8 @@ def _ensure_minimum_quality(
     
     min_length = min_lengths.get(intent, 100)
     
-    if len(text.strip()) < min_length:
-        # Answer too short, add context
-        if intent == QuestionIntent.EXPLANATION:
-            text += f"\n\nBu konu hakkında daha fazla bilgi edinmek isterseniz, sorularınızı detaylandırabilirsiniz."
-        elif intent == QuestionIntent.GENERAL:
-            text += f"\n\nBu konuyla ilgili başka sorularınız varsa, çekinmeden sorabilirsiniz."
+    # Don't add filler sentences - they make responses feel robotic
+    # Just ensure proper ending
     
     # Ensure answer doesn't end abruptly
     if not text.strip().endswith(('.', '!', '?', ':', ';')):
@@ -394,8 +386,13 @@ def _final_formatting(text: str) -> str:
     text = re.sub(r'(^#{1,3}\s+[^\n]+)\n([^\n#])', r'\1\n\n\2', text, flags=re.MULTILINE)
     
     # Ensure spacing around math blocks
+    # $$ blocks
     text = re.sub(r'([^\n])\n(\$\$)', r'\1\n\n\2', text)
     text = re.sub(r'(\$\$[^\$]+\$\$)\n([^\n$])', r'\1\n\n\2', text)
+    
+    # \[ \] blocks
+    text = re.sub(r'([^\n])\n(\\\[)', r'\1\n\n\2', text)
+    text = re.sub(r'(\\\])\n([^\n])', r'\1\n\n\2', text)
     
     # Ensure headers are at line start (no leading spaces)
     lines = text.split('\n')
