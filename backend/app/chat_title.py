@@ -58,11 +58,17 @@ def generateFallbackTitle(
     
     # Rule 1: File upload detection
     if document_filenames and len(document_filenames) > 0:
-        # Use first document filename
+        # If message contains "çöz", treat as question solution
+        if any(kw in message.lower() for kw in ["çöz", "cevapla", "anlat", "nedir"]):
+            return "PDF Soru Çözümü"
+        # If it's a PDF, use a cleaner generic title
+        if any(f.endswith('.pdf') for f in document_filenames):
+            return "PDF İnceleme"
+        
+        # Fallback to filename
         filename = document_filenames[0]
-        # Remove extension for cleaner title
         filename_without_ext = filename.rsplit('.', 1)[0] if '.' in filename else filename
-        return f"Doküman: {filename_without_ext}"
+        return f"Dosya: {filename_without_ext}"
     
     # Rule 2: Error/debug message detection
     error_keywords = ["ERROR", "Exception", "Traceback", "failed", "404", "500", "error", "hata", "exception"]
@@ -158,27 +164,23 @@ async def generateLLMTitle(
     if document_filenames and len(document_filenames) > 0:
         doc_context = f"\nNot: Kullanıcı şu dosyaları yükledi: {', '.join(document_filenames[:3])}"
     
-    system_prompt = """Sen yardımcı bir AI asistanısın. Kullanıcının sohbet başlığı oluşturmana yardım ediyorsun.
+    system_prompt = """Görevin sadece ve sadece sohbet için KISA, DOĞAL ve İNSAN GİBİ bir başlık üretmek.
 
-GÖREV: Kullanıcının ilk birkaç mesajına bakarak, sohbet için kısa ve anlamlı bir Türkçe başlık oluştur.
+Kurallar:
+- Sohbet başlığı maksimum 3–6 kelime olsun.
+- Cümle kurma, açıklama yapma.
+- Başlık ders kitabı gibi OLMASIN.
+- Teknik terim yığını kullanma.
+- Kullanıcının ilk mesajındaki ANA NİYETİ özetle.
 
-KURALLAR:
-1. Başlık 3-7 kelime arası olmalı
-2. Başlık açık ve spesifik olmalı (genel başlıklar YOK)
-3. Fiil + nesne veya konu etiketi tarzında olmalı
-4. Sadece başlığı döndür, başka açıklama yapma
+ChatGPT tarzı düşün:
+- İnsan bir sohbet listesinde bunu görse “heh bu oydu” desin.
 
-YASAK BAŞLIKLAR (bunları ASLA kullanma):
-- "Yardım", "Soru", "Proje", "Chat", "Deneme", "Sohbet", "Mesaj", "Yeni", "Test"
-- Bu tür genel başlıklar kullanırsan, başlık reddedilir.
+Başlık üretirker:
+- “Soru Çözümü”, “Konu Anlatımı”, “Örnekler”, “Hata” gibi kelimeler SERBEST.
+- Ama “Kazanım M.8.1.3.5”, “Pedagojik Analiz”, “Matematiksel İnceleme” YASAK.
 
-ÖRNEKLER:
-- "Üslü Sayılarda Çıkarma"
-- "Python OAuth Hatası"
-- "Algoritma Analizi"
-- "Veritabanı Optimizasyonu"
-
-Şimdi kullanıcının mesajlarına bak ve uygun bir başlık oluştur:"""
+SADECE başlığı döndür. Başka hiçbir metin yazma."""
     
     user_prompt = f"""Sohbet modu: {mode_description}{doc_context}
 
@@ -375,15 +377,13 @@ async def generateAndSetTitle(
         # Get first message for fallback
         first_message = user_messages[0]
         
-        # Try Layer B (LLM) first -> DISABLED FOR STABILITY
-        # CRITICAL FIX: Skip LLM title generation to save rate limits
-        # title = await generateLLMTitle(
-        #     user_messages=user_messages[:3],
-        #     chat_mode=chat_mode,
-        #     document_filenames=document_filenames
-        # )
-        title = None  # Force fallback
-        title_source = "fallback"  # Default to fallback immediately
+        # Try Layer B (LLM) first
+        title = await generateLLMTitle(
+            user_messages=user_messages[:3],
+            chat_mode=chat_mode,
+            document_filenames=document_filenames
+        )
+        title_source = "llm" if title else "fallback"
         
         # Fallback to Layer A if LLM fails (or is disabled)
         if not title:
