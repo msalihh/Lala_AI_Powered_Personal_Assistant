@@ -2,7 +2,7 @@
 
 <div align="center">
   <img src="frontend/public/lala-icon.png" alt="Lala Logo" width="120" />
-  <p><strong>Kişisel AI Asistan ve LGS Matematik Modülü</strong></p>
+  <p><strong>Kişisel AI Asistan ve LGS Karekök Modülü</strong></p>
 </div>
 
 ---
@@ -14,7 +14,7 @@
 ### ✨ Özellikler
 
 - 🤖 **Kişisel Asistan**: Belgelerinizi yükleyin, sorularınıza akıllı yanıtlar alın
-- 📚 **LGS Matematik Modülü**: Karekök ve LGS matematik konularında uzman asistan
+- 📚 **LGS Karekök Modülü**: LGS sınavı karekök konusuna özel uzman asistan
 - 📧 **Gmail Entegrasyonu**: E-postalarınızı bilgi kaynağı olarak kullanın
 - 📄 **Doküman Desteği**: PDF, Word ve metin dosyalarını işleme
 - 🔍 **RAG Sistemi**: ChromaDB ile vektör tabanlı arama
