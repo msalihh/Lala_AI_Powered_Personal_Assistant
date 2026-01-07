@@ -113,7 +113,7 @@ async def validate_oauth_state(state: str, user_id: str = None) -> Tuple[bool, O
     If user_id is provided, also validates it matches.
     """
     db = get_database()
-    if not db:
+    if db is None:
         logger.error("Database not available for OAuth state validation")
         return (False, None, None)
     
