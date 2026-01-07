@@ -199,18 +199,21 @@ async def gmail_callback(
         
         await gmail_service.store_gmail_tokens(user_id, credentials_data, email, prompt_module)
         logger.info(f"Gmail connected successfully for user {user_id} ({email}), module={prompt_module or 'none'}")
-        return {"status": "success", "email": email}
+        
+        # Redirect to frontend app page after successful connection
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url="http://localhost:3003/app?gmail=connected", status_code=302)
     except GmailNotConfiguredError:
-        raise
-    except HTTPException:
-        raise
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url="http://localhost:3003/app?gmail=error&code=not_configured", status_code=302)
+    except HTTPException as e:
+        from fastapi.responses import RedirectResponse
+        error_code = e.headers.get("code", "unknown") if e.headers else "unknown"
+        return RedirectResponse(url=f"http://localhost:3003/app?gmail=error&code={error_code}", status_code=302)
     except Exception as e:
         logger.error(f"Gmail callback error: {e}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Gmail callback hatası: {str(e)}",
-            headers={"code": "UNKNOWN_ERROR"}
-        )
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url="http://localhost:3003/app?gmail=error&code=unknown", status_code=302)
 
 
 @router.get("/status", response_model=GmailStatusResponse)
