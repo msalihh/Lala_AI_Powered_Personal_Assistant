@@ -45,8 +45,20 @@
 ### Gereksinimler
 - Python 3.11+
 - Node.js 18+
-- MongoDB
+- MongoDB (yerel veya Atlas)
 - Google AI API Key
+
+### MongoDB Kurulumu
+
+**Yerel MongoDB:**
+1. [MongoDB Community Server](https://www.mongodb.com/try/download/community) indirin
+2. Kurulumu tamamlayın ve MongoDB servisini başlatın
+3. Varsayılan bağlantı: `mongodb://localhost:27017`
+
+**MongoDB Atlas (Bulut):**
+1. [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) hesabı oluşturun
+2. Ücretsiz cluster oluşturun
+3. Bağlantı URI'sini alın: `mongodb+srv://<user>:<password>@cluster.mongodb.net/`
 
 ### Backend Kurulumu
 
@@ -54,14 +66,27 @@
 cd backend
 python -m venv .venv
 .venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # Linux/macOS
 pip install -r requirements.txt
 ```
 
 `.env` dosyası oluşturun:
 ```env
-MONGODB_URL=mongodb://localhost:27017
-GOOGLE_AI_API_KEY=your_google_ai_key
-SECRET_KEY=your_secret_key
+# Veritabanı
+MONGODB_URI=mongodb://localhost:27017
+MONGODB_DB=lala
+
+# API Keys
+GOOGLE_AI_API_KEY=your_google_ai_key_here
+OPENROUTER_API_KEY=your_openrouter_key_here  # Opsiyonel
+
+# Güvenlik
+SECRET_KEY=your_random_secret_key_here
+
+# Gmail Entegrasyonu (Opsiyonel)
+GMAIL_CLIENT_ID=your_gmail_client_id
+GMAIL_CLIENT_SECRET=your_gmail_client_secret
+GMAIL_REDIRECT_URI=http://localhost:3003/api/integrations/gmail/callback
 ```
 
 Sunucuyu başlatın:
