@@ -264,11 +264,10 @@ async def get_gmail_service(user_id: str, force_refresh: bool = False, prompt_mo
         _service_cache.pop(cache_key, None)
     
     db = get_database()
-    # CRITICAL: Filter by prompt_module for module isolation
+    # Gmail is shared across all modules - no prompt_module filtering
     query_filter = {
         "user_id": user_id,
-        "provider": "gmail",
-        "prompt_module": prompt_module or "none"
+        "provider": "gmail"
     }
     integration = await db.user_integrations.find_one(query_filter)
     
@@ -425,11 +424,10 @@ async def disconnect_gmail(user_id: str, prompt_module: Optional[str] = None):
     Disconnect Gmail integration for a user (delete tokens).
     """
     db = get_database()
-    # CRITICAL: Filter by prompt_module for module isolation
+    # Gmail is shared across all modules - no prompt_module filtering
     query_filter = {
         "user_id": user_id,
-        "provider": "gmail",
-        "prompt_module": prompt_module or "none"
+        "provider": "gmail"
     }
     result = await db.user_integrations.delete_one(query_filter)
     
@@ -789,11 +787,10 @@ async def get_gmail_status(user_id: str, prompt_module: Optional[str] = None):
     Check connection status and last sync for Gmail.
     """
     db = get_database()
-    # CRITICAL: Filter by prompt_module for module isolation
+    # Gmail is shared across all modules - no prompt_module filtering
     query_filter = {
         "user_id": user_id,
-        "provider": "gmail",
-        "prompt_module": prompt_module or "none"
+        "provider": "gmail"
     }
     integration = await db.user_integrations.find_one(query_filter)
     
