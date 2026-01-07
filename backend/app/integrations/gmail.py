@@ -143,34 +143,34 @@ async def validate_oauth_state(state: str, user_id: str = None) -> Tuple[bool, O
                         f"(expires_at={expires_at_naive}, now={now_naive}, diff={(now_naive - expires_at_naive).total_seconds() / 60:.1f} min)"
                     )
                     await db.oauth_states.delete_one({"state": state})
-                    return (False, None)
+                    return (False, None, None)
             else:
                 logger.warning(f"OAuth state expires_at is not datetime: {type(expires_at)}")
                 await db.oauth_states.delete_one({"state": state})
-                return (False, None)
+                return (False, None, None)
         except Exception as e:
             logger.error(f"Error checking OAuth state expiration: {e}, expires_at type: {type(expires_at)}, value: {expires_at}")
             # If comparison fails, treat as expired for safety
             await db.oauth_states.delete_one({"state": state})
-            return (False, None)
+            return (False, None, None)
     else:
         logger.warning(f"OAuth state missing expires_at: {state[:16]}...")
         # State without expiration is invalid
         await db.oauth_states.delete_one({"state": state})
-        return (False, None)
+        return (False, None, None)
     
     state_user_id = state_doc.get("user_id")
     
     if not state_user_id:
         logger.warning(f"OAuth state missing user_id: {state[:16]}...")
         await db.oauth_states.delete_one({"state": state})
-        return (False, None)
+        return (False, None, None)
     
     # If user_id is provided, validate it matches
     if user_id and state_user_id != user_id:
         logger.warning(f"OAuth state user mismatch: expected {user_id}, got {state_user_id}")
         await db.oauth_states.delete_one({"state": state})
-        return (False, None)
+        return (False, None, None)
     
     # Get prompt_module from state if available
     prompt_module = state_doc.get("prompt_module")
