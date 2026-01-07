@@ -549,6 +549,7 @@ async def decide_context(
             )
         else:
             logger.info(f"[{request_id}] RAG_DECISION: No chunks retrieved")
+            should_use_documents = False  # Initialize to False when no chunks
             
             # DOC-GROUNDED POLICY: If query is doc-grounded and no chunks found, mark as doc_not_found
             # EXCEPTION: For very short queries (like "incele", "analiz") with explicit documentIds,
