@@ -146,7 +146,7 @@ bitirme/
 
 ## 👨‍💻 Geliştirici
 
-**Muhammed Salih Helvacı**
+**Muhammed Salih GÜLTEKİN**
 
 ---
 
