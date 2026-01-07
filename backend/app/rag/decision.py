@@ -70,6 +70,9 @@ async def decide_context(
     sources = []
     context_text = ""
     
+    used_priority_search = False
+    priority_sufficient = False
+    
     retrieval_stats = {
         "retrieved_chunks_count": 0,
         "top_score": 0.0,

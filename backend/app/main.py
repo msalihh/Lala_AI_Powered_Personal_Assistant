@@ -2467,10 +2467,10 @@ async def chat(
             })
             
         # Also include email source document IDs for searching
-        email_cursor = db.email_sources.find({"user_id": user_id}, {"message_id": 1})
+        email_cursor = db.email_sources.find({"user_id": user_id}, {"email_id": 1})
         async for email in email_cursor:
             # RAG uses "email_{msg_id}" format for email document IDs
-            email_doc_id = f"email_{email.get('message_id')}"
+            email_doc_id = f"email_{email.get('email_id')}"
             if email_doc_id not in user_document_ids:
                 user_document_ids.append(email_doc_id)
 
