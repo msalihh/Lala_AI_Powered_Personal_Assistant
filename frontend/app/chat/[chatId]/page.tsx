@@ -395,7 +395,6 @@ function MessageContent({ content, isStreaming = false, isPartial = false, modul
           lineHeight: '1.8',
           fontSize: '16px',
           padding: '4px 8px',
-          color: '#E5E7EB',
         }),
         marginTop: '0 !important',
         paddingTop: '0 !important',
