@@ -156,12 +156,32 @@ def classify_query(query: str, selected_doc_ids: Optional[List[str]] = None) -> 
         and not is_email_general_knowledge
     )
     
+    # Detect if it's a broad/exploratory lookup (e.g. "mailleri incele", "son maillere bak")
+    # These should skip strict evidence checks because they don't have a specific target
+    broad_patterns = [
+        r'\b(incele|göz at|bak|neler|gelen|listele|getir|göster)\b',
+        r'^(mailleri\s+incele|emailleri\s+göster|son\s+mailler|maillerim)$'
+    ]
+    is_broad_email_query = is_email_lookup and any(re.search(p, query_lower) for p in broad_patterns)
+    
+    # Detect if it's a broad/exploratory lookup for documents
+    broad_doc_patterns = [
+        r'\b(belgeleri|dokümanları|dosyaları|belgeler|dokümanlar|dosyalar)\s+(incele|özetle|göz at|bak|neler|listele|getir|göster)\b',
+        r'^(belgeleri\s+incele|dokümanları\s+göster|belgelerim|dosyalarım)$'
+    ]
+    is_broad_doc_query = doc_intent and any(re.search(p, query_lower) for p in broad_doc_patterns)
+    
+    is_broad_query = is_broad_email_query or is_broad_doc_query
+
     return {
         "query_type": query_type,
         "doc_intent": doc_intent,
         "keywords": keywords,
         "is_very_short": is_very_short,
         "is_email_lookup": is_email_lookup,
+        "is_broad_email_query": is_broad_email_query,
+        "is_broad_doc_query": is_broad_doc_query,
+        "is_broad_query": is_broad_query,
     }
 
 
@@ -283,6 +303,8 @@ def decide_use_sources(
     keywords = query_classification["keywords"]
     is_very_short = query_classification["is_very_short"]
     is_email_lookup = query_classification.get("is_email_lookup", False)
+    is_broad_email_query = query_classification.get("is_broad_email_query", False)
+    is_broad_query = query_classification.get("is_broad_query", False)
     
     # If no hits, no sources
     if not hits:
@@ -345,18 +367,40 @@ def decide_use_sources(
     # CRITICAL: For email/document lookup queries, empty results should return "not found"
     if doc_intent:
         
-        # CRITICAL GUARD: For email/document lookup queries, if no relevant hits found, reject
-        # This prevents showing irrelevant sources when user asks for specific data
-        if is_email_lookup and top_evidence < evidence_low:
+        # CRITICAL GUARD: For specific email lookup queries (e.g. "x hakkındaki mail"), if no relevant hits found, reject
+        # BUT: For broad exploratory queries (e.g. "mailleri incele"), skip this strict check
+        if is_email_lookup and not is_broad_email_query and top_evidence < evidence_low:
             # Email lookup with no relevant results - reject to force "not found" response
             return EvidenceDecision(
                 use_documents=False,
                 sources=[],
-                reason=f"EMAIL_LOOKUP_NO_RELEVANT_HITS(top_evidence={top_evidence:.3f}<{evidence_low}, user_data_required=True)",
+                reason=f"EMAIL_SPECIFIC_LOOKUP_NO_RELEVANT_HITS(top_evidence={top_evidence:.3f}<{evidence_low})",
                 evidence_metrics=top_metrics,
                 query_type=query_type,
                 doc_intent=doc_intent
             )
+        
+        # Broad exploratory queries (emails or documents) always show something if available
+        if is_broad_query and hit_count > 0:
+            filtered_hits = []
+            # For broad queries, we are more lenient with individual hit scores
+            # Use 50% of the normal threshold to be very permissive
+            broad_threshold = evidence_low * 0.5
+            for s in scored_hits:
+                if s["metrics"].evidence_score >= broad_threshold:
+                    hit = s["hit"].copy()
+                    hit["evidence_score"] = s["metrics"].evidence_score
+                    filtered_hits.append(hit)
+            
+            if filtered_hits:
+                return EvidenceDecision(
+                    use_documents=True,
+                    sources=filtered_hits,
+                    reason=f"BROAD_EXPLORATION(is_broad=True, hits={len(filtered_hits)})",
+                    evidence_metrics=top_metrics,
+                    query_type=query_type,
+                    doc_intent=doc_intent
+                )
         
         # High evidence threshold
         if top_evidence >= evidence_high:

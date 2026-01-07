@@ -105,16 +105,17 @@ async def decide_context(
             retrieval_stats["query_duration_ms"] = 0.0
             retrieval_stats["cache_hit"] = True
 
-            # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
-            latest_keywords = ["son", "en yeni", "güncel", "latest", "recent"]
+            # CRITICAL: If intent implies recency (e.g. "son mail", "mailleri incele"), re-sort by date
+            latest_keywords = ["son", "en yeni", "güncel", "latest", "recent", "incele", "göz at", "bak", "neler", "gelen"]
             is_latest_query = any(kw in query.lower() for kw in latest_keywords)
 
             if is_latest_query and retrieved_chunks:
                 try:
                     # Re-sort chunks by date metadata (most recent first)
                     # We keep chunks with missing dates at the end
-                    retrieved_chunks.sort(key=lambda x: x.get('date', ''), reverse=True)
-                    logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'latest' query")
+                    # date is typically an ISO string now, so string sort works perfectly
+                    retrieved_chunks.sort(key=lambda x: str(x.get('date') or ''), reverse=True)
+                    logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'recency' query (cache)")
                 except Exception as sort_err:
                     logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
 
@@ -353,16 +354,16 @@ async def decide_context(
                     f"[{request_id}] RAG_HYBRID_SEARCH: Applied hybrid scoring "
                     f"(chunks={len(retrieved_chunks)}, top_score={retrieved_chunks[0].get('score', 0.0):.3f})"
                 )
-                # CRITICAL: If intent implies recency (e.g. "son mail"), re-sort by date
-                latest_keywords = ["son", "en yeni", "güncel", "latest", "recent"]
+                # CRITICAL: If intent implies recency (e.g. "son mail", "mailleri incele"), re-sort by date
+                latest_keywords = ["son", "en yeni", "güncel", "latest", "recent", "incele", "göz at", "bak", "neler", "gelen"]
                 is_latest_query = any(kw in query.lower() for kw in latest_keywords)
 
                 if is_latest_query and retrieved_chunks:
                     try:
                         # Re-sort chunks by date metadata (most recent first)
                         # We keep chunks with missing dates at the end
-                        retrieved_chunks.sort(key=lambda x: x.get('date', ''), reverse=True)
-                        logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'latest' query")
+                        retrieved_chunks.sort(key=lambda x: str(x.get('date') or ''), reverse=True)
+                        logger.info(f"[{request_id}] RAG_DECISION: Re-sorted {len(retrieved_chunks)} chunks by date for 'recency' query")
                     except Exception as sort_err:
                         logger.warning(f"Failed to re-sort chunks by date: {sort_err}")
 

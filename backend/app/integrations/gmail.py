@@ -437,6 +437,23 @@ async def disconnect_gmail(user_id: str, prompt_module: Optional[str] = None):
     return False
 
 
+
+def parse_email_date(date_str: str) -> str:
+    """
+    Parse Gmail date string into ISO format for sorting.
+    Example: "Thu, 8 Jan 2026 00:40:00 +0300" -> "2026-01-08T00:40:00"
+    """
+    if not date_str:
+        return ""
+    try:
+        from email.utils import parsedate_to_datetime
+        dt = parsedate_to_datetime(date_str)
+        return dt.isoformat()
+    except Exception as e:
+        logger.warning(f"Failed to parse email date '{date_str}': {e}")
+        return date_str
+
+
 def clean_email_body(html_or_text: str) -> str:
     """
     Clean email body: remove HTML tags, signatures, and quoted replies.
@@ -708,10 +725,12 @@ async def sync_emails(user_id: str, max_emails: int = 200, prompt_module: Option
                 doc_id = f"email_{msg_id}"
                 
                 # Prepare email metadata for vector store
+                # Store date in ISO format for proper chronological sorting
+                iso_date = parse_email_date(date_str)
                 email_metadata = {
                     "subject": subject,
                     "sender": sender,
-                    "date": date_str if date_str else ""
+                    "date": iso_date if iso_date else date_str
                 }
                 
                 # Index to RAG with email source type and metadata
@@ -734,7 +753,7 @@ async def sync_emails(user_id: str, max_emails: int = 200, prompt_module: Option
                     "thread_id": full_msg.get('threadId'),
                     "subject": subject,
                     "sender": sender,
-                    "date": now_naive,  # Simplified date parsing
+                    "date": parse_email_date(date_str) if date_str else now_naive,
                     "received_at": now_naive,
                     "prompt_module": "shared"  # Shared across all modules
                 }
